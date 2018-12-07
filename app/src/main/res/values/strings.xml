@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Convocatoria Feyac</string>
+
+    <string name="messageWithLink">Al hacer click en FACEBOOK estas aceptando nuestros <a href="https://www.google.com/">términos y condiciones</a></string>
+    <string name="messageWithLinkSigh">Al hacer click en Registrar estas aceptando nuestros <a href="https://www.google.com/">términos y condiciones</a></string>
+
+</resources>
