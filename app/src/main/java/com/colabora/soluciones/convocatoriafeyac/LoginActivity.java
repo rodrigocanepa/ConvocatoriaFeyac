@@ -56,6 +56,26 @@ public class LoginActivity extends Activity {
         progressDialog.setTitle("Validando");
         progressDialog.setMessage("Espere un momento mientras el sistema inicia sesión");
 
+        mAuthListener = new FirebaseAuth.AuthStateListener(){
+
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser(); //FirebaseAuth.getInstance().getCurrentUser;
+
+                if(user != null){
+                    Log.i("SESION", "Sesión iniciada con email: " + user.getEmail());
+                    // LANZAMOS SEGUNDA ACTIVITY, ESTO SE QUEDA GUARDADO
+                    //final String UUIDUser = user.getUid();
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    finish();
+                    startActivity(i);
+
+                }else{
+                    Log.i("SESION", "Sesión cerrada");
+                }
+            }
+        };
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
             ActivityCompat
                     .requestPermissions(LoginActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_LOCATION);
@@ -78,28 +98,6 @@ public class LoginActivity extends Activity {
                 checkBlanckSpaces();
             }
         });
-
-
-        mAuthListener = new FirebaseAuth.AuthStateListener(){
-
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser(); //FirebaseAuth.getInstance().getCurrentUser;
-
-                if(user != null){
-                    Log.i("SESION", "Sesión iniciada con email: " + user.getEmail());
-                    // LANZAMOS SEGUNDA ACTIVITY, ESTO SE QUEDA GUARDADO
-                    //final String UUIDUser = user.getUid();
-                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                    finish();
-                    startActivity(i);
-
-                }else{
-                    Log.i("SESION", "Sesión cerrada");
-                }
-            }
-        };
-
 
     }
 

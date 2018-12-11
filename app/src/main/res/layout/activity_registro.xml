@@ -98,12 +98,8 @@
 
         </android.support.design.widget.TextInputLayout>
 
-
-
-
-
         <Button
-            android:id="@+id/btnLogin"
+            android:id="@+id/btnRegistrar"
             android:layout_width="160sp"
             android:layout_height="35sp"
             android:textSize="14sp"

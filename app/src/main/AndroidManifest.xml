@@ -5,7 +5,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Pyme Assistant"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -18,7 +18,10 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegistroActivity" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".CotizacionesActivity" />
+        <activity android:name=".NuevaCotizacionActivity" />
+        <activity android:name=".VerPDFActivity"></activity>
     </application>
 
 </manifest>
