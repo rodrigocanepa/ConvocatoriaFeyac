@@ -2,6 +2,7 @@ package com.colabora.soluciones.convocatoriafeyac;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,6 +37,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Conceptos;
@@ -44,8 +46,14 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.StorageReference;
+import com.vansuita.pickimage.bean.PickResult;
+import com.vansuita.pickimage.bundle.PickSetup;
+import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.listeners.IPickCancel;
+import com.vansuita.pickimage.listeners.IPickResult;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -167,6 +175,11 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
     private TextInputEditText txtNotasDestinatario;
     private TextInputEditText txtNotasAdmin;
     private TextInputEditText txtTerminos;
+    private TextInputEditText txtNombreEncargado;
+    private TextInputEditText txtNumeroEncargado;
+    private TextInputEditText txtCargoEncargado;
+    private EditText editVencimiento;
+
     private TextView txtGastosEnvio;
     private TextView txtCantidad;
     private TextView txtPrecio;
@@ -223,6 +236,11 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
         txtGastosEnvio = (TextView)findViewById(R.id.txtCotizacionGastosEnvio);
         txtCantidad = (TextView)findViewById(R.id.txtContizacionCantidad);
         txtPrecio = (TextView)findViewById(R.id.txtCotizacionPrecio);
+        editVencimiento = (EditText)findViewById(R.id.editCotizacionVence);
+        txtNombreEncargado = (TextInputEditText)findViewById(R.id.txtCotizacionesNombreEncargado);
+        txtNumeroEncargado = (TextInputEditText)findViewById(R.id.txtCotizacionesNumero);
+        txtCargoEncargado = (TextInputEditText)findViewById(R.id.txtCotizacionesCargo);
+
 
         txtSubtotal = (TextView)findViewById(R.id.txtCotizacionSubtotal);
         txtDescuentos = (TextView)findViewById(R.id.txtCotizacionDescuento);
@@ -233,6 +251,28 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
         editGastosEnvio.setEnabled(false);
         radioButtonCantidad.setChecked(true);
         radioButtonHoras.setChecked(false);
+
+        imgLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PickImageDialog.build(new PickSetup().setTitle("Escoge una opción")
+                        .setCameraButtonText("Cámara")
+                        .setGalleryButtonText("Galería"))
+                        .setOnPickResult(new IPickResult() {
+                            @Override
+                            public void onPickResult(PickResult r) {
+                                //TODO: do what you have to...
+                                imgLogo.setImageBitmap(r.getBitmap());
+                            }
+                        })
+                        .setOnPickCancel(new IPickCancel() {
+                            @Override
+                            public void onCancelClick() {
+                                //TODO: do what you have to if user clicked cancel
+                            }
+                        }).show(getSupportFragmentManager());
+            }
+        });
 
         radioButtonCantidad.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -517,6 +557,19 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
 
         });
 
+        editVencimiento.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                view.onTouchEvent(motionEvent);
+                InputMethodManager imm = (InputMethodManager)view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+                return true;
+            }
+
+        });
+
         editFecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -549,6 +602,64 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                 },anio, mes, dia);
                 //Muestro el widget
                 recogerFecha.show();
+            }
+        });
+
+        editVencimiento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editFecha.getText().toString().length() > 0){
+
+                    //Calendario para obtener fecha & hora
+                    final Calendar c = Calendar.getInstance();
+
+                    //Variables para obtener la fecha
+                    final int mes = c.get(Calendar.MONTH);
+                    final int dia = c.get(Calendar.DAY_OF_MONTH);
+                    final int anio = c.get(Calendar.YEAR);
+
+                    DatePickerDialog recogerFecha = new DatePickerDialog(NuevaCotizacionActivity.this, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, final int year, int month, int dayOfMonth) {
+                            //Esta variable lo que realiza es aumentar en uno el mes ya que comienza desde 0 = enero
+                            final int mesActual = month + 1;
+                            //Formateo el día obtenido: antepone el 0 si son menores de 10
+                            final String diaFormateado = (dayOfMonth < 10)? CERO + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
+                            //Formateo el mes obtenido: antepone el 0 si son menores de 10
+                            final String mesFormateado = (mesActual < 10)? CERO + String.valueOf(mesActual):String.valueOf(mesActual);
+                            //Muestro la fecha con el formato deseado
+                            editVencimiento.setText(diaFormateado + BARRA + mesFormateado + BARRA + year);
+
+
+
+                        }
+                        //Estos valores deben ir en ese orden, de lo contrario no mostrara la fecha actual
+                        /**
+                         *También puede cargar los valores que usted desee
+                         */
+                    },anio, mes, dia);
+                    //Muestro el widget
+
+                    Date date;
+                    long startDate = 0;
+                    try {
+                        String dateString = editFecha.getText().toString();
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        date = sdf.parse(dateString);
+
+                        startDate = date.getTime();
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    recogerFecha.getDatePicker().setMinDate(startDate);
+                    recogerFecha.show();
+
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Debes seleccionar primero la fecha de la cotización", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -847,6 +958,11 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                 String descuento = txtDescuentos.getText().toString();
                 String total = txtTotal.getText().toString();
 
+                String nombre_enc = txtNombreEncargado.getText().toString();
+                String numero_enc = txtNumeroEncargado.getText().toString();
+                String cargo_enc = txtCargoEncargado.getText().toString();
+                String vencimiento = editVencimiento.getText().toString();
+
                 if(folio.isEmpty()){
                     editNoFormato.setError("Ingresa un valor");
                     return;
@@ -867,17 +983,36 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                     txtTerminos.setError("Ingresa un valor");
                     return;
                 }
+
+                if(vencimiento.isEmpty()){
+                    editVencimiento.setError("Ingresa un valor");
+                    return;
+                }
+
+                if(nombre_enc.isEmpty()){
+                    txtNombreEncargado.setError("Ingresa un valor");
+                    return;
+                }
+
+                if(numero_enc.isEmpty()){
+                    txtNumeroEncargado.setError("Ingresa un valor");
+                    return;
+                }
+                if(cargo_enc.isEmpty()){
+                    txtCargoEncargado.setError("Ingresa un valor");
+                    return;
+                }
                 if(conceptos.size() == 0){
                     Toast.makeText(getApplicationContext(), "Debes ingresar por lo menos un concepto para visualizar la cotización", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                generacionCotizacionPDF(folio, fecha, subtotal, iva, envio, descuento, total, notasDestinatario, terminos);
+                generacionCotizacionPDF(folio, fecha, subtotal, iva, envio, descuento, total, notasDestinatario, terminos, nombre_enc, cargo_enc, numero_enc, vencimiento);
             }
         });
     }
 
-    private void generacionCotizacionPDF(String folio, String fecha, String subtotal, String iva, String envio, String descuento, String total, String notas, String terminos){
+    private void generacionCotizacionPDF(String folio, String fecha, String subtotal, String iva, String envio, String descuento, String total, String notas, String terminos, String atte, String cargo, String telefono, String vencimiento){
 
         imgLogo.setDrawingCacheEnabled(true);
         imgLogo.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
@@ -889,8 +1024,11 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
         templatePDF.openDocument();
         templatePDF.addMetaData("Cotizacion", "Pyme Assistant", "Soluciones Colabora");
         //templatePDF.addImage(getApplicationContext());
-        templatePDF.createTableWithFoto(getApplicationContext(), bitmap, "COTIZACIÓN", folio, fecha, "24/12/2018");
+        templatePDF.createTableWithFoto(getApplicationContext(), bitmap, "COTIZACIÓN", folio, fecha, vencimiento);
         templatePDF.addLine();
+
+        templatePDF.addSectionsCenter("Estimado Cliente");
+        templatePDF.addParagraphCenter("Por este medio le presentamos la siguiente propuesta económica");
 
         ArrayList<String[]> rowsConceptops = new ArrayList<>();
         for(int i = 0; i < conceptos.size(); i++){
@@ -914,6 +1052,11 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
         templatePDF.addParagraph(notas);
         templatePDF.addSections("Términos y condiciones");
         templatePDF.addParagraph(terminos);
+        templatePDF.addLine();
+        templatePDF.addParagraph("De antemano agradecemos sus atenciones y quedamos en espera de su pronta respuesta");
+        templatePDF.addParagraphCenter("Atte." + atte);
+        templatePDF.addParagraphCenter(cargo);
+        templatePDF.addParagraphCenter(telefono);
         // templatePDF.addParagraph(nombreConsultor);
        // templatePDF.addSections("Experiencia Académica");
        // templatePDF.createTableWithTheSameLength(headerExpAcaemica, rowsAcedemica);

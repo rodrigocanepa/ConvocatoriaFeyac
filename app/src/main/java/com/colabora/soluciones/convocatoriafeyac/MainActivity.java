@@ -52,6 +52,46 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        imgTarjetas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, TarjetasActivity.class);
+                startActivity(i);
+            }
+        });
+
+        imgFinanciero.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, TarjetasActivity.class);
+                startActivity(i);
+            }
+        });
+
+        imgClientes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, ClientesActivity.class);
+                startActivity(i);
+            }
+        });
+
+        imgProveedores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, ClientesActivity.class);
+                startActivity(i);
+            }
+        });
+
+        imgRH.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, ClientesActivity.class);
+                startActivity(i);
+            }
+        });
+
     }
 
     @Override

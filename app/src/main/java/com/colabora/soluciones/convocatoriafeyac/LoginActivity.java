@@ -58,6 +58,7 @@ public class LoginActivity extends Activity {
         progressDialog.setTitle("Validando");
         progressDialog.setMessage("Espere un momento mientras el sistema inicia sesión");
 
+        mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener(){
 
             @Override
@@ -82,7 +83,6 @@ public class LoginActivity extends Activity {
             ActivityCompat
                     .requestPermissions(LoginActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_LOCATION);
         }
-        mAuth = FirebaseAuth.getInstance();
 
 
         btnRegistrar.setOnClickListener(new View.OnClickListener() {

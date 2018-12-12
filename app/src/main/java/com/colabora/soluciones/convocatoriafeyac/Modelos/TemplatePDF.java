@@ -125,13 +125,47 @@ public class TemplatePDF {
         try{
             paragraph = new Paragraph();
             addChild(new Paragraph(title, fHigh));
-            paragraph.setSpacingAfter(10);
-            paragraph.setSpacingBefore(10);
+            paragraph.setSpacingAfter(5);
+            paragraph.setSpacingBefore(5);
             paragraph.setAlignment(Element.ALIGN_LEFT);
             document.add(paragraph);
 
         } catch (Exception e){
             Log.e("addSections", e.toString());
+        }
+
+    }
+
+    public void addSectionsCenter(String title){
+
+        try{
+            paragraph = new Paragraph();
+            addChildCenter(new Paragraph(title, fHigh));
+            paragraph.setSpacingAfter(5);
+            paragraph.setSpacingBefore(5);
+            paragraph.setAlignment(Element.ALIGN_CENTER);
+            document.add(paragraph);
+
+        } catch (Exception e){
+            Log.e("addSections", e.toString());
+        }
+
+    }
+
+    private void addChildCenter(Paragraph childParagraph){
+        childParagraph.setAlignment(Element.ALIGN_CENTER);
+        paragraph.add(childParagraph);
+    }
+
+    public void addParagraphCenter(String text){
+        try{
+            paragraph = new Paragraph(text, fTextoNormal);
+            paragraph.setAlignment(Element.ALIGN_CENTER);
+            paragraph.setSpacingAfter(1);
+            paragraph.setSpacingBefore(1);
+            document.add(paragraph);
+        } catch (Exception e){
+            Log.e("addParagraph", e.toString());
         }
 
     }
@@ -392,7 +426,7 @@ public class TemplatePDF {
             paragraph.setFont(fText);
             PdfPTable pdfPTable = new PdfPTable(5);
             pdfPTable.setWidths(new int[]{3, 1, 1, 1, 1});
-            pdfPTable.setSpacingBefore(30);
+            pdfPTable.setSpacingBefore(20);
             pdfPTable.setWidthPercentage(100);
             PdfPCell pdfPCell;
             int indexC = 0;
@@ -527,8 +561,8 @@ public class TemplatePDF {
                // pdfPTableTexto.addCell(createTextCellDatosExtra(datos));
 
                 pdfPTable.setWidths(new int[]{6, 1, 6});
-                pdfPTable.setSpacingBefore(30);
-                pdfPTable.setSpacingAfter(30);
+                pdfPTable.setSpacingBefore(20);
+                pdfPTable.setSpacingAfter(20);
 
                 PdfPCell pdfPCell = new PdfPCell();
                 pdfPCell.addElement(image);
@@ -537,7 +571,7 @@ public class TemplatePDF {
                 pdfPCell.setBorder(Rectangle.NO_BORDER);
 
                 pdfPTable4.addCell(pdfPCell);
-                pdfPTable4.addCell(createTextCellCenter("Rodrigo Iván Canepa Cruz"));
+                pdfPTable4.addCell(createTextCellCenter("Soluciones Colabora"));
                 PdfPCell celdaDatos = new PdfPCell();
                 celdaDatos.addElement(pdfPTable4);
                 celdaDatos.setBorder(Rectangle.NO_BORDER);
