@@ -8,7 +8,7 @@
     tools:context=".VerPDFActivity">
 
     <com.github.barteksc.pdfviewer.PDFView
-        android:id="@+id/pdfViewConsuloresPDF"
+        android:id="@+id/pdfViewCotizacionPDF"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"></com.github.barteksc.pdfviewer.PDFView>
