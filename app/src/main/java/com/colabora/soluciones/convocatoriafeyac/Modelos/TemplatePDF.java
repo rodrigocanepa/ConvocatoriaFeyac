@@ -62,8 +62,8 @@ public class TemplatePDF {
         this.context = context;
     }
 
-    public void openDocument(){
-        createFile();
+    public void openDocument(String nombre){
+        createFile(nombre);
         try{
             document = new Document(PageSize.A4);
             document.setMargins(10,10,20,20);
@@ -77,12 +77,12 @@ public class TemplatePDF {
         }
     }
 
-    public void createFile(){
+    public void createFile(String nombre){
         File folder = new File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
 
         if(!folder.exists())
             folder.mkdirs();
-        pdfFile = new File(folder, "Cotizacion.pdf");
+        pdfFile = new File(folder, nombre + ".pdf");
     }
 
     public void closeDocument(){
@@ -336,7 +336,7 @@ public class TemplatePDF {
             paragraph.setFont(fText);
             PdfPTable pdfPTable = new PdfPTable(1);
             pdfPTable.setWidthPercentage(43);
-            pdfPTable.setSpacingAfter(35);
+            pdfPTable.setSpacingAfter(20);
             pdfPTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
             //pdfPTable.setWidths(new int[]{ 3, 2});
             //pdfPTable.setSpacingBefore(10);
@@ -387,8 +387,12 @@ public class TemplatePDF {
             pdfPTableTotalPrecio.addCell(createTextCellNombre(total));*/
             pdfPTable.addCell(celdaSubtotal);
             pdfPTable.addCell(celdaIVA);
-            pdfPTable.addCell(celdaEnvio);
-            pdfPTable.addCell(celdaDescuento);
+            if(!envio.equals("$0.00")){
+                pdfPTable.addCell(celdaEnvio);
+            }
+            if(!descuento.equals("-$0.00")){
+                pdfPTable.addCell(celdaDescuento);
+            }
             pdfPTable.addCell(celdaTotal);
 
 
@@ -684,6 +688,14 @@ public class TemplatePDF {
 
     public void viewPDF(String tipo){
         Intent intent = new Intent(context, VerPDFActivity.class);
+        intent.putExtra("path", pdfFile.getAbsolutePath());
+        intent.putExtra("tipo", tipo);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    public void viewPDF2(String tipo){
+        Intent intent = new Intent(context, VerPDFDiagActivity.class);
         intent.putExtra("path", pdfFile.getAbsolutePath());
         intent.putExtra("tipo", tipo);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

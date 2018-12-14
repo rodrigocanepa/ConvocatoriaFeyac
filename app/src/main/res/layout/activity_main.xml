@@ -111,7 +111,7 @@
                 android:textStyle="bold"
                 android:textSize="24sp"
                 android:textColor="@android:color/white"
-                android:text="CLIENTES"/>
+                android:text="CLIENTES Y PROVEEDORES"/>
 
         </RelativeLayout>
 
@@ -142,7 +142,7 @@
                 android:textStyle="bold"
                 android:textSize="24sp"
                 android:textColor="@android:color/white"
-                android:text="PROVEEDORES"/>
+                android:text="CALCULADORA DE NÓMINAS"/>
 
         </RelativeLayout>
 
@@ -166,7 +166,7 @@
                 android:textStyle="bold"
                 android:textSize="24sp"
                 android:textColor="@android:color/white"
-                android:text="RECURSOS HUMANOS"/>
+                android:text="DIAGNÓSTICO DE EMPRESA"/>
 
         </RelativeLayout>
 

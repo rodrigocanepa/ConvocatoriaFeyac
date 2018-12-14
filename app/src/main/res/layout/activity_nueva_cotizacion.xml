@@ -315,6 +315,7 @@
                     android:layout_width="100sp"
                     android:layout_height="wrap_content"
                     android:text="0"
+                    android:inputType="number"
                     android:gravity="end"
                     android:layout_marginLeft="10sp"/>
 
@@ -351,6 +352,7 @@
                     android:layout_width="100sp"
                     android:layout_height="wrap_content"
                     android:text="0"
+                    android:inputType="number"
                     android:gravity="end"
                     android:layout_marginLeft="10sp"/>
 

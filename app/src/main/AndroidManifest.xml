@@ -33,6 +33,7 @@
         <activity android:name=".NuevaCotizacionActivity" />
         <activity android:name=".VerPDFActivity" />
 
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.com.vansuita.pickimage.provider"
@@ -44,11 +45,27 @@
                 android:resource="@xml/picker_provider_paths" />
         </provider>
 
+        <provider
+            android:name=".GenericFileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+
+
+
         <activity android:name=".TarjetasActivity" />
         <activity android:name=".ClientesActivity" />
         <activity android:name=".FinanzasActivity" />
         <activity android:name=".RecursosHumanosActivity" />
-        <activity android:name=".CrearEditarTarjetasActivity"></activity>
+        <activity android:name=".CrearEditarTarjetasActivity" />
+        <activity android:name=".NominasActivity" />
+        <activity android:name=".DiagnosticoActivity" />
+        <activity android:name=".RealizarDiagnosticoActivity" />
+        <activity android:name=".Modelos.VerPDFDiagActivity"></activity>
     </application>
 
 </manifest>

@@ -14,10 +14,10 @@
         android:layout_weight="1"></com.github.barteksc.pdfviewer.PDFView>
 
     <Button
-        android:id="@+id/btnSubirPDFCV"
+        android:id="@+id/btnEnvierCotizacion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Finalizar"/>
+        android:text="Enviar cotización"/>
 
 </LinearLayout>

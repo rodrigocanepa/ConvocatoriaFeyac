@@ -1,10 +1,18 @@
 package com.colabora.soluciones.convocatoriafeyac;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.Uri;
+import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,8 +20,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.github.barteksc.pdfviewer.util.FileUtils;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imgClientes;
     private ImageView imgProveedores;
     private ImageView imgRH;
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +88,50 @@ public class MainActivity extends AppCompatActivity {
         imgFinanciero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, TarjetasActivity.class);
-                startActivity(i);
+                StorageReference storageRef = storage.getReferenceFromUrl("gs://pyme-assistant.appspot.com").child("Corrida financiera IYEM - METODOS.xlsx");
+                final long ONE_MEGABYTE = 1024 * 1024;
+                storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+                        // ***************************** GUARDAMOS LA IMAGEN ***********************
+                        File folder = new File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+
+                        if(!folder.exists())
+                            folder.mkdirs();
+                        File file = new File(folder, "finanzas.xlsx");
+
+                        if (file.exists ()) file.delete ();
+                        try{
+                            FileOutputStream out = new FileOutputStream(file);
+                            out.write(bytes);
+                            out.flush();
+                            out.close();
+/*
+                            Uri pd = FileProvider.getUriForFile(MainActivity.this, "com.colabora.soluciones.convocatoriafeyac.provider", file);
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setDataAndType(pd, "application/vnd.ms-excel");
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                            try {
+                                getApplicationContext().startActivity(intent);
+                            } catch (ActivityNotFoundException e) {
+                                Toast.makeText(getApplicationContext(), "No Application available to view XLS", Toast.LENGTH_SHORT).show();
+                            }
+*/
+                        }catch (Exception e){
+                            e.printStackTrace();
+
+                        }
+                        Toast.makeText(getApplicationContext(), "Descargado con exito", Toast.LENGTH_SHORT).show();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                    }
+                });
             }
         });
 
@@ -79,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         imgProveedores.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, ClientesActivity.class);
+                Intent i = new Intent(MainActivity.this, NominasActivity.class);
                 startActivity(i);
             }
         });
@@ -87,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         imgRH.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, ClientesActivity.class);
+                Intent i = new Intent(MainActivity.this, DiagnosticoActivity.class);
                 startActivity(i);
             }
         });

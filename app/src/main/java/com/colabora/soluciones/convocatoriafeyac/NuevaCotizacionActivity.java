@@ -965,41 +965,50 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
 
                 if(folio.isEmpty()){
                     editNoFormato.setError("Ingresa un valor");
+                    Toast.makeText(getApplicationContext(), "Debes llenar los campos requeridos", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(fecha.isEmpty()){
                     editFecha.setError("Ingresa un valor");
+                    Toast.makeText(getApplicationContext(), "Debes llenar los campos requeridos", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(notasDestinatario.isEmpty()){
                     txtNotasDestinatario.setError("Ingresa un valor");
+                    Toast.makeText(getApplicationContext(), "Debes llenar los campos requeridos", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(notasAdmin.isEmpty()){
                     txtNotasAdmin.setError("Ingresa un valor");
+                    Toast.makeText(getApplicationContext(), "Debes llenar los campos requeridos", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(terminos.isEmpty()){
                     txtTerminos.setError("Ingresa un valor");
+                    Toast.makeText(getApplicationContext(), "Debes llenar los campos requeridos", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if(vencimiento.isEmpty()){
                     editVencimiento.setError("Ingresa un valor");
+                    Toast.makeText(getApplicationContext(), "Debes llenar los campos requeridos", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if(nombre_enc.isEmpty()){
                     txtNombreEncargado.setError("Ingresa un valor");
+                    Toast.makeText(getApplicationContext(), "Debes llenar los campos requeridos", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if(numero_enc.isEmpty()){
                     txtNumeroEncargado.setError("Ingresa un valor");
+                    Toast.makeText(getApplicationContext(), "Debes llenar los campos requeridos", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(cargo_enc.isEmpty()){
                     txtCargoEncargado.setError("Ingresa un valor");
+                    Toast.makeText(getApplicationContext(), "Debes llenar los campos requeridos", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(conceptos.size() == 0){
@@ -1021,7 +1030,7 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
         Bitmap bitmap = Bitmap.createBitmap(imgLogo.getDrawingCache());
 
         templatePDF = new TemplatePDF(getApplicationContext());
-        templatePDF.openDocument();
+        templatePDF.openDocument("Cotizacion");
         templatePDF.addMetaData("Cotizacion", "Pyme Assistant", "Soluciones Colabora");
         //templatePDF.addImage(getApplicationContext());
         templatePDF.createTableWithFoto(getApplicationContext(), bitmap, "COTIZACIÓN", folio, fecha, vencimiento);
