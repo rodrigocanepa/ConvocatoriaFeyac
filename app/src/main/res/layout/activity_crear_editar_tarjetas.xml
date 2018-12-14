@@ -33,14 +33,14 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/frente_uno_azul"/>
+                android:src="@drawable/muestra_detras_1"/>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_frente_1"/>
 
             <RadioButton
                 android:id="@+id/radioTipoTarjeta1"
@@ -65,14 +65,14 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/frente_uno_negro"/>
+                android:src="@drawable/muestra_detras_2"/>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_frente_2"/>
 
             <RadioButton
                 android:id="@+id/radioTipoTarjeta2"
@@ -97,14 +97,14 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_detras_3"/>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_frente_3"/>
 
             <RadioButton
                 android:id="@+id/radioTipoTarjeta3"
@@ -136,14 +136,14 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_detras_4"/>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_frente_4"/>
 
             <RadioButton
                 android:id="@+id/radioTipoTarjeta4"
@@ -168,14 +168,14 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_detras_5"/>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_frente_5"/>
 
             <RadioButton
                 android:id="@+id/radioTipoTarjeta5"
@@ -200,14 +200,14 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_detras_6"/>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_frente_6"/>
 
             <RadioButton
                 android:id="@+id/radioTipoTarjeta6"
@@ -239,14 +239,14 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_detras_7"/>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_frente_7"/>
 
             <RadioButton
                 android:id="@+id/radioTipoTarjeta7"
@@ -271,14 +271,14 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_detras_8"/>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_frente_8"/>
 
             <RadioButton
                 android:id="@+id/radioTipoTarjeta8"
@@ -303,14 +303,14 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_detras_9"/>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_frente_9"/>
 
             <RadioButton
                 android:id="@+id/radioTipoTarjeta9"
@@ -342,14 +342,14 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_detras10"/>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_frente10"/>
 
             <RadioButton
                 android:id="@+id/radioTipoTarjeta10"
@@ -374,14 +374,14 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_detras11"/>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_frente11"/>
 
             <RadioButton
                 android:id="@+id/radioTipoTarjeta11"
@@ -406,14 +406,14 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_detras12"/>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="2sp"
-                android:src="@drawable/pyme_logo"/>
+                android:src="@drawable/muestra_frente12"/>
 
             <RadioButton
                 android:id="@+id/radioTipoTarjeta12"

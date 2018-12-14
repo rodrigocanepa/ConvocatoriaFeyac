@@ -1,5 +1,7 @@
 package com.colabora.soluciones.convocatoriafeyac;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -52,6 +54,8 @@ public class CrearEditarTarjetasActivity extends AppCompatActivity {
 
     private int seleccion = 0;
     private Button btnSiguiente;
+
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -348,7 +352,13 @@ public class CrearEditarTarjetasActivity extends AppCompatActivity {
                     return;
                 }
                 else{
-
+                    // Leemos la memoria para ver que tarjetas se han creado
+                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("tarjetaEstilo", seleccion);
+                    editor.commit();
+                    Intent i = new Intent(CrearEditarTarjetasActivity.this, TarjetasSeleccionarLetraActivity.class);
+                    startActivity(i);
                 }
             }
         });

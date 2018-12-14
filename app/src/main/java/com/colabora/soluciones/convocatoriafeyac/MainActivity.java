@@ -19,9 +19,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.colabora.soluciones.convocatoriafeyac.Modelos.VerPDFDiagActivity;
 import com.github.barteksc.pdfviewer.util.FileUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -88,26 +90,34 @@ public class MainActivity extends AppCompatActivity {
         imgFinanciero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StorageReference storageRef = storage.getReferenceFromUrl("gs://pyme-assistant.appspot.com").child("Corrida financiera IYEM - METODOS.xlsx");
-                final long ONE_MEGABYTE = 1024 * 1024;
-                storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                    @Override
-                    public void onSuccess(byte[] bytes) {
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
-                        // ***************************** GUARDAMOS LA IMAGEN ***********************
-                        File folder = new File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+                // ***************************** GUARDAMOS LA IMAGEN ***********************
+                File folder = new File(Environment.getExternalStorageDirectory().toString(), "Documents");
+                if(!folder.exists())
+                    folder.mkdirs();
+                File file = new File(folder, "finanzas_pyme.xlsx");
 
-                        if(!folder.exists())
-                            folder.mkdirs();
-                        File file = new File(folder, "finanzas.xlsx");
+                if (!file.exists ()){
+                    StorageReference storageRef = storage.getReferenceFromUrl("gs://pyme-assistant.appspot.com").child("Corrida financiera IYEM - METODOS.xlsx");
+                    final long ONE_MEGABYTE = 1024 * 1024;
+                    storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
-                        if (file.exists ()) file.delete ();
-                        try{
-                            FileOutputStream out = new FileOutputStream(file);
-                            out.write(bytes);
-                            out.flush();
-                            out.close();
+                            // ***************************** GUARDAMOS LA IMAGEN ***********************
+                            File folder = new File(Environment.getExternalStorageDirectory().toString(), "Documents");
+
+                            if(!folder.exists())
+                                folder.mkdirs();
+                            File file = new File(folder, "finanzas_pyme.xlsx");
+
+                            if (file.exists ()) file.delete ();
+                            try{
+                                FileOutputStream out = new FileOutputStream(file);
+                                out.write(bytes);
+                                out.flush();
+                                out.close();
 /*
                             Uri pd = FileProvider.getUriForFile(MainActivity.this, "com.colabora.soluciones.convocatoriafeyac.provider", file);
                             Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -120,18 +130,52 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "No Application available to view XLS", Toast.LENGTH_SHORT).show();
                             }
 */
-                        }catch (Exception e){
-                            e.printStackTrace();
+                            }catch (Exception e){
+                                e.printStackTrace();
+
+                            }
+                            Toast.makeText(getApplicationContext(), "Descargado con exito", Toast.LENGTH_SHORT).show();
+                            Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.microsoft.office.excel");
+                            if (launchIntent != null) {
+                                startActivity(launchIntent);//null pointer check in case package name was not found
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(), "Debes descargar Microsoft Excel en la Playstore para avanzar", Toast.LENGTH_LONG).show();
+                            }
 
                         }
-                        Toast.makeText(getApplicationContext(), "Descargado con exito", Toast.LENGTH_SHORT).show();
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                        }
+                    });
 
+                }
+                else{
+                    //Uri uri = Uri.fromFile(file);
+                    //new way
+                    /*
+                    Uri pd = FileProvider.getUriForFile(MainActivity.this, "com.colabora.soluciones.convocatoriafeyac.provider", file);
+
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.putExtra(android.content.Intent.EXTRA_STREAM, pd);
+                    intent.setType("application/vnd.ms-excel");
+                    //intent.setDataAndType(pd, "application/vnd.ms-excel");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    try {
+                        getApplicationContext().startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        Toast.makeText(getApplicationContext(), "Tu dispositivo no cuenta con algún lector de archivos de excel", Toast.LENGTH_SHORT).show();
+                    }*/
+                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.microsoft.office.excel");
+                    if (launchIntent != null) {
+                        startActivity(launchIntent);//null pointer check in case package name was not found
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
+                    else{
+                        Toast.makeText(getApplicationContext(), "Debes descargar Microsoft Excel en la Playstore para avanzar", Toast.LENGTH_LONG).show();
                     }
-                });
+                }
+
             }
         });
 
@@ -204,5 +248,4 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }
