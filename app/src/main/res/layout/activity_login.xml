@@ -34,7 +34,7 @@
             android:hint="Escribe tu email"
             android:layout_marginLeft="6sp"
             android:layout_marginRight="6sp"
-            android:drawableStart="@drawable/ic_email_black_24dp"
+            android:drawableStart="@drawable/ic_mail_white_24dp"
             android:drawablePadding="15sp"
             android:inputType="textEmailAddress"
             android:background="@drawable/borde_redondeado_blur"

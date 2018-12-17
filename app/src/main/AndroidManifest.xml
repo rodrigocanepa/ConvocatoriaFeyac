@@ -19,19 +19,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".LauncherActivity">
+        <activity android:name=".LauncherActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegistroActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".CotizacionesActivity" />
-        <activity android:name=".NuevaCotizacionActivity" />
-        <activity android:name=".VerPDFActivity" />
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".RegistroActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CotizacionesActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".NuevaCotizacionActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".VerPDFActivity"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -53,18 +60,30 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".TarjetasActivity" />
-        <activity android:name=".ClientesActivity" />
-        <activity android:name=".FinanzasActivity" />
-        <activity android:name=".RecursosHumanosActivity" />
-        <activity android:name=".CrearEditarTarjetasActivity" />
-        <activity android:name=".NominasActivity" />
-        <activity android:name=".DiagnosticoActivity" />
-        <activity android:name=".RealizarDiagnosticoActivity" />
-        <activity android:name=".Modelos.VerPDFDiagActivity" />
-        <activity android:name=".TarjetasSeleccionarLetraActivity" />
-        <activity android:name=".TarjetaDatosActivity" />
-        <activity android:name=".VisualizarTarjetaActivity"></activity>
+        <activity android:name=".TarjetasActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ClientesActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".FinanzasActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".RecursosHumanosActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CrearEditarTarjetasActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".NominasActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DiagnosticoActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".RealizarDiagnosticoActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Modelos.VerPDFDiagActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".TarjetasSeleccionarLetraActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".TarjetaDatosActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".VisualizarTarjetaActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

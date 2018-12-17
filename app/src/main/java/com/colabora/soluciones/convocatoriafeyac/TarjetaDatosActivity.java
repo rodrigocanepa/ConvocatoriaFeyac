@@ -42,6 +42,18 @@ public class TarjetaDatosActivity extends AppCompatActivity {
         btnVisualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(editNombre.getText().toString().length() == 0){
+                    editNombre.setError("Ingresa un valor");
+                    return;
+                }
+                if(editCargo.getText().toString().length() == 0){
+                    editCargo.setError("Ingresa un valor");
+                    return;
+                }
+                if(editCorreo.getText().toString().length() == 0){
+                    editCorreo.setError("Ingresa un valor");
+                    return;
+                }
                 // Leemos la memoria para ver que tarjetas se han creado
                 sharedPreferences = getSharedPreferences("misDatos", 0);
                 SharedPreferences.Editor editor = sharedPreferences.edit();

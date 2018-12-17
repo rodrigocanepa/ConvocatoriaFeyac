@@ -1,13 +1,27 @@
 package com.colabora.soluciones.convocatoriafeyac;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.net.Uri;
+import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 public class TarjetasActivity extends AppCompatActivity {
 
@@ -81,47 +95,191 @@ public class TarjetasActivity extends AppCompatActivity {
 
         if(tarjeta1){
             txtMensaje1.setVisibility(View.INVISIBLE);
+
+            File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+            if(!folder.exists())
+                folder.mkdirs();
+            File file = new File(folder, "Tarjeta1_detras.png");
+
+            if(file.exists()){
+
+                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                tarjeta1Back.setImageBitmap(myBitmap);
+            }
+
+            File file2 = new File(folder, "Tarjeta1_frente.png");
+
+            if(file2.exists()){
+
+                Bitmap myBitmap = BitmapFactory.decodeFile(file2.getAbsolutePath());
+                tarjeta1Front.setImageBitmap(myBitmap);
+            }
         }
         else{
             txtTitutulo1.setVisibility(View.INVISIBLE);
             tarjeta1Front.setVisibility(View.INVISIBLE);
             tarjeta1Back.setVisibility(View.INVISIBLE);
+
         }
 
         if(tarjeta2){
             txtMensaje2.setVisibility(View.INVISIBLE);
+
+            File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+            if(!folder.exists())
+                folder.mkdirs();
+            File file = new File(folder, "Tarjeta2_detras.png");
+
+            if(file.exists()){
+
+                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                tarjeta2Back.setImageBitmap(myBitmap);
+            }
+
+            File file2 = new File(folder, "Tarjeta2_frente.png");
+
+            if(file2.exists()){
+
+                Bitmap myBitmap = BitmapFactory.decodeFile(file2.getAbsolutePath());
+                tarjeta2Front.setImageBitmap(myBitmap);
+            }
         }
         else{
             txtTitutulo2.setVisibility(View.INVISIBLE);
             tarjeta2Front.setVisibility(View.INVISIBLE);
             tarjeta2Back.setVisibility(View.INVISIBLE);
+
         }
 
         if(tarjeta3){
             txtMensaje3.setVisibility(View.INVISIBLE);
+
+            File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+            if(!folder.exists())
+                folder.mkdirs();
+            File file = new File(folder, "Tarjeta3_detras.png");
+
+            if(file.exists()){
+
+                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                tarjeta3Back.setImageBitmap(myBitmap);
+            }
+
+            File file2 = new File(folder, "Tarjeta3_frente.png");
+
+            if(file2.exists()){
+
+                Bitmap myBitmap = BitmapFactory.decodeFile(file2.getAbsolutePath());
+                tarjeta3Front.setImageBitmap(myBitmap);
+            }
         }
         else{
             txtTitutulo3.setVisibility(View.INVISIBLE);
             tarjeta3Front.setVisibility(View.INVISIBLE);
             tarjeta3Back.setVisibility(View.INVISIBLE);
+
+
         }
 
         if(tarjeta4){
             txtMensaje4.setVisibility(View.INVISIBLE);
+
+            File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+            if(!folder.exists())
+                folder.mkdirs();
+            File file = new File(folder, "Tarjeta4_detras.png");
+
+            if(file.exists()){
+
+                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                tarjeta4Back.setImageBitmap(myBitmap);
+            }
+
+            File file2 = new File(folder, "Tarjeta4_frente.png");
+
+            if(file2.exists()){
+
+                Bitmap myBitmap = BitmapFactory.decodeFile(file2.getAbsolutePath());
+                tarjeta4Front.setImageBitmap(myBitmap);
+            }
         }
         else{
             txtTitutulo4.setVisibility(View.INVISIBLE);
             tarjeta4Front.setVisibility(View.INVISIBLE);
             tarjeta4Back.setVisibility(View.INVISIBLE);
+
+
         }
 
         relativeLayout1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(tarjeta1){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(TarjetasActivity.this);
+                    builder.setTitle("Tarjetas de presentación");
+                    builder.setMessage("Seleccione la acción que desee realizar")
+                            .setPositiveButton("Compartir", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
 
+                                    File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+                                    if(!folder.exists())
+                                        folder.mkdirs();
+                                    File file = new File(folder, "Tarjeta1_frente.png");
+                                    File file2 = new File(folder, "Tarjeta1_detras.png");
+
+                                    ArrayList<Uri> uris = new ArrayList<>();
+                                    //new way
+                                    Uri pd = FileProvider.getUriForFile(TarjetasActivity.this, "com.colabora.soluciones.convocatoriafeyac.provider", file);
+                                    Uri pd2 = FileProvider.getUriForFile(TarjetasActivity.this, "com.colabora.soluciones.convocatoriafeyac.provider", file2);
+
+                                    uris.add(pd);
+                                    uris.add(pd2);
+
+                                    Intent intent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
+
+                                    //intent.setDataAndType(pd,"application/pdf");
+                                    intent.setType("image/*");
+                                    //String shareBodyText = "Para la mejora continua de mi empresa/negocio he realizado un diagnóstico el cual se comparto a continuación por medio de la aplicación Pyme Assistant";
+                                    //intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Diágnostico Pyme Assitant");
+                                    intent.putParcelableArrayListExtra(android.content.Intent.EXTRA_STREAM, uris);
+
+                                    startActivity(Intent.createChooser(intent, "Escoge un método para compartir"));
+                                }
+                            })
+                            .setNegativeButton("Eliminar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+                                    if(!folder.exists())
+                                        folder.mkdirs();
+                                    File file = new File(folder, "Tarjeta1_frente.png");
+                                    File file2 = new File(folder, "Tarjeta1_detras.png");
+                                    if (file.exists ()) file.delete ();
+                                    if (file2.exists ()) file2.delete ();
+
+                                    Toast.makeText(getApplicationContext(), "Tarjeta de presentación eliminada", Toast.LENGTH_SHORT).show();
+                                    // *********** Guardamos los principales datos de los nuevos usuarios *************
+                                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putBoolean("tarjeta1", false);
+                                    editor.commit();
+                                    // ******************************************************************************
+
+                                    Intent t= new Intent(TarjetasActivity.this,TarjetasActivity.class);
+                                    startActivity(t);
+                                    finish();
+                                }
+                            });// Create the AlertDialog object and return it
+                    builder.create();
+                    builder.show();
                 }
                 else{
+                    // Leemos la memoria para ver que tarjetas se han creado
+                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("numeroTarjeta", "1");
+                    editor.commit();
+
                     Intent i = new Intent(TarjetasActivity.this, CrearEditarTarjetasActivity.class);
                     startActivity(i);
                 }
@@ -135,6 +293,12 @@ public class TarjetasActivity extends AppCompatActivity {
 
                 }
                 else{
+                    // Leemos la memoria para ver que tarjetas se han creado
+                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("numeroTarjeta", "2");
+                    editor.commit();
+
                     Intent i = new Intent(TarjetasActivity.this, CrearEditarTarjetasActivity.class);
                     startActivity(i);
                 }
@@ -148,6 +312,12 @@ public class TarjetasActivity extends AppCompatActivity {
 
                 }
                 else{
+                    // Leemos la memoria para ver que tarjetas se han creado
+                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("numeroTarjeta", "3");
+                    editor.commit();
+
                     Intent i = new Intent(TarjetasActivity.this, CrearEditarTarjetasActivity.class);
                     startActivity(i);
                 }
@@ -161,6 +331,12 @@ public class TarjetasActivity extends AppCompatActivity {
 
                 }
                 else{
+                    // Leemos la memoria para ver que tarjetas se han creado
+                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("numeroTarjeta", "4");
+                    editor.commit();
+
                     Intent i = new Intent(TarjetasActivity.this, CrearEditarTarjetasActivity.class);
                     startActivity(i);
                 }

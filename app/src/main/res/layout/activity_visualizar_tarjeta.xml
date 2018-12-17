@@ -32,8 +32,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_centerVertical="true"
                 android:visibility="invisible"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="20sp"
                 android:layout_alignParentRight="true">
 
@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textStyle="italic"
                     tools:text="Ventas"/>
 
@@ -67,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         tools:text="9811037861"
-                        android:textSize="10sp"/>
+                        android:textSize="9sp"/>
 
                     <ImageView
                         android:layout_width="12sp"
@@ -88,7 +88,7 @@
                         android:layout_width="150sp"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:textSize="10sp"
+                        android:textSize="9sp"
                         tools:text="ric6191994@gmail.com" />
 
                     <ImageView
@@ -100,29 +100,9 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end">
-
-                    <TextView
-                        android:id="@+id/txtVisualizarTarjetaPagina1"
-                        android:layout_width="150sp"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        tools:text="www.solucionescolabora.com"
-                        android:textSize="10sp"/>
-
-                    <ImageView
-                        android:layout_width="12sp"
-                        android:layout_height="12sp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="6sp"
-                        android:src="@drawable/ic_star_black_24dp"/>
-
-                </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/linearDireccion1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end">
@@ -133,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         tools:text="Calle 23 x Av. Mérida 2000 Col. Lindavista"
-                        android:textSize="10sp"/>
+                        android:textSize="9sp"/>
 
                     <ImageView
                         android:layout_width="12sp"
@@ -145,6 +125,30 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/linearPagWeb1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end">
+
+                    <TextView
+                        android:id="@+id/txtVisualizarTarjetaPagina1"
+                        android:layout_width="150sp"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        tools:text="www.solucionescolabora.com"
+                        android:textSize="9sp"/>
+
+                    <ImageView
+                        android:layout_width="12sp"
+                        android:layout_height="12sp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="6sp"
+                        android:src="@drawable/ic_star_black_24dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearFacebook1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end">
@@ -155,7 +159,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         tools:text="Soluciones Colabora"
-                        android:textSize="10sp"/>
+                        android:textSize="9sp"/>
 
                     <ImageView
                         android:layout_width="12sp"
@@ -168,6 +172,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/linearInstagram1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end">
@@ -178,7 +183,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         tools:text="SolucionesColabora"
-                        android:textSize="10sp"/>
+                        android:textSize="9sp"/>
 
                     <ImageView
                         android:layout_width="12sp"
@@ -197,7 +202,6 @@
                 android:layout_width="290sp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="invisible"
                 android:layout_marginTop="8sp"
                 android:layout_centerHorizontal="true">
 
@@ -215,7 +219,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textStyle="italic"
                     tools:text="Ventas"/>
 
@@ -238,7 +242,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         tools:text="9811037861"
-                        android:textSize="10sp"/>
+                        android:textSize="9sp"/>
 
                 </LinearLayout>
 
@@ -259,35 +263,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="9sp"
                         tools:text="ric6191994@gmail.com" />
 
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center">
-
-                    <ImageView
-                        android:layout_width="12sp"
-                        android:layout_height="12sp"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="6sp"
-                        android:src="@drawable/ic_star_black_24dp"/>
-
-                    <TextView
-                        android:id="@+id/txtVisualizarTarjetaPagina2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        tools:text="www.solucionescolabora.com"
-                        android:textSize="10sp"/>
-
-                </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/linearDireccion2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center">
@@ -305,12 +289,36 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         tools:text="Calle 23 x Av. Mérida 2000 Col. Lindavista"
-                        android:textSize="10sp"/>
+                        android:textSize="9sp"/>
 
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/linearPagWeb2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+
+                    <ImageView
+                        android:layout_width="12sp"
+                        android:layout_height="12sp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="6sp"
+                        android:src="@drawable/ic_star_black_24dp"/>
+
+                    <TextView
+                        android:id="@+id/txtVisualizarTarjetaPagina2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        tools:text="www.solucionescolabora.com"
+                        android:textSize="9sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearFacebook2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center">
@@ -329,11 +337,12 @@
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         tools:text="Soluciones Colabora"
-                        android:textSize="10sp"/>
+                        android:textSize="9sp"/>
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/linearInstagram2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center">
@@ -352,7 +361,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         tools:text="SolucionesColabora"
-                        android:textSize="10sp"/>
+                        android:textSize="9sp"/>
 
 
                 </LinearLayout>
@@ -365,6 +374,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginTop="25sp"
+                android:visibility="invisible"
                 android:layout_marginLeft="20sp"
                 android:layout_alignParentLeft="true">
 
@@ -380,7 +390,7 @@
                     android:id="@+id/txtVisualizarTarjetaCargo3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textStyle="italic"
                     tools:text="Ventas"/>
 
@@ -401,7 +411,7 @@
                         android:layout_width="150sp"
                         android:layout_height="wrap_content"
                         tools:text="9811037861"
-                        android:textSize="10sp"/>
+                        android:textSize="9sp"/>
 
                 </LinearLayout>
 
@@ -420,12 +430,36 @@
                         android:id="@+id/txtVisualizarTarjetaCorreo3"
                         android:layout_width="150sp"
                         android:layout_height="wrap_content"
-                        android:textSize="10sp"
+                        android:textSize="9sp"
                         tools:text="ric6191994@gmail.com" />
 
                 </LinearLayout>
 
+
                 <LinearLayout
+                    android:id="@+id/linearDireccion3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="12sp"
+                        android:layout_height="12sp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="6sp"
+                        android:src="@drawable/ic_location_on_black_24dp"/>
+
+                    <TextView
+                        android:id="@+id/txtVisualizarTarjetaDireccion3"
+                        android:layout_width="180sp"
+                        android:layout_height="wrap_content"
+                        tools:text="Calle 23 x Av. Mérida 2000 Col. Lindavista"
+                        android:textSize="9sp"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearPagWeb3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
@@ -441,33 +475,13 @@
                         android:layout_width="150sp"
                         android:layout_height="wrap_content"
                         tools:text="www.solucionescolabora.com"
-                        android:textSize="10sp"/>
+                        android:textSize="9sp"/>
 
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_width="12sp"
-                        android:layout_height="12sp"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="6sp"
-                        android:src="@drawable/ic_location_on_black_24dp"/>
-
-                    <TextView
-                        android:id="@+id/txtVisualizarTarjetaDireccion3"
-                        android:layout_width="150sp"
-                        android:layout_height="wrap_content"
-                        tools:text="Calle 23 x Av. Mérida 2000 Col. Lindavista"
-                        android:textSize="10sp"/>
-
-
-                </LinearLayout>
-
-                <LinearLayout
+                    android:id="@+id/linearFacebook3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
@@ -484,12 +498,13 @@
                         android:layout_width="150sp"
                         android:layout_height="wrap_content"
                         tools:text="Soluciones Colabora"
-                        android:textSize="10sp"/>
+                        android:textSize="9sp"/>
 
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/linearInstagram3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
@@ -506,7 +521,7 @@
                         android:layout_width="150sp"
                         android:layout_height="wrap_content"
                         tools:text="SolucionesColabora"
-                        android:textSize="10sp"/>
+                        android:textSize="9sp"/>
 
                 </LinearLayout>
 
