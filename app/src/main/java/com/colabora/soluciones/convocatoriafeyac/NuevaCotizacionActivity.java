@@ -6,11 +6,15 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,7 +44,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.colabora.soluciones.convocatoriafeyac.Db.Querys;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Conceptos;
+import com.colabora.soluciones.convocatoriafeyac.Modelos.Cotizacion;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.TemplatePDF;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -52,6 +58,7 @@ import com.vansuita.pickimage.dialog.PickImageDialog;
 import com.vansuita.pickimage.listeners.IPickCancel;
 import com.vansuita.pickimage.listeners.IPickResult;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -208,6 +215,13 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
     private String[]headerConceptos2 = {"Concepto", "Horas", "Tarifa", "Impuestos", "Importe"};
 
     private AlertDialog alert;
+    private Querys querys;
+
+    public static final String EXTRA_FOLIO = "extra_folio";
+    private String ex_folio = "";
+
+    private ImageView imgSubtotal;
+    private ImageView imgConceptos;
 
 
     @Override
@@ -240,17 +254,23 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
         txtNombreEncargado = (TextInputEditText)findViewById(R.id.txtCotizacionesNombreEncargado);
         txtNumeroEncargado = (TextInputEditText)findViewById(R.id.txtCotizacionesNumero);
         txtCargoEncargado = (TextInputEditText)findViewById(R.id.txtCotizacionesCargo);
-
+        querys = new Querys(getApplicationContext());
 
         txtSubtotal = (TextView)findViewById(R.id.txtCotizacionSubtotal);
         txtDescuentos = (TextView)findViewById(R.id.txtCotizacionDescuento);
         txtIVA = (TextView)findViewById(R.id.txtCotizacionIVA);
         txtTotal = (TextView)findViewById(R.id.txtCotizacionTotal);
+        imgConceptos = (ImageView)findViewById(R.id.info_Conceptos);
+        imgSubtotal = (ImageView)findViewById(R.id.info_Subtotal);
 
         editDescuento.setEnabled(false);
         editGastosEnvio.setEnabled(false);
         radioButtonCantidad.setChecked(true);
         radioButtonHoras.setChecked(false);
+
+        Intent i = getIntent();
+        ex_folio = i.getStringExtra(EXTRA_FOLIO);
+        editNoFormato.setText(ex_folio);
 
         imgLogo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -293,6 +313,47 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                     txtCantidad.setText("Horas");
                     txtPrecio.setText("Tarifa");
                 }
+            }
+        });
+
+        imgConceptos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(NuevaCotizacionActivity.this);
+                builder.setTitle("Información");
+                builder.setMessage("Los conceptos pueden dividirse en dos grupos principales: Cantidad y horas, el primero hace referencia a aquellas cotizaciones por objetos o servicios tangibles, y el segundo es ideal para cotizaciones de cursos o mentorías que se cobren por una tarifa fija por hora.")
+                        .setPositiveButton("Compartir", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+
+                            }
+                        });// Create the AlertDialog object and return it
+                builder.create();
+                builder.show();
+            }
+        });
+
+        imgSubtotal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(NuevaCotizacionActivity.this);
+                builder.setTitle("Información");
+                builder.setMessage("El descuento de su cotización y los gastos de envío se aplican sobre el monto subtotal + IVA (si fuese el caso)")
+                        .setPositiveButton("Compartir", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+
+                            }
+                        });// Create the AlertDialog object and return it
+                builder.create();
+                builder.show();
+            }
+        });
+
+        imgSubtotal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
@@ -1016,6 +1077,8 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                     return;
                 }
 
+                Cotizacion cotizacion = new Cotizacion(folio, fecha, subtotal, iva, envio, descuento, total, notasDestinatario, terminos, nombre_enc, cargo_enc, numero_enc, vencimiento, notasAdmin);
+                querys.insertCotizacion(cotizacion);
                 generacionCotizacionPDF(folio, fecha, subtotal, iva, envio, descuento, total, notasDestinatario, terminos, nombre_enc, cargo_enc, numero_enc, vencimiento);
             }
         });
@@ -1030,7 +1093,7 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
         Bitmap bitmap = Bitmap.createBitmap(imgLogo.getDrawingCache());
 
         templatePDF = new TemplatePDF(getApplicationContext());
-        templatePDF.openDocument("Cotizacion");
+        templatePDF.openDocument("Cotizacion_" + folio);
         templatePDF.addMetaData("Cotizacion", "Pyme Assistant", "Soluciones Colabora");
         //templatePDF.addImage(getApplicationContext());
         templatePDF.createTableWithFoto(getApplicationContext(), bitmap, "COTIZACIÓN", folio, fecha, vencimiento);
@@ -1073,7 +1136,30 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
        // templatePDF.createTableWithTheSameLength(headerExpProfesional, rowsProfesional);
         templatePDF.closeDocument();
 
-        templatePDF.viewPDF("CV");
+        templatePDF.viewPDF(folio);
+    }
+
+    @Override
+    public void onBackPressed() {
+       // super.onBackPressed();
+
+       android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(NuevaCotizacionActivity.this);
+        builder.setMessage("¿Desea salir de esta cotización? Si lo hace antes de finalizar sus avances se perderán")
+                .setPositiveButton("Salir", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent i = new Intent(NuevaCotizacionActivity.this, MainActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(i);
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });// Create the AlertDialog object and return it
+        builder.create();
+        builder.show();
 
     }
 }

@@ -163,10 +163,26 @@ public class Cotizacion {
         this.notasAdmin = notasAdmin;
     }
 
+    public Cotizacion(String folio, String fecha, String subtotal, String iva, String envio, String descuento, String total, String notasDestinatario, String terminos, String nombre_enc, String cargo_enc, String numero_enc, String vencimiento, String notasAdmin) {
+        this.folio = folio;
+        this.fecha = fecha;
+        this.subtotal = subtotal;
+        this.iva = iva;
+        this.envio = envio;
+        this.descuento = descuento;
+        this.total = total;
+        this.notasDestinatario = notasDestinatario;
+        this.terminos = terminos;
+        this.nombre_enc = nombre_enc;
+        this.cargo_enc = cargo_enc;
+        this.numero_enc = numero_enc;
+        this.vencimiento = vencimiento;
+        this.notasAdmin = notasAdmin;
+    }
 
     public ContentValues toContentValues() {
         ContentValues values = new ContentValues();
-        values.put(DBSchema.CotizacionesTable.Columns.ID, id);
+        //values.put(DBSchema.CotizacionesTable.Columns.ID, id);
         values.put(DBSchema.CotizacionesTable.Columns.FOLIO, folio);
         values.put(DBSchema.CotizacionesTable.Columns.FECHA, fecha);
         values.put(DBSchema.CotizacionesTable.Columns.SUBTOTAL, subtotal);
@@ -180,7 +196,7 @@ public class Cotizacion {
         values.put(DBSchema.CotizacionesTable.Columns.CARGO_ENCARGADO, cargo_enc);
         values.put(DBSchema.CotizacionesTable.Columns.NUMERO_ENCARGADO, numero_enc);
         values.put(DBSchema.CotizacionesTable.Columns.VENCIMIENTO, vencimiento);
-
+        values.put(DBSchema.CotizacionesTable.Columns.NOTAS_ADMIN, notasAdmin);
         return values;
     }
 }

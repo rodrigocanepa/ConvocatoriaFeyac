@@ -1,5 +1,9 @@
 package com.colabora.soluciones.convocatoriafeyac.Modelos;
 
+import android.content.ContentValues;
+
+import com.colabora.soluciones.convocatoriafeyac.Db.DBSchema;
+
 public class Cliente {
 
     private int id;
@@ -77,5 +81,28 @@ public class Cliente {
         this.direccion = direccion;
         this.telefono = telefono;
         this.horario = horario;
+    }
+
+    public Cliente(String nombre, String descripcion, String correo, String direccion, String telefono, String horario) {
+        //this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.correo = correo;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.horario = horario;
+    }
+
+    public ContentValues toContentValues() {
+        ContentValues values = new ContentValues();
+        //values.put(DBSchema.CotizacionesTable.Columns.ID, id);
+        values.put(DBSchema.ClientesTable.Columns.NOMBRE, nombre);
+        values.put(DBSchema.ClientesTable.Columns.DESCRIPCION, descripcion);
+        values.put(DBSchema.ClientesTable.Columns.CORREO, correo);
+        values.put(DBSchema.ClientesTable.Columns.DIRECCION, direccion);
+        values.put(DBSchema.ClientesTable.Columns.TELEFONO, telefono);
+        values.put(DBSchema.ClientesTable.Columns.HORARIO, horario);
+
+        return values;
     }
 }

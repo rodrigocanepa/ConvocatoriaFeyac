@@ -19,76 +19,35 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txtLauncherDesarrolladoPor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="DESARROLLADO POR"
-                android:textSize="25sp"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:gravity="center"/>
-
             <ImageView
                 android:id="@+id/imgLauncherSoluciones"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingRight="50sp"
                 android:paddingLeft="50sp"
-                android:paddingBottom="10sp"
-                android:paddingTop="20sp"
-                android:src="@drawable/logo_soluciones_horizontal"/>
+                android:src="@drawable/desarrollado_por_solcol"/>
 
         </LinearLayout>
 
     </RelativeLayout>
 
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/linealLauncherAliados"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_marginBottom="30sp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/txtLauncherAliados"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ALIADOS"
-            android:textSize="25sp"
-            android:layout_marginTop="30sp"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:gravity="center"/>
-
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
 
         <ImageView
             android:id="@+id/imgLauncherNacional"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:src="@drawable/nacional"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="50sp"
+            android:paddingLeft="50sp"
+            android:src="@drawable/logo_trabajo_digno"/>
 
-
-        <ImageView
-            android:id="@+id/imgLauncherFeyac"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:src="@drawable/feyac"/>
-
-        <ImageView
-            android:id="@+id/imgLauncherCanaco"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:src="@drawable/canaco"/>
-
-
-
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </RelativeLayout>

@@ -8,27 +8,20 @@
     android:padding="4sp">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="Nombre"/>
-
-    <TextView
         android:id="@+id/item_cliente_nombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:textSize="15sp"
+        android:textStyle="bold"
         tools:text="Soluciones Colabora"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="Descripcion"/>
 
     <TextView
         android:id="@+id/item_cliente_descripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="italic"
         tools:text="Es una empresa de TI"/>
 
     <TextView

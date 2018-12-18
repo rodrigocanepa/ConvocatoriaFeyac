@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.colabora.soluciones.convocatoriafeyac.Modelos.TemplatePDF;
+
 public class NominasActivity extends AppCompatActivity {
 
     private EditText editSalario;
@@ -22,6 +24,9 @@ public class NominasActivity extends AppCompatActivity {
     private RadioButton radioMinimo;
     private RadioButton radioBajo;
     private RadioButton radioMedio;
+
+    // GENERACION DE PDF
+    private TemplatePDF templatePDF;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +139,7 @@ public class NominasActivity extends AppCompatActivity {
 
     }
 
-    private void calcularNomina(double riesgo, double saladioNominal, double diasAguinaldo, double diasVacaciones){
+    private void calcularNomina(double riesgo, final double saladioNominal, double diasAguinaldo, double diasVacaciones){
 
         double primaVacacional = 0;
         double factorPrimaVacacional = 0;
@@ -152,7 +157,7 @@ public class NominasActivity extends AppCompatActivity {
         double seguroRetiro = 0;
         double cesantia = 0;
 
-        double infonavit;
+        final double infonavit;
 
         double ISN = 0;
 
@@ -161,7 +166,7 @@ public class NominasActivity extends AppCompatActivity {
         factorAguinaldo = diasAguinaldo/365;
         salarioBaseCotizacion = saladioNominal + (factorPrimaVacacional * saladioNominal) + (factorAguinaldo * saladioNominal);
 
-        double aguinaldoPrimaVacacional = (salarioBaseCotizacion - saladioNominal) * 30;
+        final double aguinaldoPrimaVacacional = (salarioBaseCotizacion - saladioNominal) * 30;
 
         riegoTrabajo = riesgo * salarioBaseCotizacion * 30;
         prestacionesPensionadosBeneficiarios = 0.0105 * salarioBaseCotizacion * 30;
@@ -180,7 +185,7 @@ public class NominasActivity extends AppCompatActivity {
         ISN = 0.02 * salarioBaseCotizacion * 30;
 
         double totalIMSS = riegoTrabajo + prestacionesDinero + prestacionesEspecieCuotaAdicional + prestacionesEspecieCuotaFija + prestacionesPensionadosBeneficiarios + invalidez + guarderia + seguroRetiro + cesantia + infonavit;
-        double total = aguinaldoPrimaVacacional + ISN + totalIMSS + (saladioNominal * 30);
+        final double total = aguinaldoPrimaVacacional + ISN + totalIMSS + (saladioNominal * 30);
 
         String respuesta = "";
         respuesta += "El salario mensual de su trabajador sería de $" + String.format("%.2f", saladioNominal * 30);
@@ -192,12 +197,56 @@ public class NominasActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(NominasActivity.this);
         builder.setTitle("Costo del empleado");
+        final double finalRiegoTrabajo = riegoTrabajo;
+        final double finalPrestacionesPensionadosBeneficiarios = prestacionesPensionadosBeneficiarios;
+        final double finalPrestacionesEspecieCuotaFija = prestacionesEspecieCuotaFija;
+        final double finalPrestacionesDinero = prestacionesDinero;
+        final double finalInvalidez = invalidez;
+        final double finalGuarderia = guarderia;
+        final double finalSeguroRetiro = seguroRetiro;
+        final double finalCesantia = cesantia;
+        final double finalISN = ISN;
+        final double finalPrestacionesEspecieCuotaAdicional = prestacionesEspecieCuotaAdicional;
         builder.setMessage(respuesta)
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // FIRE ZE MISSILES!
                     }
-                });                    // Create the AlertDialog object and return it
+                })
+                .setNegativeButton("Ver más detalles", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        templatePDF = new TemplatePDF(getApplicationContext());
+                        templatePDF.openDocument("Nomina");
+                        templatePDF.addMetaData("Calculo de nómina", "Pyme Assistant", "Soluciones Colabora");
+                        //templatePDF.addImage(getApplicationContext());
+                        templatePDF.addSectionsCenter("Calculadora de nóminas");
+                        templatePDF.addParagraphCenter("De acuerdo al salario mínimo establecido para el 2018 y a las disposiciones legales del IMSS e Infonavir a continuación se desglosan los conceptos en los cuales están distruibuidos sus prestaciones sociales");
+
+                        templatePDF.addSections("Riesgo de trabajo: $" + String.format("%.2f", finalRiegoTrabajo));
+                        templatePDF.addSections("Prestaciones en dinero: $" + String.format("%.2f", finalPrestacionesDinero));
+                        templatePDF.addSections("Prestaciones en especie cuota fija: $" + String.format("%.2f", finalPrestacionesEspecieCuotaFija));
+                        templatePDF.addSections("Prestaciones en especie cuota adicional: $" + String.format("%.2f", finalPrestacionesEspecieCuotaAdicional));
+                        templatePDF.addSections("Prestaciones pensionados y beneficiarios: $" + String.format("%.2f", finalPrestacionesPensionadosBeneficiarios));
+                        templatePDF.addSections("Invalidez y vida: $" + String.format("%.2f", finalInvalidez));
+                        templatePDF.addSections("Guardería y prestaciones sociales: $" + String.format("%.2f", finalGuarderia));
+                        templatePDF.addSections("Seguro de retiro: $" + String.format("%.2f", finalSeguroRetiro));
+                        templatePDF.addSections("Cesantía: $" + String.format("%.2f", finalCesantia));
+
+                        templatePDF.addLine();
+                        templatePDF.addSections("INFONAVIT: $" + String.format("%.2f", infonavit));
+                        templatePDF.addSections("Aguinaldo y prima vacacional: $" + String.format("%.2f", aguinaldoPrimaVacacional));
+                        templatePDF.addSections("Impuesto sobre la nómina: $" + String.format("%.2f", finalISN));
+                        templatePDF.addLine();
+                        templatePDF.addSections("Salario sin prestaciones: $" + String.format("%.2f", total));
+                        double sal = saladioNominal * 30;
+                        templatePDF.addSections("Salario con prestaciones: $" + String.format("%.2f", sal));
+                        //templatePDF.addSections("Total descontado: $" + String.format("%.2f", String.format("%.2f", total - (saladioNominal * 30))));
+
+                        templatePDF.closeDocument();
+
+                        templatePDF.viewPDF("Nomina");
+                    }
+                });
+        // Create the AlertDialog object and return it
         builder.create();
         builder.show();
 

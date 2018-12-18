@@ -1,5 +1,6 @@
 package com.colabora.soluciones.convocatoriafeyac;
 
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -39,6 +40,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imgRH;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
+    private ProgressDialog progressDialog;
+
+    private SharedPreferences sharedPreferences;
+
+    private String nombreEmpresa = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +77,28 @@ public class MainActivity extends AppCompatActivity {
         imgProveedores.setColorFilter(Color.argb(150,20,20,20), PorterDuff.Mode.DARKEN);
         imgRH.setColorFilter(Color.argb(150,20,20,20), PorterDuff.Mode.DARKEN);
         imgClientes.setColorFilter(Color.argb(150,20,20,20), PorterDuff.Mode.DARKEN);
+
+        progressDialog = new ProgressDialog(MainActivity.this);
+
+        progressDialog.setTitle("Descargando Archivo");
+        progressDialog.setMessage("Espere un momento mientras la aplicación descarga el formato de proyección financiera base");
+
+        /*
+        // Leemos la memoria para ver que tarjetas se han creado
+        sharedPreferences = getSharedPreferences("misDatos", 0);
+        nombreEmpresa = sharedPreferences.getString("nombreEmpresa","");
+        if(nombreEmpresa.length() == 0){
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Datos empresa");
+            builder.setMessage("Parece que aún no tenemos los datos guardados de su empresa, por favor, llene los campos correspondientes")
+                    .setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });// Create the AlertDialog object and return it
+            builder.create();
+            builder.show();
+        }*/
 
         imgCotizaciones.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +127,8 @@ public class MainActivity extends AppCompatActivity {
                 File file = new File(folder, "finanzas_pyme.xlsx");
 
                 if (!file.exists ()){
-                    StorageReference storageRef = storage.getReferenceFromUrl("gs://pyme-assistant.appspot.com").child("Corrida financiera IYEM - METODOS.xlsx");
+                    progressDialog.show();
+                    StorageReference storageRef = storage.getReferenceFromUrl("gs://pyme-assistant.appspot.com").child("proyeccion_financiera.xlsx");
                     final long ONE_MEGABYTE = 1024 * 1024;
                     storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                         @Override
@@ -118,20 +148,16 @@ public class MainActivity extends AppCompatActivity {
                                 out.write(bytes);
                                 out.flush();
                                 out.close();
-/*
-                            Uri pd = FileProvider.getUriForFile(MainActivity.this, "com.colabora.soluciones.convocatoriafeyac.provider", file);
-                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setDataAndType(pd, "application/vnd.ms-excel");
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                            try {
-                                getApplicationContext().startActivity(intent);
-                            } catch (ActivityNotFoundException e) {
-                                Toast.makeText(getApplicationContext(), "No Application available to view XLS", Toast.LENGTH_SHORT).show();
+                                if(progressDialog.isShowing()){
+                                    progressDialog.dismiss();
+                                }
                             }
-*/
-                            }catch (Exception e){
+                            catch (Exception e){
                                 e.printStackTrace();
+                                if(progressDialog.isShowing()){
+                                    progressDialog.dismiss();
+                                }
 
                             }
                             Toast.makeText(getApplicationContext(), "Descargado con exito", Toast.LENGTH_SHORT).show();
@@ -147,26 +173,14 @@ public class MainActivity extends AppCompatActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
+                            if(progressDialog.isShowing()){
+                                progressDialog.dismiss();
+                            }
                         }
                     });
 
                 }
                 else{
-                    //Uri uri = Uri.fromFile(file);
-                    //new way
-                    /*
-                    Uri pd = FileProvider.getUriForFile(MainActivity.this, "com.colabora.soluciones.convocatoriafeyac.provider", file);
-
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.putExtra(android.content.Intent.EXTRA_STREAM, pd);
-                    intent.setType("application/vnd.ms-excel");
-                    //intent.setDataAndType(pd, "application/vnd.ms-excel");
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    try {
-                        getApplicationContext().startActivity(intent);
-                    } catch (ActivityNotFoundException e) {
-                        Toast.makeText(getApplicationContext(), "Tu dispositivo no cuenta con algún lector de archivos de excel", Toast.LENGTH_SHORT).show();
-                    }*/
                     Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.microsoft.office.excel");
                     if (launchIntent != null) {
                         startActivity(launchIntent);//null pointer check in case package name was not found

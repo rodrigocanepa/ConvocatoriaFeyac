@@ -32,7 +32,8 @@ class CotizacionCursor extends CursorWrapper {
                 cursor.getString(cursor.getColumnIndex(DBSchema.CotizacionesTable.Columns.NOMBRE_ENCARGADO)),
                 cursor.getString(cursor.getColumnIndex(DBSchema.CotizacionesTable.Columns.CARGO_ENCARGADO)),
                 cursor.getString(cursor.getColumnIndex(DBSchema.CotizacionesTable.Columns.NUMERO_ENCARGADO)),
-                cursor.getString(cursor.getColumnIndex(DBSchema.CotizacionesTable.Columns.VENCIMIENTO)));
+                cursor.getString(cursor.getColumnIndex(DBSchema.CotizacionesTable.Columns.VENCIMIENTO)),
+                cursor.getString(cursor.getColumnIndex(DBSchema.CotizacionesTable.Columns.NOTAS_ADMIN)));
     }
 }
 
@@ -82,6 +83,33 @@ public final class Querys {
         db = dataBaseHelper.getWritableDatabase();
     }
 
+    public Cliente getClientePorFiltro(String idUser){
+
+        String query = "SELECT * FROM " + DBSchema.ClientesTable.NAME + " where nombre like '%" + idUser + "%'";
+        Cliente myUser = new Cliente();
+        ClientesCursor cursor = new ClientesCursor(db.rawQuery(query, null));
+        while (cursor.moveToNext()){
+            myUser = cursor.getCliente();
+        }
+        cursor.close();
+
+        return myUser;
+    }
+
+    public Cliente getProveedorPorFiltro(String idUser){
+
+        String query = "SELECT * FROM " + DBSchema.ProveedoresTable.NAME + " where nombre like '%" + idUser + "%'";
+        Cliente myUser = new Cliente();
+        ClientesCursor cursor = new ClientesCursor(db.rawQuery(query, null));
+        while (cursor.moveToNext()){
+            myUser = cursor.getCliente();
+        }
+        cursor.close();
+
+        return myUser;
+    }
+
+
     public List<Cotizacion> getAllCotizaciones(){
         ArrayList<Cotizacion> list = new ArrayList<Cotizacion>();
 
@@ -92,6 +120,58 @@ public final class Querys {
         cursor.close();
 
         return list;
+    }
+
+    public List<Cliente> getAllClientes(){
+        ArrayList<Cliente> list = new ArrayList<Cliente>();
+
+        ClientesCursor cursor = new ClientesCursor(db.rawQuery("SELECT * FROM " + DBSchema.ClientesTable.NAME, null));
+        while (cursor.moveToNext()){
+            list.add(cursor.getCliente());
+        }
+        cursor.close();
+
+        return list;
+    }
+
+    public List<Cliente> getAllProveedores(){
+        ArrayList<Cliente> list = new ArrayList<Cliente>();
+
+        ClientesCursor cursor = new ClientesCursor(db.rawQuery("SELECT * FROM " + DBSchema.ProveedoresTable.NAME, null));
+        while (cursor.moveToNext()){
+            list.add(cursor.getCliente());
+        }
+        cursor.close();
+
+        return list;
+    }
+
+    public void insertClientes(Cliente cliente) {
+        db.insert(
+                DBSchema.ClientesTable.NAME,
+                null,
+                cliente.toContentValues());
+    }
+
+    public void insertProveedores(Cliente cliente) {
+        db.insert(
+                DBSchema.ProveedoresTable.NAME,
+                null,
+                cliente.toContentValues());
+    }
+
+    public void deleteCliente(String cardID) {
+        db.delete(
+                DBSchema.ClientesTable.NAME,
+                DBSchema.ClientesTable.Columns.ID + " LIKE ?",
+                new String[]{cardID});
+    }
+
+    public void deleteProveedor(String cardID) {
+        db.delete(
+                DBSchema.ProveedoresTable.NAME,
+                DBSchema.ProveedoresTable.Columns.ID + " LIKE ?",
+                new String[]{cardID});
     }
 
     public void insertCotizacion(Cotizacion cotizacion) {
@@ -108,4 +188,19 @@ public final class Querys {
                 new String[]{cardID});
     }
 
+    public void updateCliente(Cliente cliente, String cardID) {
+        db.update(
+                DBSchema.ClientesTable.NAME,
+                cliente.toContentValues(),
+                DBSchema.ClientesTable.Columns.ID + " LIKE ?",
+                new String[]{cardID});
+    }
+
+    public void updateProveedor(Cliente cliente, String cardID) {
+        db.update(
+                DBSchema.ProveedoresTable.NAME,
+                cliente.toContentValues(),
+                DBSchema.ProveedoresTable.Columns.ID + " LIKE ?",
+                new String[]{cardID});
+    }
 }
