@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.colabora.soluciones.convocatoriafeyac.Modelos.VerPDFDiagActivity;
 
@@ -59,13 +60,18 @@ public class DiagnosticoActivity extends AppCompatActivity {
                 File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
                 if(!folder.exists())
                     folder.mkdirs();
-                File file = new File(folder, "Diagnostico.pdf");                    //old way
+                File file = new File(folder, "Diagnostico.pdf");                    //old wayç
+                if(file.exists()){
+                    Intent intent = new Intent(getApplicationContext(), VerPDFDiagActivity.class);
+                    intent.putExtra("path", file.getAbsolutePath());
+                    intent.putExtra("tipo", "Diagnostico");
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getApplicationContext().startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Aún no has respondido el diagnóstico", Toast.LENGTH_SHORT).show();
+                }
 
-                Intent intent = new Intent(getApplicationContext(), VerPDFDiagActivity.class);
-                intent.putExtra("path", file.getAbsolutePath());
-                intent.putExtra("tipo", "Diagnostico");
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getApplicationContext().startActivity(intent);
             }
         });
 

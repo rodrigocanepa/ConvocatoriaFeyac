@@ -84,4 +84,9 @@
 
     </LinearLayout>
 
+    <com.github.mikephil.charting.charts.RadarChart
+        android:id="@+id/chartEstatusActualDiagnostico"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </RelativeLayout>

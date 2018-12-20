@@ -52,4 +52,13 @@ public final class DBSchema {
             public static final String HORARIO = "horario";
         }
     }
+
+    public static final class ConceptopsTable{
+        public static final String NAME = "conceptos";
+
+        public static final class Columns {
+            public static final String ID = "id";
+            public static final String NOMBRE = "nombre";
+        }
+    }
 }

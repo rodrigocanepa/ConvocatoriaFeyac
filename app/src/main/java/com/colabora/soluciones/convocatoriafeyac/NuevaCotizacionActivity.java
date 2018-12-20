@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -36,6 +37,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -45,6 +47,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.colabora.soluciones.convocatoriafeyac.Db.Querys;
+import com.colabora.soluciones.convocatoriafeyac.Modelos.Concepto;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Conceptos;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Cotizacion;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.TemplatePDF;
@@ -59,6 +62,7 @@ import com.vansuita.pickimage.listeners.IPickCancel;
 import com.vansuita.pickimage.listeners.IPickResult;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -101,14 +105,182 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
             btnEditar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    final Dialog builder = new Dialog(NuevaCotizacionActivity.this);
 
+                    // Get the layout inflater
+                    //LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    //final View formElementsView = inflater.inflate(R.layout.dialog_nuevo_concepto,
+                    //      null, false);
+
+                    builder.setContentView(R.layout.dialog_nuevo_concepto);
+
+                    txtDialogConcepto = (TextInputEditText) builder.findViewById(R.id.txtDialogConcepto);
+                    txtDialogCantidad = (TextInputEditText) builder.findViewById(R.id.txtDialogCantidad);
+                    txtDialogPrecio = (TextInputEditText) builder.findViewById(R.id.txtDialogPrecio);
+                    swDialogImpuestos = (Switch) builder.findViewById(R.id.swDialogImpuestos);
+                    btnDialogAceptar = (Button) builder.findViewById(R.id.btnDialogAceptar);
+                    btnDialogCancelar = (Button) builder.findViewById(R.id.btnDialogCancelar);
+                    TextInputLayout textInputLayoutPrecio = (TextInputLayout)builder.findViewById(R.id.txtInputLayoutPrecio);
+                    TextInputLayout textInputLayoutCantidad = (TextInputLayout)builder.findViewById(R.id.txtInputLayoutCantidad);
+
+                    txtDialogPrecio.setText(conceptos.get(getAdapterPosition()).getPrecio());
+                    txtDialogCantidad.setText(conceptos.get(getAdapterPosition()).getCantidad());
+                    txtDialogConcepto.setText(conceptos.get(getAdapterPosition()).getConceptos());
+
+                    if(radioButtonCantidad.isChecked()){
+                        textInputLayoutCantidad.setHint("Cantidad (obligatorio)");
+                        textInputLayoutPrecio.setHint("Precio (obligatorio)");
+                    }
+                    else{
+                        textInputLayoutCantidad.setHint("Horas (obligatorio)");
+                        textInputLayoutPrecio.setHint("Tarifa (obligatorio)");
+                    }
+                    builder.setTitle("Nuevo concepto");
+                    // builder.setMessage("Ingrese los datos del nuevo concepto. Si desea ingresar un importe fraccionario utilice el punto decimal '.' para especificarlo, por ejemplo 50.50");
+
+                    btnDialogCancelar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            builder.dismiss();
+                        }
+                    });
+
+                    btnDialogAceptar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String concepto_ = txtDialogConcepto.getText().toString();
+                            String cantidad_ = txtDialogCantidad.getText().toString();
+                            String precio_ = txtDialogPrecio.getText().toString();
+                            String descuento_ = "No aplica";
+                            String descuento_pesos = "0";
+                            String impuestos_ = "No aplica";
+                            String impuestos_pesos = "0";
+
+                            if(concepto_.isEmpty()){
+                                Toast.makeText(getApplicationContext(), "Debes llenar los campos obligatorios", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                            if(cantidad_.isEmpty()){
+                                Toast.makeText(getApplicationContext(), "Debes llenar los campos obligatorios", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                            if(precio_.isEmpty()){
+                                Toast.makeText(getApplicationContext(), "Debes llenar los campos obligatorios", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+
+                            double cantidad_double = Double.valueOf(cantidad_);
+                            double precio_double = Double.valueOf(precio_);
+                            double importe_ = cantidad_double * precio_double;
+                            String importe = String.valueOf(importe_);
+
+                            if(swDialogImpuestos.isChecked()){
+                                impuestos_ = "IVA: 16%";
+                                double descuento_double = (cantidad_double * precio_double) * 1.16 - (cantidad_double * precio_double);
+                                impuestos_pesos = String.valueOf(descuento_double);
+                            }
+
+                            conceptos.remove(getAdapterPosition());
+                            Conceptos concepto = new Conceptos(concepto_,cantidad_,precio_,importe,impuestos_,impuestos_pesos);
+                            conceptos.add(concepto);
+
+                            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+                            adapter = new NuevaCotizacionActivity.DataConfigAdapter(conceptos, getApplicationContext());
+                            recyclerView.setAdapter(adapter);
+
+                            // ****************** ACTUALIZAMOS EL SUBTOTAL ********************
+                            double subtotal = 0;
+                            double iva = 0;
+                            double descuento = 0;
+
+                            for(int j = 0; j < conceptos.size(); j++){
+                                subtotal += Double.valueOf(conceptos.get(j).getImporte());
+                                iva += Double.valueOf(conceptos.get(j).getImpuestos_pesos());
+                            }
+
+                            if(swDescuento.isChecked()){
+                                if(spinnerDescuento.getSelectedItem().equals("$")){
+                                    descuento = Double.valueOf(editDescuento.getText().toString());
+                                    txtDescuentos.setText("-$" + String.format("%.2f", descuento));
+                                }
+                                else{
+                                    double desc = Double.valueOf(editDescuento.getText().toString());
+                                    double descReal = desc/100;
+                                    descuento = subtotal * descReal;
+                                    txtDescuentos.setText("$" + String.format("%.2f", descuento));
+                                }
+                            }
+
+                            double gastosEnvio = 0;
+
+                            if(swGastosEnvio.isChecked()){
+                                if (editGastosEnvio.getText().toString().length() > 0) {
+                                    gastosEnvio = Double.valueOf(editGastosEnvio.getText().toString());
+                                }
+                            }
+
+                            double total = subtotal - descuento + iva + gastosEnvio;
+                            txtTotal.setText("$" + String.format("%.2f", total));
+                            txtSubtotal.setText("$" + String.format("%.2f", subtotal));
+                            txtGastosEnvio.setText("$" + String.format("%.2f", gastosEnvio));
+                            txtIVA.setText("$" + String.format("%.2f", iva));
+
+                            // ****************************************************************
+                            builder.dismiss();
+                        }
+                    });
+                /*builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+
+
+                    }
+                });
+
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });*/
+
+                    // Inflate and set the layout for the dialog
+                    // Pass null as the parent view because its going in the dialog layout
+                    // Add action buttons
+                    DisplayMetrics metrics = getResources().getDisplayMetrics();
+                    int width = metrics.widthPixels;
+                    int height = metrics.heightPixels;
+
+                    builder.create();
+                    builder.show();
+                    builder.getWindow().setLayout((6 * width)/7, ViewGroup.LayoutParams.WRAP_CONTENT);
                 }
             });
 
             btnEliminar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    final int position = getAdapterPosition();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(NuevaCotizacionActivity.this);
+                    builder.setTitle("Eliminar concepto");
+                    builder.setMessage("¿Estas seguro de querer elimnar este concepto?")
+                            .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    conceptos.remove(position);
+                                    // *********** LLENAMOS EL RECYCLER VIEW *****************************
+                                    adapter = new NuevaCotizacionActivity.DataConfigAdapter(conceptos, getApplicationContext());
+                                    recyclerView.setAdapter(adapter);
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
 
+                                }
+                            });
+                    // Create the AlertDialog object and return it
+                    builder.create();
+                    builder.show();
                 }
             });
 
@@ -223,6 +395,16 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
     private ImageView imgSubtotal;
     private ImageView imgConceptos;
 
+    private SharedPreferences sharedPreferences;
+    private String nombreEmpresa = "";
+    private String cargoAdmin;
+    private String nombreAdmin;
+    private String telefonoAdmin;
+
+    private ListView listViewConceptos;
+    private Button buscarConceptos;
+
+    private List<Concepto> conceptosList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -268,9 +450,32 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
         radioButtonCantidad.setChecked(true);
         radioButtonHoras.setChecked(false);
 
+
         Intent i = getIntent();
         ex_folio = i.getStringExtra(EXTRA_FOLIO);
         editNoFormato.setText(ex_folio);
+
+        // Leemos la memoria para ver que tarjetas se han creado
+        sharedPreferences = getSharedPreferences("misDatos", 0);
+        nombreEmpresa = sharedPreferences.getString("nombreEmpresa","");
+        nombreAdmin = sharedPreferences.getString("nombreAdmin","");
+        cargoAdmin = sharedPreferences.getString("cargoAdmin","");
+        telefonoAdmin = sharedPreferences.getString("telefonoAdmin","");
+
+        txtNombreEncargado.setText(nombreAdmin);
+        txtNumeroEncargado.setText(telefonoAdmin);
+        txtCargoEncargado.setText(cargoAdmin);
+
+        File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+        if(!folder.exists())
+            folder.mkdirs();
+        File file = new File(folder, "logoEmpresa.png");
+
+        if(file.exists()){
+
+            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            imgLogo.setImageBitmap(myBitmap);
+        }
 
         imgLogo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -322,7 +527,7 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(NuevaCotizacionActivity.this);
                 builder.setTitle("Información");
                 builder.setMessage("Los conceptos pueden dividirse en dos grupos principales: Cantidad y horas, el primero hace referencia a aquellas cotizaciones por objetos o servicios tangibles, y el segundo es ideal para cotizaciones de cursos o mentorías que se cobren por una tarifa fija por hora.")
-                        .setPositiveButton("Compartir", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
 
@@ -339,7 +544,7 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                 android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(NuevaCotizacionActivity.this);
                 builder.setTitle("Información");
                 builder.setMessage("El descuento de su cotización y los gastos de envío se aplican sobre el monto subtotal + IVA (si fuese el caso)")
-                        .setPositiveButton("Compartir", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
 
@@ -350,12 +555,6 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
             }
         });
 
-        imgSubtotal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         descuentos.add("%");
         descuentos.add("$");
@@ -847,7 +1046,7 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
             }
         });
 
-        ArrayAdapter<String> adapterCategoria = new ArrayAdapter<String>(
+        final ArrayAdapter<String> adapterCategoria = new ArrayAdapter<String>(
                 NuevaCotizacionActivity.this, R.layout.support_simple_spinner_dropdown_item, descuentos);
         spinnerDescuento.setAdapter(adapterCategoria);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -870,6 +1069,7 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                 swDialogImpuestos = (Switch) builder.findViewById(R.id.swDialogImpuestos);
                 btnDialogAceptar = (Button) builder.findViewById(R.id.btnDialogAceptar);
                 btnDialogCancelar = (Button) builder.findViewById(R.id.btnDialogCancelar);
+                buscarConceptos = (Button) builder.findViewById(R.id.buscarConceptops);
                 TextInputLayout textInputLayoutPrecio = (TextInputLayout)builder.findViewById(R.id.txtInputLayoutPrecio);
                 TextInputLayout textInputLayoutCantidad = (TextInputLayout)builder.findViewById(R.id.txtInputLayoutCantidad);
 
@@ -888,6 +1088,52 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         builder.dismiss();
+                    }
+                });
+                buscarConceptos.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //builder.dismiss();
+
+                        final Dialog builder = new Dialog(NuevaCotizacionActivity.this);
+
+                        // Get the layout inflater
+                        //LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        //final View formElementsView = inflater.inflate(R.layout.dialog_nuevo_concepto,
+                        //      null, false);
+
+                        builder.setContentView(R.layout.dialog_lista_conceptos);
+
+                        listViewConceptos = (ListView) builder.findViewById(R.id.listViewConceptos);
+                        conceptosList = querys.getAllConceptos();
+                        final List<String> conc = new ArrayList<>();
+                        for(int i = 0; i < conceptosList.size(); i++){
+                            conc.add(conceptosList.get(i).getNombre());
+                        }
+
+
+                        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(NuevaCotizacionActivity.this, R.layout.support_simple_spinner_dropdown_item, conc);
+                        listViewConceptos.setAdapter(adaptador);
+
+                        listViewConceptos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                txtDialogConcepto.setText(conc.get(position));
+                                builder.dismiss();
+                            }
+                        });
+
+                        builder.setTitle("Conceptos");
+                        // Inflate and set the layout for the dialog
+                        // Pass null as the parent view because its going in the dialog layout
+                        DisplayMetrics metrics = getResources().getDisplayMetrics();
+                        int width = metrics.widthPixels;
+                        int height = metrics.heightPixels;
+
+                        builder.create();
+                        builder.show();
+                        builder.getWindow().setLayout((6 * width)/7, ViewGroup.LayoutParams.WRAP_CONTENT);
+
                     }
                 });
 
@@ -974,25 +1220,6 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                         builder.dismiss();
                     }
                 });
-                /*builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-
-
-                    }
-                });
-
-                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });*/
-
-                // Inflate and set the layout for the dialog
-                // Pass null as the parent view because its going in the dialog layout
-                // Add action buttons
                 DisplayMetrics metrics = getResources().getDisplayMetrics();
                 int width = metrics.widthPixels;
                 int height = metrics.heightPixels;
@@ -1096,7 +1323,7 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
         templatePDF.openDocument("Cotizacion_" + folio);
         templatePDF.addMetaData("Cotizacion", "Pyme Assistant", "Soluciones Colabora");
         //templatePDF.addImage(getApplicationContext());
-        templatePDF.createTableWithFoto(getApplicationContext(), bitmap, "COTIZACIÓN", folio, fecha, vencimiento);
+        templatePDF.createTableWithFoto(getApplicationContext(), bitmap, "COTIZACIÓN", folio, fecha, vencimiento, nombreEmpresa);
         templatePDF.addLine();
 
         templatePDF.addSectionsCenter("Estimado Cliente");

@@ -27,6 +27,23 @@
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true" />
 
+            <ImageView
+                android:id="@+id/qrTipo1"
+                android:layout_width="40sp"
+                android:layout_height="40sp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="10sp"
+                android:layout_marginBottom="9sp"/>
+
+            <ImageView
+                android:id="@+id/qrTipo2"
+                android:layout_width="40sp"
+                android:layout_height="40sp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10sp"
+                android:layout_marginBottom="9sp"/>
+
             <LinearLayout
                 android:id="@+id/linearVisualizacion1"
                 android:layout_width="wrap_content"
@@ -551,7 +568,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-
+            <ImageView
+                android:id="@+id/imgTarjetaLogo"
+                android:layout_width="95sp"
+                android:layout_height="95sp"
+                android:layout_marginStart="10sp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true" />
 
         </RelativeLayout>
 

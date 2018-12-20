@@ -219,7 +219,7 @@ public class NominasActivity extends AppCompatActivity {
                         templatePDF.addMetaData("Calculo de nómina", "Pyme Assistant", "Soluciones Colabora");
                         //templatePDF.addImage(getApplicationContext());
                         templatePDF.addSectionsCenter("Calculadora de nóminas");
-                        templatePDF.addParagraphCenter("De acuerdo al salario mínimo establecido para el 2018 y a las disposiciones legales del IMSS e Infonavir a continuación se desglosan los conceptos en los cuales están distruibuidos sus prestaciones sociales");
+                        templatePDF.addParagraphCenter("De acuerdo al salario mínimo establecido para el 2018 y a las disposiciones legales del IMSS e Infonavit a continuación se desglosan los conceptos en los cuales están distruibuidos sus prestaciones sociales");
 
                         templatePDF.addSections("Riesgo de trabajo: $" + String.format("%.2f", finalRiegoTrabajo));
                         templatePDF.addSections("Prestaciones en dinero: $" + String.format("%.2f", finalPrestacionesDinero));

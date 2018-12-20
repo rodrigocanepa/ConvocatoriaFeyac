@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.CornerPathEffect;
 
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Cliente;
+import com.colabora.soluciones.convocatoriafeyac.Modelos.Concepto;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Cotizacion;
 
 import java.util.ArrayList;
@@ -71,6 +72,18 @@ class ProveedorCursor extends CursorWrapper {
     }
 }
 
+class ConceptopsCursor extends CursorWrapper {
+    public ConceptopsCursor(Cursor cursor) {
+        super(cursor);
+    }
+
+    public Concepto getConcepto(){
+        Cursor cursor = getWrappedCursor();
+        return new Concepto(cursor.getInt(cursor.getColumnIndex(DBSchema.ConceptopsTable.Columns.ID)),
+                cursor.getString(cursor.getColumnIndex(DBSchema.ConceptopsTable.Columns.NOMBRE)));
+    }
+}
+
 
 public final class Querys {
 
@@ -116,6 +129,18 @@ public final class Querys {
         CotizacionCursor cursor = new CotizacionCursor(db.rawQuery("SELECT * FROM " + DBSchema.CotizacionesTable.NAME, null));
         while (cursor.moveToNext()){
             list.add(cursor.getCotizacion());
+        }
+        cursor.close();
+
+        return list;
+    }
+
+    public List<Concepto> getAllConceptos(){
+        ArrayList<Concepto> list = new ArrayList<Concepto>();
+
+        ConceptopsCursor cursor = new ConceptopsCursor(db.rawQuery("SELECT * FROM " + DBSchema.ConceptopsTable.NAME, null));
+        while (cursor.moveToNext()){
+            list.add(cursor.getConcepto());
         }
         cursor.close();
 
@@ -179,6 +204,13 @@ public final class Querys {
                 DBSchema.CotizacionesTable.NAME,
                 null,
                 cotizacion.toContentValues());
+    }
+
+    public void insertConcepto(Concepto concepto) {
+        db.insert(
+                DBSchema.ConceptopsTable.NAME,
+                null,
+                concepto.toContentValues());
     }
 
     public void deleteCotizacion(String cardID) {

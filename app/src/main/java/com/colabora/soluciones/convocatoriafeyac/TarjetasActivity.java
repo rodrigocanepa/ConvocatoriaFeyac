@@ -280,7 +280,7 @@ public class TarjetasActivity extends AppCompatActivity {
                     editor.putString("numeroTarjeta", "1");
                     editor.commit();
 
-                    Intent i = new Intent(TarjetasActivity.this, CrearEditarTarjetasActivity.class);
+                    Intent i = new Intent(TarjetasActivity.this, TarjetaDatosActivity.class);
                     startActivity(i);
                 }
             }
@@ -290,7 +290,63 @@ public class TarjetasActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(tarjeta2){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(TarjetasActivity.this);
+                    builder.setTitle("Tarjetas de presentación");
+                    builder.setMessage("Seleccione la acción que desee realizar")
+                            .setPositiveButton("Compartir", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
 
+                                    File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+                                    if(!folder.exists())
+                                        folder.mkdirs();
+                                    File file = new File(folder, "Tarjeta2_frente.png");
+                                    File file2 = new File(folder, "Tarjeta2_detras.png");
+
+                                    ArrayList<Uri> uris = new ArrayList<>();
+                                    //new way
+                                    Uri pd = FileProvider.getUriForFile(TarjetasActivity.this, "com.colabora.soluciones.convocatoriafeyac.provider", file);
+                                    Uri pd2 = FileProvider.getUriForFile(TarjetasActivity.this, "com.colabora.soluciones.convocatoriafeyac.provider", file2);
+
+                                    uris.add(pd);
+                                    uris.add(pd2);
+
+                                    Intent intent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
+
+                                    //intent.setDataAndType(pd,"application/pdf");
+                                    intent.setType("image/*");
+                                    //String shareBodyText = "Para la mejora continua de mi empresa/negocio he realizado un diagnóstico el cual se comparto a continuación por medio de la aplicación Pyme Assistant";
+                                    //intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Diágnostico Pyme Assitant");
+                                    intent.putParcelableArrayListExtra(android.content.Intent.EXTRA_STREAM, uris);
+
+                                    startActivity(Intent.createChooser(intent, "Escoge un método para compartir"));
+                                }
+                            })
+                            .setNegativeButton("Eliminar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+                                    if(!folder.exists())
+                                        folder.mkdirs();
+                                    File file = new File(folder, "Tarjeta2_frente.png");
+                                    File file2 = new File(folder, "Tarjeta2_detras.png");
+                                    if (file.exists ()) file.delete ();
+                                    if (file2.exists ()) file2.delete ();
+
+                                    Toast.makeText(getApplicationContext(), "Tarjeta de presentación eliminada", Toast.LENGTH_SHORT).show();
+                                    // *********** Guardamos los principales datos de los nuevos usuarios *************
+                                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putBoolean("tarjeta2", false);
+                                    editor.commit();
+                                    // ******************************************************************************
+
+                                    Intent t= new Intent(TarjetasActivity.this,TarjetasActivity.class);
+                                    startActivity(t);
+                                    finish();
+                                }
+                            });// Create the AlertDialog object and return it
+                    builder.create();
+                    builder.show();
                 }
                 else{
                     // Leemos la memoria para ver que tarjetas se han creado
@@ -299,7 +355,7 @@ public class TarjetasActivity extends AppCompatActivity {
                     editor.putString("numeroTarjeta", "2");
                     editor.commit();
 
-                    Intent i = new Intent(TarjetasActivity.this, CrearEditarTarjetasActivity.class);
+                    Intent i = new Intent(TarjetasActivity.this, TarjetaDatosActivity.class);
                     startActivity(i);
                 }
             }
@@ -309,7 +365,63 @@ public class TarjetasActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(tarjeta3){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(TarjetasActivity.this);
+                    builder.setTitle("Tarjetas de presentación");
+                    builder.setMessage("Seleccione la acción que desee realizar")
+                            .setPositiveButton("Compartir", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
 
+                                    File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+                                    if(!folder.exists())
+                                        folder.mkdirs();
+                                    File file = new File(folder, "Tarjeta3_frente.png");
+                                    File file2 = new File(folder, "Tarjeta3_detras.png");
+
+                                    ArrayList<Uri> uris = new ArrayList<>();
+                                    //new way
+                                    Uri pd = FileProvider.getUriForFile(TarjetasActivity.this, "com.colabora.soluciones.convocatoriafeyac.provider", file);
+                                    Uri pd2 = FileProvider.getUriForFile(TarjetasActivity.this, "com.colabora.soluciones.convocatoriafeyac.provider", file2);
+
+                                    uris.add(pd);
+                                    uris.add(pd2);
+
+                                    Intent intent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
+
+                                    //intent.setDataAndType(pd,"application/pdf");
+                                    intent.setType("image/*");
+                                    //String shareBodyText = "Para la mejora continua de mi empresa/negocio he realizado un diagnóstico el cual se comparto a continuación por medio de la aplicación Pyme Assistant";
+                                    //intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Diágnostico Pyme Assitant");
+                                    intent.putParcelableArrayListExtra(android.content.Intent.EXTRA_STREAM, uris);
+
+                                    startActivity(Intent.createChooser(intent, "Escoge un método para compartir"));
+                                }
+                            })
+                            .setNegativeButton("Eliminar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+                                    if(!folder.exists())
+                                        folder.mkdirs();
+                                    File file = new File(folder, "Tarjeta3_frente.png");
+                                    File file2 = new File(folder, "Tarjeta3_detras.png");
+                                    if (file.exists ()) file.delete ();
+                                    if (file2.exists ()) file2.delete ();
+
+                                    Toast.makeText(getApplicationContext(), "Tarjeta de presentación eliminada", Toast.LENGTH_SHORT).show();
+                                    // *********** Guardamos los principales datos de los nuevos usuarios *************
+                                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putBoolean("tarjeta3", false);
+                                    editor.commit();
+                                    // ******************************************************************************
+
+                                    Intent t= new Intent(TarjetasActivity.this,TarjetasActivity.class);
+                                    startActivity(t);
+                                    finish();
+                                }
+                            });// Create the AlertDialog object and return it
+                    builder.create();
+                    builder.show();
                 }
                 else{
                     // Leemos la memoria para ver que tarjetas se han creado
@@ -318,7 +430,7 @@ public class TarjetasActivity extends AppCompatActivity {
                     editor.putString("numeroTarjeta", "3");
                     editor.commit();
 
-                    Intent i = new Intent(TarjetasActivity.this, CrearEditarTarjetasActivity.class);
+                    Intent i = new Intent(TarjetasActivity.this, TarjetaDatosActivity.class);
                     startActivity(i);
                 }
             }
@@ -328,7 +440,63 @@ public class TarjetasActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(tarjeta4){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(TarjetasActivity.this);
+                    builder.setTitle("Tarjetas de presentación");
+                    builder.setMessage("Seleccione la acción que desee realizar")
+                            .setPositiveButton("Compartir", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
 
+                                    File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+                                    if(!folder.exists())
+                                        folder.mkdirs();
+                                    File file = new File(folder, "Tarjeta4_frente.png");
+                                    File file2 = new File(folder, "Tarjeta4_detras.png");
+
+                                    ArrayList<Uri> uris = new ArrayList<>();
+                                    //new way
+                                    Uri pd = FileProvider.getUriForFile(TarjetasActivity.this, "com.colabora.soluciones.convocatoriafeyac.provider", file);
+                                    Uri pd2 = FileProvider.getUriForFile(TarjetasActivity.this, "com.colabora.soluciones.convocatoriafeyac.provider", file2);
+
+                                    uris.add(pd);
+                                    uris.add(pd2);
+
+                                    Intent intent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
+
+                                    //intent.setDataAndType(pd,"application/pdf");
+                                    intent.setType("image/*");
+                                    //String shareBodyText = "Para la mejora continua de mi empresa/negocio he realizado un diagnóstico el cual se comparto a continuación por medio de la aplicación Pyme Assistant";
+                                    //intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Diágnostico Pyme Assitant");
+                                    intent.putParcelableArrayListExtra(android.content.Intent.EXTRA_STREAM, uris);
+
+                                    startActivity(Intent.createChooser(intent, "Escoge un método para compartir"));
+                                }
+                            })
+                            .setNegativeButton("Eliminar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+                                    if(!folder.exists())
+                                        folder.mkdirs();
+                                    File file = new File(folder, "Tarjeta4_frente.png");
+                                    File file2 = new File(folder, "Tarjeta4_detras.png");
+                                    if (file.exists ()) file.delete ();
+                                    if (file2.exists ()) file2.delete ();
+
+                                    Toast.makeText(getApplicationContext(), "Tarjeta de presentación eliminada", Toast.LENGTH_SHORT).show();
+                                    // *********** Guardamos los principales datos de los nuevos usuarios *************
+                                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putBoolean("tarjeta4", false);
+                                    editor.commit();
+                                    // ******************************************************************************
+
+                                    Intent t= new Intent(TarjetasActivity.this,TarjetasActivity.class);
+                                    startActivity(t);
+                                    finish();
+                                }
+                            });// Create the AlertDialog object and return it
+                    builder.create();
+                    builder.show();
                 }
                 else{
                     // Leemos la memoria para ver que tarjetas se han creado
@@ -337,7 +505,7 @@ public class TarjetasActivity extends AppCompatActivity {
                     editor.putString("numeroTarjeta", "4");
                     editor.commit();
 
-                    Intent i = new Intent(TarjetasActivity.this, CrearEditarTarjetasActivity.class);
+                    Intent i = new Intent(TarjetasActivity.this, TarjetaDatosActivity.class);
                     startActivity(i);
                 }
             }

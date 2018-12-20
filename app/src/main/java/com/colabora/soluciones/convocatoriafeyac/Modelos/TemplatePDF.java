@@ -480,7 +480,7 @@ public class TemplatePDF {
 
     }
 
-    public void createTableWithFoto(Context context, Bitmap bitmap, String formato, String folio, String fecha, String vencimiento){
+    public void createTableWithFoto(Context context, Bitmap bitmap, String formato, String folio, String fecha, String vencimiento, String nombreEmpresa){
 
         try {
             // get input stream
@@ -575,7 +575,7 @@ public class TemplatePDF {
                 pdfPCell.setBorder(Rectangle.NO_BORDER);
 
                 pdfPTable4.addCell(pdfPCell);
-                pdfPTable4.addCell(createTextCellCenter("Soluciones Colabora"));
+                pdfPTable4.addCell(createTextCellCenter(nombreEmpresa));
                 PdfPCell celdaDatos = new PdfPCell();
                 celdaDatos.addElement(pdfPTable4);
                 celdaDatos.setBorder(Rectangle.NO_BORDER);

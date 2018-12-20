@@ -357,7 +357,7 @@ public class CrearEditarTarjetasActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putInt("tarjetaEstilo", seleccion);
                     editor.commit();
-                    Intent i = new Intent(CrearEditarTarjetasActivity.this, TarjetasSeleccionarLetraActivity.class);
+                    Intent i = new Intent(CrearEditarTarjetasActivity.this, VisualizarTarjetaActivity.class);
                     startActivity(i);
                 }
             }

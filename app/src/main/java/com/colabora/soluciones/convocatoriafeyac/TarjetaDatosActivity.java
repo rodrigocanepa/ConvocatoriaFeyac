@@ -67,7 +67,7 @@ public class TarjetaDatosActivity extends AppCompatActivity {
                 editor.putString("tarjetaInstagram", editInstagram.getText().toString());
                 editor.commit();
 
-                Intent i = new Intent(TarjetaDatosActivity.this, VisualizarTarjetaActivity.class);
+                Intent i = new Intent(TarjetaDatosActivity.this, TarjetasSeleccionarLetraActivity.class);
                 startActivity(i);
             }
         });

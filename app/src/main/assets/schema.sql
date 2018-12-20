@@ -28,3 +28,5 @@ CREATE TABLE "proveedores" ("id" INTEGER PRIMARY KEY AUTOINCREMENT,
                         "direccion" TEXT,
                         "telefono" TEXT,
                         "horario" TEXT);
+CREATE TABLE "conceptos" ("id" INTEGER PRIMARY KEY AUTOINCREMENT,
+                        "nombre" TEXT);

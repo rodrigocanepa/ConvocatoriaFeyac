@@ -195,7 +195,7 @@ public class TarjetasSeleccionarLetraActivity extends AppCompatActivity {
                     editor.putInt("tarjetaLetra", seleccion);
                     editor.commit();
 
-                    Intent i = new Intent(TarjetasSeleccionarLetraActivity.this, TarjetaDatosActivity.class);
+                    Intent i = new Intent(TarjetasSeleccionarLetraActivity.this, CrearEditarTarjetasActivity.class);
                     startActivity(i);
                 }
             }

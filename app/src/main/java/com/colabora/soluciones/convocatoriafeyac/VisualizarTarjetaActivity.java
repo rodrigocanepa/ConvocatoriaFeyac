@@ -3,6 +3,8 @@ package com.colabora.soluciones.convocatoriafeyac;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Environment;
@@ -15,7 +17,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -101,7 +108,12 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
     private LinearLayout linearInstagram2;
     private LinearLayout linearInstagram3;
 
+    private ImageView imgLogo;
+    private ImageView qr1;
+    private ImageView qr2;
+
     private boolean resume = false;
+    public final static int QRcodeWidth = 500 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +180,24 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
 
         btnCompartir = (Button) findViewById(R.id.btnCompartirTarjeta);
         btnGuardar = (Button) findViewById(R.id.btnGuardarTarjeta);
+        qr1 = (ImageView) findViewById(R.id.qrTipo1);
+        qr2 = (ImageView) findViewById(R.id.qrTipo2);
+
+        qr1.setVisibility(View.INVISIBLE);
+        qr2.setVisibility(View.INVISIBLE);
+
+        imgLogo = (ImageView) findViewById(R.id.imgTarjetaLogo);
+
+        File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+        if(!folder.exists())
+            folder.mkdirs();
+        File file = new File(folder, "logoEmpresa.png");
+
+        if(file.exists()){
+
+            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            imgLogo.setImageBitmap(myBitmap);
+        }
 
         typeface1 = Typeface.createFromAsset(getAssets(), "Anton-Regular.ttf");
         typeface2 = Typeface.createFromAsset(getAssets(), "Boogaloo-Regular.ttf");
@@ -417,8 +447,16 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
         if(seleccionEstiloTarjeta == 1){
             linearLayout1.setVisibility(View.VISIBLE);
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras_1).into(imgView1);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente1).into(imgView2);
+            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente__1).into(imgView2);
 
+            if(pagina.length() > 0){
+                try {
+                    qr1.setImageBitmap(TextToImageEncode(pagina));
+                    qr1.setVisibility(View.VISIBLE);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+            }
             txtNombre1.setText(nombre);
             txtCargo1.setText(puesto);
             txtTelefono1.setText(numero);
@@ -433,6 +471,15 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
             linearLayout1.setVisibility(View.VISIBLE);
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras2).into(imgView1);
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente2).into(imgView2);
+
+            if(pagina.length() > 0){
+                try {
+                    qr1.setImageBitmap(TextToImageEncode(pagina));
+                    qr1.setVisibility(View.VISIBLE);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+            }
 
             txtNombre1.setText(nombre);
             txtCargo1.setText(puesto);
@@ -449,6 +496,14 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras3).into(imgView1);
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente3).into(imgView2);
 
+            if(pagina.length() > 0){
+                try {
+                    qr1.setImageBitmap(TextToImageEncode(pagina));
+                    qr1.setVisibility(View.VISIBLE);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+            }
 
             txtNombre2.setText(nombre);
             txtCargo2.setText(puesto);
@@ -465,6 +520,15 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras4).into(imgView1);
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente4).into(imgView2);
 
+            if(pagina.length() > 0){
+                try {
+                    qr2.setImageBitmap(TextToImageEncode(pagina));
+                    qr2.setVisibility(View.VISIBLE);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+            }
+
             txtNombre3.setText(nombre);
             txtCargo3.setText(puesto);
             txtTelefono3.setText(numero);
@@ -479,6 +543,15 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
             linearLayout1.setVisibility(View.VISIBLE);
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras_5).into(imgView1);
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente5).into(imgView2);
+
+            if(pagina.length() > 0){
+                try {
+                    qr1.setImageBitmap(TextToImageEncode(pagina));
+                    qr1.setVisibility(View.VISIBLE);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+            }
 
             txtNombre1.setText(nombre);
             txtCargo1.setText(puesto);
@@ -495,6 +568,15 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras6).into(imgView1);
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente6).into(imgView2);
 
+            if(pagina.length() > 0){
+                try {
+                    qr1.setImageBitmap(TextToImageEncode(pagina));
+                    qr1.setVisibility(View.VISIBLE);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+            }
+
             txtNombre2.setText(nombre);
             txtCargo2.setText(puesto);
             txtTelefono2.setText(numero);
@@ -508,7 +590,16 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
         if(seleccionEstiloTarjeta == 7){
             linearLayout1.setVisibility(View.VISIBLE);
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras7).into(imgView1);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente7).into(imgView2);
+            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente__7).into(imgView2);
+
+            if(pagina.length() > 0){
+                try {
+                    qr1.setImageBitmap(TextToImageEncode(pagina));
+                    qr1.setVisibility(View.VISIBLE);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+            }
 
             txtNombre1.setText(nombre);
             txtCargo1.setText(puesto);
@@ -525,6 +616,15 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras8).into(imgView1);
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente8).into(imgView2);
 
+            if(pagina.length() > 0){
+                try {
+                    qr1.setImageBitmap(TextToImageEncode(pagina));
+                    qr1.setVisibility(View.VISIBLE);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+            }
+
             txtNombre1.setText(nombre);
             txtCargo1.setText(puesto);
             txtTelefono1.setText(numero);
@@ -539,6 +639,15 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
             linearLayout2.setVisibility(View.VISIBLE);
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras9).into(imgView1);
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente9).into(imgView2);
+
+            if(pagina.length() > 0){
+                try {
+                    qr1.setImageBitmap(TextToImageEncode(pagina));
+                    qr1.setVisibility(View.VISIBLE);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+            }
 
             txtNombre2.setText(nombre);
             txtCargo2.setText(puesto);
@@ -555,6 +664,15 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras10).into(imgView1);
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente10).into(imgView2);
 
+            if(pagina.length() > 0){
+                try {
+                    qr2.setImageBitmap(TextToImageEncode(pagina));
+                    qr2.setVisibility(View.VISIBLE);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+            }
+
             txtNombre3.setText(nombre);
             txtCargo3.setText(puesto);
             txtTelefono3.setText(numero);
@@ -570,6 +688,14 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras11).into(imgView1);
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente11).into(imgView2);
 
+            if(pagina.length() > 0){
+                try {
+                    qr1.setImageBitmap(TextToImageEncode(pagina));
+                    qr1.setVisibility(View.VISIBLE);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+            }
 
             txtNombre1.setText(nombre);
             txtCargo1.setText(puesto);
@@ -586,6 +712,15 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras12).into(imgView1);
             Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente12).into(imgView2);
 
+            if(pagina.length() > 0){
+                try {
+                    qr1.setImageBitmap(TextToImageEncode(pagina));
+                    qr1.setVisibility(View.VISIBLE);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+            }
+
             txtNombre2.setText(nombre);
             txtCargo2.setText(puesto);
             txtTelefono2.setText(numero);
@@ -599,7 +734,75 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String numeroTarjeta = sharedPreferences.getString("numeroTarjeta", "");
 
+                File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+                if(!folder.exists())
+                    folder.mkdirs();
+                File file = new File(folder, "Tarjeta" + numeroTarjeta + "_detras.png");                    //old way
+                //Uri uri = Uri.fromFile(file);
+                if (file.exists ()) file.delete ();
+                try {
+
+                    relativeLayout1.setDrawingCacheEnabled(true);
+                    relativeLayout1.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                    //imgToUpload.layout(0, 0, imgToUpload.getMeasuredWidth(), imgToUpload.getMeasuredHeight());
+                    relativeLayout1.buildDrawingCache();
+                    Bitmap bitmap = Bitmap.createBitmap(relativeLayout1.getDrawingCache());
+
+                    FileOutputStream out = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    out.flush();
+                    out.close();
+
+                    // *********** Guardamos los principales datos de los nuevos usuarios *************
+                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("saveTarjetaDetras" + numeroTarjeta, true);
+                    editor.putBoolean("tarjeta" + numeroTarjeta, true);
+                    editor.commit();
+                    // ******************************************************************************
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+                folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+                if(!folder.exists())
+                    folder.mkdirs();
+                File file2 = new File(folder, "Tarjeta" + numeroTarjeta + "_frente.png");                    //old way
+                //Uri uri = Uri.fromFile(file);
+                if (file2.exists ()) file2.delete ();
+                try {
+
+                    relativeLayout2.setDrawingCacheEnabled(true);
+                    relativeLayout2.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                    //imgToUpload.layout(0, 0, imgToUpload.getMeasuredWidth(), imgToUpload.getMeasuredHeight());
+                    relativeLayout2.buildDrawingCache();
+                    Bitmap bitmap = Bitmap.createBitmap(relativeLayout2.getDrawingCache());
+
+                    FileOutputStream out = new FileOutputStream(file2);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    out.flush();
+                    out.close();
+
+
+                    // *********** Guardamos los principales datos de los nuevos usuarios *************
+                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("saveTarjetaFrente" + numeroTarjeta, true);
+                    editor.commit();
+                    // ******************************************************************************
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                Toast.makeText(getApplicationContext(), "Tarjeta guardada con éxito", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(VisualizarTarjetaActivity.this, MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
             }
         });
 
@@ -708,5 +911,39 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         resume = true;
+    }
+
+    private Bitmap TextToImageEncode(String Value) throws WriterException {
+        BitMatrix bitMatrix;
+        try {
+            bitMatrix = new MultiFormatWriter().encode(
+                    Value,
+                    BarcodeFormat.DATA_MATRIX.QR_CODE,
+                    QRcodeWidth, QRcodeWidth, null
+            );
+
+        } catch (IllegalArgumentException Illegalargumentexception) {
+
+            return null;
+        }
+        int bitMatrixWidth = bitMatrix.getWidth();
+
+        int bitMatrixHeight = bitMatrix.getHeight();
+
+        int[] pixels = new int[bitMatrixWidth * bitMatrixHeight];
+
+        for (int y = 0; y < bitMatrixHeight; y++) {
+            int offset = y * bitMatrixWidth;
+
+            for (int x = 0; x < bitMatrixWidth; x++) {
+
+                pixels[offset + x] = bitMatrix.get(x, y) ?
+                        getResources().getColor(R.color.black):getResources().getColor(R.color.white);
+            }
+        }
+        Bitmap bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444);
+
+        bitmap.setPixels(pixels, 0, 500, 0, 0, bitMatrixWidth, bitMatrixHeight);
+        return bitmap;
     }
 }

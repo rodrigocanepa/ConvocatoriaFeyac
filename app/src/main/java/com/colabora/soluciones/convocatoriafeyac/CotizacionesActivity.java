@@ -1,33 +1,51 @@
 package com.colabora.soluciones.convocatoriafeyac;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.colabora.soluciones.convocatoriafeyac.Db.Querys;
+import com.colabora.soluciones.convocatoriafeyac.Modelos.Concepto;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Conceptos;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Cotizacion;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.TemplatePDF;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.VerPDFDiagActivity;
+import com.vansuita.pickimage.bean.PickResult;
+import com.vansuita.pickimage.bundle.PickSetup;
+import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.listeners.IPickCancel;
+import com.vansuita.pickimage.listeners.IPickResult;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -172,6 +190,12 @@ public class CotizacionesActivity extends AppCompatActivity {
     private Spinner spinnerMes;
     private Spinner spinnerAnio;
     private List<Cotizacion> cotizacionesFiltradas = new ArrayList<Cotizacion>();
+    private Button btnVerMisConceptos;
+    private Button btnAnadirConcepto;
+
+    private TextInputEditText editNuevoConcepto;
+    private ListView listViewConceptos;
+    private List<Concepto> conceptos;
 
 
     @Override
@@ -183,7 +207,11 @@ public class CotizacionesActivity extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.recyclerCotizaciones);
         spinnerAnio = (Spinner)findViewById(R.id.spinnerCotizacionAnio);
         spinnerMes = (Spinner)findViewById(R.id.spinnerCotizacionMes);
+        btnAnadirConcepto = (Button)findViewById(R.id.btnAgregarConceptos);
+        btnVerMisConceptos = (Button)findViewById(R.id.btnVerMisConceptos);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        querys = new Querys(getApplicationContext());
 
         meses.add("Mostrar todos");
         meses.add("Enero");
@@ -443,12 +471,94 @@ public class CotizacionesActivity extends AppCompatActivity {
             }
         });
 
-        querys = new Querys(getApplicationContext());
         cotizaciones = querys.getAllCotizaciones();
 
         // *********** LLENAMOS EL RECYCLER VIEW *****************************
         adapter = new CotizacionesActivity.DataConfigAdapter(cotizaciones, getApplicationContext());
         recyclerView.setAdapter(adapter);
+
+        if(cotizaciones.size() == 0){
+            Toast.makeText(getApplicationContext(), "Aún no tienes cotizaciones en tu historial", Toast.LENGTH_LONG).show();
+        }
+
+
+        btnAnadirConcepto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(CotizacionesActivity.this);
+
+                // Get the layout inflater
+                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View formElementsView = inflater.inflate(R.layout.dialog_db_concepto,
+                        null, false);
+
+                editNuevoConcepto = (TextInputEditText)formElementsView.findViewById(R.id.txtNuevoConcepto);
+
+                builder.setTitle("Nuevo concepto");
+                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(editNuevoConcepto.getText().toString().length() > 0){
+                            Concepto concepto = new Concepto(editNuevoConcepto.getText().toString());
+                            querys.insertConcepto(concepto);
+                            Toast.makeText(getApplicationContext(), "Concepto guardado con éxito", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(), "Introduce un concepto válido", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                builder.setView(formElementsView);
+                // Add action buttons
+                builder.create();
+                builder.show();
+            }
+        });
+
+        btnVerMisConceptos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(CotizacionesActivity.this);
+
+                // Get the layout inflater
+                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View formElementsView = inflater.inflate(R.layout.dialog_lista_conceptos,
+                        null, false);
+
+                listViewConceptos = (ListView) formElementsView.findViewById(R.id.listViewConceptos);
+
+                conceptos = querys.getAllConceptos();
+                final List<String> conc = new ArrayList<>();
+
+                for(int i = 0; i < conceptos.size(); i++){
+                    conc.add(conceptos.get(i).getNombre());
+                }
+
+                ArrayAdapter<String> adaptador = new ArrayAdapter<String>(CotizacionesActivity.this, R.layout.support_simple_spinner_dropdown_item, conc);
+                listViewConceptos.setAdapter(adaptador);
+
+                builder.setTitle("Conceptos");
+                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
+                builder.setView(formElementsView);
+                // Add action buttons
+                builder.create();
+                builder.show();
+            }
+        });
 
     }
 

@@ -13,17 +13,21 @@ import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.colabora.soluciones.convocatoriafeyac.Modelos.Cliente;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.VerPDFDiagActivity;
 import com.github.barteksc.pdfviewer.util.FileUtils;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,6 +35,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.vansuita.pickimage.bean.PickResult;
+import com.vansuita.pickimage.bundle.PickSetup;
+import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.listeners.IPickCancel;
+import com.vansuita.pickimage.listeners.IPickResult;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -56,7 +65,14 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
 
-    private String nombreEmpresa = "";
+    private String nombreEmpresaMain = "";
+
+    private TextInputEditText editNombreEmpresa;
+    private TextInputEditText editNombreAdmin;
+    private TextInputEditText editCargoAdmin;
+    private TextInputEditText editTelefonoAdmin;
+    private ImageView imgLogo;
+    private TextView txtDialogFoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,36 +99,395 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setTitle("Descargando Archivo");
         progressDialog.setMessage("Espere un momento mientras la aplicación descarga el formato de proyección financiera base");
 
-        /*
+
         // Leemos la memoria para ver que tarjetas se han creado
         sharedPreferences = getSharedPreferences("misDatos", 0);
-        nombreEmpresa = sharedPreferences.getString("nombreEmpresa","");
-        if(nombreEmpresa.length() == 0){
-            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("Datos empresa");
-            builder.setMessage("Parece que aún no tenemos los datos guardados de su empresa, por favor, llene los campos correspondientes")
-                    .setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
+        nombreEmpresaMain = sharedPreferences.getString("nombreEmpresa","");
 
-                        }
-                    });// Create the AlertDialog object and return it
+        if(nombreEmpresaMain.length() == 0){
+            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+            // Get the layout inflater
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final View formElementsView = inflater.inflate(R.layout.dialog_perfil,
+                    null, false);
+
+            editNombreAdmin = (TextInputEditText) formElementsView.findViewById(R.id.txtDialogPerfilNombreAdmin);
+            editCargoAdmin = (TextInputEditText) formElementsView.findViewById(R.id.txtDialogPerfilCargoAdmin);
+            editNombreEmpresa = (TextInputEditText) formElementsView.findViewById(R.id.txtDialogPerfilNombreEmpresa);
+            editTelefonoAdmin = (TextInputEditText) formElementsView.findViewById(R.id.txtDialogPerfilNumeroAdmin);
+            imgLogo = (ImageView) formElementsView.findViewById(R.id.imgDialogLogotipo);
+            txtDialogFoto = (TextView) formElementsView.findViewById(R.id.txtDialogLogotipo);
+
+            imgLogo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PickImageDialog.build(new PickSetup().setTitle("Escoge una opción")
+                            .setCameraButtonText("Cámara")
+                            .setGalleryButtonText("Galería"))
+                            .setOnPickResult(new IPickResult() {
+                                @Override
+                                public void onPickResult(PickResult r) {
+                                    //TODO: do what you have to...
+                                    imgLogo.setImageBitmap(r.getBitmap());
+                                    txtDialogFoto.setText("Logotipo seleccionado con exito");
+                                    txtDialogFoto.setTextColor(Color.rgb(0,100,0));
+                                }
+                            })
+                            .setOnPickCancel(new IPickCancel() {
+                                @Override
+                                public void onCancelClick() {
+                                    //TODO: do what you have to if user clicked cancel
+                                }
+                            }).show(getSupportFragmentManager());
+                }
+            });
+
+            builder.setTitle("Mi perfil");
+            builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                    String nombreEmpresa = editNombreEmpresa.getText().toString();
+                    String cargoAdmin = editCargoAdmin.getText().toString();
+                    String nombreAdmin = editNombreAdmin.getText().toString();
+                    String telefonoAdmin = editTelefonoAdmin.getText().toString();
+
+                    // *********** Guardamos los principales datos de los nuevos usuarios *************
+                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("nombreEmpresa", nombreEmpresa);
+                    editor.putString("cargoAdmin", cargoAdmin);
+                    editor.putString("nombreAdmin", nombreAdmin);
+                    editor.putString("telefonoAdmin", telefonoAdmin);
+                    editor.commit();
+                    nombreEmpresaMain = sharedPreferences.getString("nombreEmpresa","");
+                    // ******************************************************************************
+
+                    File folder = new File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+
+                    if(!folder.exists())
+                        folder.mkdirs();
+                    File file = new File(folder, "logoEmpresa.png");
+
+                    imgLogo.setDrawingCacheEnabled(true);
+                    imgLogo.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                    //imgToUpload.layout(0, 0, imgToUpload.getMeasuredWidth(), imgToUpload.getMeasuredHeight());
+                    imgLogo.buildDrawingCache();
+                    Bitmap bitmap = Bitmap.createBitmap(imgLogo.getDrawingCache());
+
+                    if (file.exists ()) file.delete ();
+                    try {
+                        FileOutputStream out = new FileOutputStream(file);
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                        out.flush();
+                        out.close();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    Toast.makeText(getApplicationContext(), "Logo guardado con exito", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
+            // Inflate and set the layout for the dialog
+            // Pass null as the parent view because its going in the dialog layout
+            builder.setView(formElementsView);
+            // Add action buttons
             builder.create();
             builder.show();
-        }*/
+        }
 
         imgCotizaciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, CotizacionesActivity.class);
-                startActivity(i);
+                if(nombreEmpresaMain.length() == 0){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Información");
+                    builder.setMessage("Debes completar los datos de tu empresa antes de avanzar")
+                            .setPositiveButton("Ir a mi perfil", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+                                    // Get the layout inflater
+                                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                                    final View formElementsView = inflater.inflate(R.layout.dialog_perfil,
+                                            null, false);
+
+                                    editNombreAdmin = (TextInputEditText) formElementsView.findViewById(R.id.txtDialogPerfilNombreAdmin);
+                                    editCargoAdmin = (TextInputEditText) formElementsView.findViewById(R.id.txtDialogPerfilCargoAdmin);
+                                    editNombreEmpresa = (TextInputEditText) formElementsView.findViewById(R.id.txtDialogPerfilNombreEmpresa);
+                                    editTelefonoAdmin = (TextInputEditText) formElementsView.findViewById(R.id.txtDialogPerfilNumeroAdmin);
+                                    imgLogo = (ImageView) formElementsView.findViewById(R.id.imgDialogLogotipo);
+                                    txtDialogFoto = (TextView) formElementsView.findViewById(R.id.txtDialogLogotipo);
+
+                                    // Leemos la memoria para ver que tarjetas se han creado
+                                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                                    editNombreAdmin.setText(sharedPreferences.getString("nombreAdmin",""));
+                                    editCargoAdmin.setText(sharedPreferences.getString("cargoAdmin",""));
+                                    editNombreEmpresa.setText(sharedPreferences.getString("nombreEmpresa",""));
+                                    editTelefonoAdmin.setText(sharedPreferences.getString("telefonoAdmin",""));
+
+                                    File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+                                    if(!folder.exists())
+                                        folder.mkdirs();
+                                    File file = new File(folder, "logoEmpresa.png");
+
+                                    if(file.exists()){
+
+                                        Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                                        imgLogo.setImageBitmap(myBitmap);
+                                        txtDialogFoto.setText("Logotipo seleccionado con exito");
+                                        txtDialogFoto.setTextColor(Color.rgb(0,100,0));
+                                    }
+
+
+                                    imgLogo.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            PickImageDialog.build(new PickSetup().setTitle("Escoge una opción")
+                                                    .setCameraButtonText("Cámara")
+                                                    .setGalleryButtonText("Galería"))
+                                                    .setOnPickResult(new IPickResult() {
+                                                        @Override
+                                                        public void onPickResult(PickResult r) {
+                                                            //TODO: do what you have to...
+                                                            imgLogo.setImageBitmap(r.getBitmap());
+                                                            txtDialogFoto.setText("Logotipo seleccionado con exito");
+                                                            txtDialogFoto.setTextColor(Color.rgb(0,100,0));
+                                                        }
+                                                    })
+                                                    .setOnPickCancel(new IPickCancel() {
+                                                        @Override
+                                                        public void onCancelClick() {
+                                                            //TODO: do what you have to if user clicked cancel
+                                                        }
+                                                    }).show(getSupportFragmentManager());
+                                        }
+                                    });
+
+                                    builder.setTitle("Mi perfil");
+                                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                            String nombreEmpresa = editNombreEmpresa.getText().toString();
+                                            String cargoAdmin = editCargoAdmin.getText().toString();
+                                            String nombreAdmin = editNombreAdmin.getText().toString();
+                                            String telefonoAdmin = editTelefonoAdmin.getText().toString();
+
+                                            // *********** Guardamos los principales datos de los nuevos usuarios *************
+                                            sharedPreferences = getSharedPreferences("misDatos", 0);
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString("nombreEmpresa", nombreEmpresa);
+                                            editor.putString("cargoAdmin", cargoAdmin);
+                                            editor.putString("nombreAdmin", nombreAdmin);
+                                            editor.putString("telefonoAdmin", telefonoAdmin);
+                                            editor.commit();
+                                            nombreEmpresaMain = sharedPreferences.getString("nombreEmpresa","");
+                                            // ******************************************************************************
+
+                                            File folder = new File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+
+                                            if(!folder.exists())
+                                                folder.mkdirs();
+                                            File file = new File(folder, "logoEmpresa.png");
+
+                                            imgLogo.setDrawingCacheEnabled(true);
+                                            imgLogo.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                                            //imgToUpload.layout(0, 0, imgToUpload.getMeasuredWidth(), imgToUpload.getMeasuredHeight());
+                                            imgLogo.buildDrawingCache();
+                                            Bitmap bitmap = Bitmap.createBitmap(imgLogo.getDrawingCache());
+
+                                            if (file.exists ()) file.delete ();
+                                            try {
+                                                FileOutputStream out = new FileOutputStream(file);
+                                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                                                out.flush();
+                                                out.close();
+
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+
+                                            Toast.makeText(getApplicationContext(), "Logo guardado con exito", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    });
+
+                                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    });
+
+                                    // Inflate and set the layout for the dialog
+                                    // Pass null as the parent view because its going in the dialog layout
+                                    builder.setView(formElementsView);
+                                    // Add action buttons
+                                    builder.create();
+                                    builder.show();
+
+                                }
+                            });
+                    // Create the AlertDialog object and return it
+                    builder.create();
+                    builder.show();
+                }
+                else{
+                    Intent i = new Intent(MainActivity.this, CotizacionesActivity.class);
+                    startActivity(i);
+                }
+
             }
         });
 
         imgTarjetas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, TarjetasActivity.class);
-                startActivity(i);
+                if(nombreEmpresaMain.length() == 0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Información");
+                    builder.setMessage("Debes completar los datos de tu empresa antes de avanzar")
+                            .setPositiveButton("Ir a mi perfil", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+                                    // Get the layout inflater
+                                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                                    final View formElementsView = inflater.inflate(R.layout.dialog_perfil,
+                                            null, false);
+
+                                    editNombreAdmin = (TextInputEditText) formElementsView.findViewById(R.id.txtDialogPerfilNombreAdmin);
+                                    editCargoAdmin = (TextInputEditText) formElementsView.findViewById(R.id.txtDialogPerfilCargoAdmin);
+                                    editNombreEmpresa = (TextInputEditText) formElementsView.findViewById(R.id.txtDialogPerfilNombreEmpresa);
+                                    editTelefonoAdmin = (TextInputEditText) formElementsView.findViewById(R.id.txtDialogPerfilNumeroAdmin);
+                                    imgLogo = (ImageView) formElementsView.findViewById(R.id.imgDialogLogotipo);
+                                    txtDialogFoto = (TextView) formElementsView.findViewById(R.id.txtDialogLogotipo);
+
+                                    // Leemos la memoria para ver que tarjetas se han creado
+                                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                                    editNombreAdmin.setText(sharedPreferences.getString("nombreAdmin", ""));
+                                    editCargoAdmin.setText(sharedPreferences.getString("cargoAdmin", ""));
+                                    editNombreEmpresa.setText(sharedPreferences.getString("nombreEmpresa", ""));
+                                    editTelefonoAdmin.setText(sharedPreferences.getString("telefonoAdmin", ""));
+
+                                    File folder = new File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+                                    if (!folder.exists())
+                                        folder.mkdirs();
+                                    File file = new File(folder, "logoEmpresa.png");
+
+                                    if (file.exists()) {
+
+                                        Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                                        imgLogo.setImageBitmap(myBitmap);
+                                        txtDialogFoto.setText("Logotipo seleccionado con exito");
+                                        txtDialogFoto.setTextColor(Color.rgb(0, 100, 0));
+                                    }
+
+
+                                    imgLogo.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            PickImageDialog.build(new PickSetup().setTitle("Escoge una opción")
+                                                    .setCameraButtonText("Cámara")
+                                                    .setGalleryButtonText("Galería"))
+                                                    .setOnPickResult(new IPickResult() {
+                                                        @Override
+                                                        public void onPickResult(PickResult r) {
+                                                            //TODO: do what you have to...
+                                                            imgLogo.setImageBitmap(r.getBitmap());
+                                                            txtDialogFoto.setText("Logotipo seleccionado con exito");
+                                                            txtDialogFoto.setTextColor(Color.rgb(0, 100, 0));
+                                                        }
+                                                    })
+                                                    .setOnPickCancel(new IPickCancel() {
+                                                        @Override
+                                                        public void onCancelClick() {
+                                                            //TODO: do what you have to if user clicked cancel
+                                                        }
+                                                    }).show(getSupportFragmentManager());
+                                        }
+                                    });
+
+                                    builder.setTitle("Mi perfil");
+                                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                            String nombreEmpresa = editNombreEmpresa.getText().toString();
+                                            String cargoAdmin = editCargoAdmin.getText().toString();
+                                            String nombreAdmin = editNombreAdmin.getText().toString();
+                                            String telefonoAdmin = editTelefonoAdmin.getText().toString();
+
+                                            // *********** Guardamos los principales datos de los nuevos usuarios *************
+                                            sharedPreferences = getSharedPreferences("misDatos", 0);
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString("nombreEmpresa", nombreEmpresa);
+                                            editor.putString("cargoAdmin", cargoAdmin);
+                                            editor.putString("nombreAdmin", nombreAdmin);
+                                            editor.putString("telefonoAdmin", telefonoAdmin);
+                                            editor.commit();
+                                            nombreEmpresaMain = sharedPreferences.getString("nombreEmpresa","");
+                                            // ******************************************************************************
+
+                                            File folder = new File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+
+                                            if (!folder.exists())
+                                                folder.mkdirs();
+                                            File file = new File(folder, "logoEmpresa.png");
+
+                                            imgLogo.setDrawingCacheEnabled(true);
+                                            imgLogo.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                                            //imgToUpload.layout(0, 0, imgToUpload.getMeasuredWidth(), imgToUpload.getMeasuredHeight());
+                                            imgLogo.buildDrawingCache();
+                                            Bitmap bitmap = Bitmap.createBitmap(imgLogo.getDrawingCache());
+
+                                            if (file.exists()) file.delete();
+                                            try {
+                                                FileOutputStream out = new FileOutputStream(file);
+                                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                                                out.flush();
+                                                out.close();
+
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+
+                                            Toast.makeText(getApplicationContext(), "Logo guardado con exito", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    });
+
+                                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    });
+
+                                    // Inflate and set the layout for the dialog
+                                    // Pass null as the parent view because its going in the dialog layout
+                                    builder.setView(formElementsView);
+                                    // Add action buttons
+                                    builder.create();
+                                    builder.show();
+
+                                }
+                            });
+                    // Create the AlertDialog object and return it
+                    builder.create();
+                    builder.show();
+
+                }
+                else{
+                    Intent i = new Intent(MainActivity.this, TarjetasActivity.class);
+                    startActivity(i);
+                }
+
             }
         });
 
@@ -235,7 +610,127 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_Perfil) {
-            return true;
+            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+            // Get the layout inflater
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final View formElementsView = inflater.inflate(R.layout.dialog_perfil,
+                    null, false);
+
+            editNombreAdmin = (TextInputEditText) formElementsView.findViewById(R.id.txtDialogPerfilNombreAdmin);
+            editCargoAdmin = (TextInputEditText) formElementsView.findViewById(R.id.txtDialogPerfilCargoAdmin);
+            editNombreEmpresa = (TextInputEditText) formElementsView.findViewById(R.id.txtDialogPerfilNombreEmpresa);
+            editTelefonoAdmin = (TextInputEditText) formElementsView.findViewById(R.id.txtDialogPerfilNumeroAdmin);
+            imgLogo = (ImageView) formElementsView.findViewById(R.id.imgDialogLogotipo);
+            txtDialogFoto = (TextView) formElementsView.findViewById(R.id.txtDialogLogotipo);
+
+            // Leemos la memoria para ver que tarjetas se han creado
+            sharedPreferences = getSharedPreferences("misDatos", 0);
+            editNombreAdmin.setText(sharedPreferences.getString("nombreAdmin",""));
+            editCargoAdmin.setText(sharedPreferences.getString("cargoAdmin",""));
+            editNombreEmpresa.setText(sharedPreferences.getString("nombreEmpresa",""));
+            editTelefonoAdmin.setText(sharedPreferences.getString("telefonoAdmin",""));
+
+            File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+            if(!folder.exists())
+                folder.mkdirs();
+            File file = new File(folder, "logoEmpresa.png");
+
+            if(file.exists()){
+
+                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                imgLogo.setImageBitmap(myBitmap);
+                txtDialogFoto.setText("Logotipo seleccionado con exito");
+                txtDialogFoto.setTextColor(Color.rgb(0,100,0));
+            }
+
+
+            imgLogo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PickImageDialog.build(new PickSetup().setTitle("Escoge una opción")
+                            .setCameraButtonText("Cámara")
+                            .setGalleryButtonText("Galería"))
+                            .setOnPickResult(new IPickResult() {
+                                @Override
+                                public void onPickResult(PickResult r) {
+                                    //TODO: do what you have to...
+                                    imgLogo.setImageBitmap(r.getBitmap());
+                                    txtDialogFoto.setText("Logotipo seleccionado con exito");
+                                    txtDialogFoto.setTextColor(Color.rgb(0,100,0));
+                                }
+                            })
+                            .setOnPickCancel(new IPickCancel() {
+                                @Override
+                                public void onCancelClick() {
+                                    //TODO: do what you have to if user clicked cancel
+                                }
+                            }).show(getSupportFragmentManager());
+                }
+            });
+
+            builder.setTitle("Mi perfil");
+            builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                    String nombreEmpresa = editNombreEmpresa.getText().toString();
+                    String cargoAdmin = editCargoAdmin.getText().toString();
+                    String nombreAdmin = editNombreAdmin.getText().toString();
+                    String telefonoAdmin = editTelefonoAdmin.getText().toString();
+
+                    // *********** Guardamos los principales datos de los nuevos usuarios *************
+                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("nombreEmpresa", nombreEmpresa);
+                    editor.putString("cargoAdmin", cargoAdmin);
+                    editor.putString("nombreAdmin", nombreAdmin);
+                    editor.putString("telefonoAdmin", telefonoAdmin);
+                    editor.commit();
+                    nombreEmpresaMain = sharedPreferences.getString("nombreEmpresa","");
+                    // ******************************************************************************
+
+                    File folder = new File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+
+                    if(!folder.exists())
+                        folder.mkdirs();
+                    File file = new File(folder, "logoEmpresa.png");
+
+                    imgLogo.setDrawingCacheEnabled(true);
+                    imgLogo.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                    //imgToUpload.layout(0, 0, imgToUpload.getMeasuredWidth(), imgToUpload.getMeasuredHeight());
+                    imgLogo.buildDrawingCache();
+                    Bitmap bitmap = Bitmap.createBitmap(imgLogo.getDrawingCache());
+
+                    if (file.exists ()) file.delete ();
+                    try {
+                        FileOutputStream out = new FileOutputStream(file);
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                        out.flush();
+                        out.close();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    Toast.makeText(getApplicationContext(), "Logo guardado con exito", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
+            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+
+            // Inflate and set the layout for the dialog
+            // Pass null as the parent view because its going in the dialog layout
+            builder.setView(formElementsView);
+            // Add action buttons
+            builder.create();
+            builder.show();
         }
         else if(id == R.id.action_Cerrar){
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);

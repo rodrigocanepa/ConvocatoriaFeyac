@@ -12,7 +12,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.colabora.soluciones.convocatoriafeyac.Modelos.PreguntasDiagnostico;
+import com.colabora.soluciones.convocatoriafeyac.Modelos.RadarMarkerView;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.TemplatePDF;
+import com.github.mikephil.charting.charts.RadarChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.MarkerView;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.RadarData;
+import com.github.mikephil.charting.data.RadarDataSet;
+import com.github.mikephil.charting.data.RadarEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -49,6 +61,8 @@ public class RealizarDiagnosticoActivity extends AppCompatActivity {
     protected Typeface mMontserrat;
     private String UUIDUser = "";
 
+    private RadarChart mChart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +74,63 @@ public class RealizarDiagnosticoActivity extends AppCompatActivity {
         btnNo = (Button) findViewById(R.id.btnEstatusActualNo);
         btnNoSe = (Button) findViewById(R.id.btnEstatusActualNoSe);
         btnSiguiente = (Button) findViewById(R.id.btnEstatusActualSigPregunta);
+        mChart = (RadarChart)findViewById(R.id.chartEstatusActualDiagnostico);
+
+        // ********************************************** GRÁFICA ****************************************************
+        mMontserrat = Typeface.createFromAsset(getAssets(), "Montserrat-Regular.ttf");
+        mChart.getDescription().setEnabled(false);
+
+        mChart.setWebLineWidth(1f);
+        mChart.setWebColor(Color.BLACK);
+        mChart.setWebLineWidthInner(1f);
+        mChart.setWebColorInner(Color.BLACK);
+        mChart.setWebAlpha(100);
+
+        // create a custom MarkerView (extend MarkerView) and specify the layout
+        // to use for it
+        MarkerView mv = new RadarMarkerView(getApplicationContext(), R.layout.radar_markerview);
+        mv.setChartView(mChart); // For bounds control
+        mChart.setMarker(mv); // Set the marker to the chart
+
+        //mChart.animateXY(2000, 2000);
+
+        XAxis xAxis = mChart.getXAxis();
+        xAxis.setTypeface(mMontserrat);
+        xAxis.setTextSize(9f);
+        xAxis.setYOffset(0f);
+        xAxis.setXOffset(0f);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+
+            private String[] mActivities = new String[]{"Planeación", "Ventas", "Contabilidad", "Legal", "Innovación", "Procuración"};
+
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return mActivities[(int) value % mActivities.length];
+            }
+        });
+        xAxis.setTextColor(Color.BLACK);
+
+        YAxis yAxis = mChart.getYAxis();
+        yAxis.setTypeface(mMontserrat);
+        yAxis.setLabelCount(6, false);
+        yAxis.setTextSize(9f);
+        yAxis.setAxisMinimum(0f);
+        yAxis.setAxisMaximum(9);
+        yAxis.setDrawLabels(false);
+
+        Legend l = mChart.getLegend();
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        l.setDrawInside(true);
+        l.setTypeface(mMontserrat);
+        l.setXEntrySpace(7f);
+        l.setYEntrySpace(5f);
+        l.setTextColor(Color.WHITE);
+
+        mChart.getLegend().setEnabled(false);
+        mChart.setVisibility(View.INVISIBLE);
+        // ***********************************************************************************************************
 
         // ***********************************************************************************************************
         preguntas.add(new PreguntasDiagnostico("Planeación Estratégica", "1. Se tienen metas y objetivos claros y específicos para los próximos 3 a 5 años.", false, ""));
@@ -276,7 +347,9 @@ public class RealizarDiagnosticoActivity extends AppCompatActivity {
                     }
                     else if (contador >= 50 && contador < 60){
                         if(preguntas.get(contador).isEstaRespondida()){
-                            contadorProcuracion++;
+                            if(preguntas.get(contador).getRespuesta().equals("Si")){
+                                contadorProcuracion++;
+                            }
                             if(contador == 59){
                                 // *********** Guardamos el dato de la ubicación actual del usuario *************
                                 misDatos = getSharedPreferences("misDatos", 0);
@@ -298,6 +371,7 @@ public class RealizarDiagnosticoActivity extends AppCompatActivity {
                                 templatePDF.addImage(getApplicationContext());
                                 templatePDF.addTitles("DIAGNÓSTICO: ESTATUS ACTUAL", "Debido a la estadística de crecimiento de las empresas, nos preocupamos por conocer las áreas de oportunidades donde podemos aportarles un beneficio para sus negocios garantizando la mejora continua. El siguiente diagnostico está diseñado para conocer un poco más sobre su empresa y necesidades.",date);
                                 templatePDF.addParagraph("Las siguientes preguntas son para determinar un diagnóstico más personalizado sobre los requerimientos que considera que pueda tener en su empresa y las actividades que debe realizar para mejorar la solidez de su startup y encontrar áreas de oportunidad. Esto será analizado por consultores expertos también si ellos lo requieren. Toda la información proporcionada será únicamente para fines de análisis empresarial y no será publicado o reproducido por algún otro medio. A partir de este momento nos comprometemos a su confidencialidad.");
+                                templatePDF.addLine();
 
                                 for(int i = 0; i < 10; i ++){
                                     if(!preguntas.get(i).getRespuesta().equals("Si")){
@@ -330,31 +404,44 @@ public class RealizarDiagnosticoActivity extends AppCompatActivity {
                                     }
                                 }
 
-                                templatePDF.addSectionsCenter("Planeación Estratégica");
-                                templatePDF.addParagraph("La planeación estratégica es trazar el camino que se quiere seguir para lograr los objetivos de la empresa, se trata de conocer el entorno, la competencia, el mercado, los factores que pueden afectar tanto positiva como negativamente a la empresa.\n" +
-                                        "Sin la planeación estratégica tu emprendimiento  marcharía sin rumbo al mercado, con el peligro de perderse en el camino.");
-                                templatePDF.createTableWith2SameLengthcell(headerPreguntas, respuestas);
+                                if(respuestas.size() > 0){
+                                    templatePDF.addSectionsCenter("Planeación Estratégica");
+                                    templatePDF.addParagraph("La planeación estratégica es trazar el camino que se quiere seguir para lograr los objetivos de la empresa, se trata de conocer el entorno, la competencia, el mercado, los factores que pueden afectar tanto positiva como negativamente a la empresa.\n" +
+                                            "Sin la planeación estratégica tu emprendimiento  marcharía sin rumbo al mercado, con el peligro de perderse en el camino.");
+                                    templatePDF.createTableWith2SameLengthcell(headerPreguntas, respuestas);
+                                }
 
-                                templatePDF.addSectionsCenter("Ventas y Mercadotecnia");
-                                templatePDF.addParagraph("Una empresa no puede sovrevivir siin ventas ni mercadotecnia, si no hay ingresos por ventas de productos o servicios, no habra el recurso para pagar los salarios, costos y utilidades, es por eso que es necesario planear estrategias de comercialización, conocer el mercado, la competencia, el precio, margen de utilidad y el punto de equilibrio de cada producto o servicio que ofrece la empresa.");
-                                templatePDF.createTableWith2SameLengthcell(headerPreguntas, respuestasVentas);
+                                if(respuestasVentas.size() > 0){
+                                    templatePDF.addSectionsCenter("Ventas y Mercadotecnia");
+                                    templatePDF.addParagraph("Una empresa no puede sovrevivir siin ventas ni mercadotecnia, si no hay ingresos por ventas de productos o servicios, no habra el recurso para pagar los salarios, costos y utilidades, es por eso que es necesario planear estrategias de comercialización, conocer el mercado, la competencia, el precio, margen de utilidad y el punto de equilibrio de cada producto o servicio que ofrece la empresa.");
+                                    templatePDF.createTableWith2SameLengthcell(headerPreguntas, respuestasVentas);
+                                }
 
-                                templatePDF.addSectionsCenter("Contabilidad y Finanzas");
-                                templatePDF.addParagraph("Los registros contables en una empresa son esenciales para su éxito, ya que, además de ayudar en la toma de decisiones estratégicas, es la manera de evaluar constantemente el estado de sus finanzas y garantizar su rentabilidad.");
-                                templatePDF.createTableWith2SameLengthcell(headerPreguntas, respuestasContabilidad);
+                                if(respuestasContabilidad.size() > 0){
+                                    templatePDF.addSectionsCenter("Contabilidad y Finanzas");
+                                    templatePDF.addParagraph("Los registros contables en una empresa son esenciales para su éxito, ya que, además de ayudar en la toma de decisiones estratégicas, es la manera de evaluar constantemente el estado de sus finanzas y garantizar su rentabilidad.");
+                                    templatePDF.createTableWith2SameLengthcell(headerPreguntas, respuestasContabilidad);
+                                }
 
-                                templatePDF.addSectionsCenter("Legal, Administración y R. H.");
-                                templatePDF.addParagraph("Dependiendo del lugar donde opere una empresa, hay normas y leyes que se tienen que cumplir y respetar, si no se tiene un buen asesoramiento legal, la empresa corre el riesgo de ser sancionada o clausurada temporal o definitivamente.");
-                                templatePDF.createTableWith2SameLengthcell(headerPreguntas, respuestasLegal);
+                                if(respuestasLegal.size() > 0){
+                                    templatePDF.addSectionsCenter("Legal, Administración y Recursos Humanos");
+                                    templatePDF.addParagraph("Dependiendo del lugar donde opere una empresa, hay normas y leyes que se tienen que cumplir y respetar, si no se tiene un buen asesoramiento legal, la empresa corre el riesgo de ser sancionada o clausurada temporal o definitivamente.");
+                                    templatePDF.createTableWith2SameLengthcell(headerPreguntas, respuestasLegal);
+                                }
 
-                                templatePDF.addSectionsCenter("Innovación, Tecnología y Procesos");
-                                templatePDF.addParagraph("Cada empresa debe ser conciente de sus procesos diarios que harán que logren alcanzar sus metas propuestas; esto involucra una administración de recursos humanos, tecnológicos y financieros que trabajando unido como un engranaje, logran que la empresa sea productiva y competitiva y darán un valor agregado entre sus competidores.");
-                                templatePDF.createTableWith2SameLengthcell(headerPreguntas, respuestasInnovacion);
+                                if(respuestasInnovacion.size() > 0){
+                                    templatePDF.addSectionsCenter("Innovación, Tecnología y Procesos");
+                                    templatePDF.addParagraph("Cada empresa debe ser conciente de sus procesos diarios que harán que logren alcanzar sus metas propuestas; esto involucra una administración de recursos humanos, tecnológicos y financieros que trabajando unido como un engranaje, logran que la empresa sea productiva y competitiva y darán un valor agregado entre sus competidores.");
+                                    templatePDF.createTableWith2SameLengthcell(headerPreguntas, respuestasInnovacion);
+                                }
 
-                                templatePDF.addSectionsCenter("Procuración de Recursos");
-                                templatePDF.addParagraph("La procuración de recursos es un proceso para conseguir fondos, mediante la solicitud de donaciones de particulares, empresas, fundaciones benéficas, o agencias gubernamentales, para poder conseguir fondos requieres estar al día en ciertos trámites.");
-                                templatePDF.createTableWith2SameLengthcell(headerPreguntas, respuestasProcuracion);
+                                if(respuestasProcuracion.size() > 0){
+                                    templatePDF.addSectionsCenter("Procuración de Recursos");
+                                    templatePDF.addParagraph("La procuración de recursos es un proceso para conseguir fondos, mediante la solicitud de donaciones de particulares, empresas, fundaciones benéficas, o agencias gubernamentales, para poder conseguir fondos requieres estar al día en ciertos trámites.");
+                                    templatePDF.createTableWith2SameLengthcell(headerPreguntas, respuestasProcuracion);
+                                }
 
+                                templatePDF.addLine();
                                 templatePDF.addSections("Resultados Generales");
 
                                 int suma = contadorContabilidad + contadorProcuracion + contadorInnovacion + contadorLegal + contadorVentas + contadorPlaneacion;
@@ -370,6 +457,15 @@ public class RealizarDiagnosticoActivity extends AppCompatActivity {
                                 else if (suma > 45 && suma <= 60 ){
                                     templatePDF.addParagraph("Felicitaciones, tienes los conocimientos necesarios para llevar al éxito tu emprendimiento, tienes un dominio amplio en cada una de las áreas, sin embargo tienes algunos detalles de desinformación que si los dejas pasar, pueden perjudicar la operación de tu empresa, se te recomienda atender esos detalles puntuales con consultores experimentados.");
                                 }
+
+                                mChart.setVisibility(View.VISIBLE);
+                                setData(contadorPlaneacion, contadorVentas, contadorContabilidad, contadorLegal, contadorInnovacion, contadorProcuracion);
+                                Bitmap bitmap;
+                                mChart.setDrawingCacheEnabled(true);
+                                bitmap = Bitmap.createBitmap(mChart.getDrawingCache());
+                                mChart.setDrawingCacheEnabled(false);
+
+                                templatePDF.createGraficaFoto(getApplicationContext(), bitmap);
 
 
                                 Toast.makeText(getApplicationContext(), "Diagnóstico completado con éxito", Toast.LENGTH_LONG).show();
@@ -424,5 +520,69 @@ public class RealizarDiagnosticoActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    public void setData(final int puntosPlaneacion, final int puntosVentas, final int puntosContabilidad, final int puntosLegal, final int puntosInnovacion, final int puntosProcuracion) {
+
+
+        ArrayList<RadarEntry> entries1 = new ArrayList<RadarEntry>();
+        ArrayList<RadarEntry> entries2 = new ArrayList<RadarEntry>();
+
+        entries1.add(new RadarEntry(puntosPlaneacion));
+        entries1.add(new RadarEntry(puntosVentas));
+        entries1.add(new RadarEntry(puntosContabilidad));
+        entries1.add(new RadarEntry(puntosLegal));
+        entries1.add(new RadarEntry(puntosInnovacion));
+        entries1.add(new RadarEntry(puntosProcuracion));
+
+
+        RadarDataSet set1 = new RadarDataSet(entries1, "");
+        //set1.setColor(Color.rgb(103, 110, 129));
+        //set1.setFillColor(Color.rgb(103, 110, 129));
+        set1.setColor(Color.rgb(121, 162, 175));
+        set1.setFillColor(Color.rgb(121, 162, 175));
+        set1.setDrawFilled(true);
+        set1.setFillAlpha(180);
+        set1.setLineWidth(2f);
+        set1.setDrawHighlightCircleEnabled(true);
+        set1.setDrawHighlightIndicators(false);
+
+        /*RadarDataSet set2 = new RadarDataSet(entries2, "Diagnóstico Actual");
+        set2.setColor(Color.rgb(121, 162, 175));
+        set2.setFillColor(Color.rgb(121, 162, 175));
+        set2.setDrawFilled(true);
+        set2.setFillAlpha(180);
+        set2.setLineWidth(2f);
+        set2.setDrawHighlightCircleEnabled(true);
+        set2.setDrawHighlightIndicators(false);*/
+
+        ArrayList<IRadarDataSet> sets = new ArrayList<IRadarDataSet>();
+        sets.add(set1);
+        //sets.add(set2);
+
+        RadarData data = new RadarData(sets);
+        data.setValueTypeface(mMontserrat);
+        data.setValueTextSize(8f);
+        data.setDrawValues(false);
+        data.setValueTextColor(Color.WHITE);
+
+        XAxis xAxis = mChart.getXAxis();
+        xAxis.setTypeface(mMontserrat);
+        xAxis.setTextSize(9f);
+        xAxis.setYOffset(0f);
+        xAxis.setXOffset(0f);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+
+            private String[] mActivities = new String[]{"Planeación: " + puntosPlaneacion * 10 + "%", "Ventas: " + puntosVentas * 10 + "%", "Contabilidad: " + puntosContabilidad * 10 + "%", "Legal: " + puntosLegal * 10 + "%", "Innovación: " + puntosInnovacion * 10 + "%", "Procuración: " + puntosProcuracion * 10 + "%"};
+
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return mActivities[(int) value % mActivities.length];
+            }
+        });
+        xAxis.setTextColor(Color.BLACK);
+
+        mChart.setData(data);
+        mChart.invalidate();
     }
 }
