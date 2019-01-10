@@ -191,7 +191,6 @@ public class CotizacionesActivity extends AppCompatActivity {
     private Spinner spinnerAnio;
     private List<Cotizacion> cotizacionesFiltradas = new ArrayList<Cotizacion>();
     private Button btnVerMisConceptos;
-    private Button btnAnadirConcepto;
 
     private TextInputEditText editNuevoConcepto;
     private ListView listViewConceptos;
@@ -207,7 +206,6 @@ public class CotizacionesActivity extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.recyclerCotizaciones);
         spinnerAnio = (Spinner)findViewById(R.id.spinnerCotizacionAnio);
         spinnerMes = (Spinner)findViewById(R.id.spinnerCotizacionMes);
-        btnAnadirConcepto = (Button)findViewById(R.id.btnAgregarConceptos);
         btnVerMisConceptos = (Button)findViewById(R.id.btnVerMisConceptos);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
@@ -482,81 +480,12 @@ public class CotizacionesActivity extends AppCompatActivity {
         }
 
 
-        btnAnadirConcepto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(CotizacionesActivity.this);
-
-                // Get the layout inflater
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final View formElementsView = inflater.inflate(R.layout.dialog_db_concepto,
-                        null, false);
-
-                editNuevoConcepto = (TextInputEditText)formElementsView.findViewById(R.id.txtNuevoConcepto);
-
-                builder.setTitle("Nuevo concepto");
-                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if(editNuevoConcepto.getText().toString().length() > 0){
-                            Concepto concepto = new Concepto(editNuevoConcepto.getText().toString());
-                            querys.insertConcepto(concepto);
-                            Toast.makeText(getApplicationContext(), "Concepto guardado con éxito", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            Toast.makeText(getApplicationContext(), "Introduce un concepto válido", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-
-                builder.setView(formElementsView);
-                // Add action buttons
-                builder.create();
-                builder.show();
-            }
-        });
 
         btnVerMisConceptos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                final AlertDialog.Builder builder = new AlertDialog.Builder(CotizacionesActivity.this);
-
-                // Get the layout inflater
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final View formElementsView = inflater.inflate(R.layout.dialog_lista_conceptos,
-                        null, false);
-
-                listViewConceptos = (ListView) formElementsView.findViewById(R.id.listViewConceptos);
-
-                conceptos = querys.getAllConceptos();
-                final List<String> conc = new ArrayList<>();
-
-                for(int i = 0; i < conceptos.size(); i++){
-                    conc.add(conceptos.get(i).getNombre());
-                }
-
-                ArrayAdapter<String> adaptador = new ArrayAdapter<String>(CotizacionesActivity.this, R.layout.support_simple_spinner_dropdown_item, conc);
-                listViewConceptos.setAdapter(adaptador);
-
-                builder.setTitle("Conceptos");
-                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-
-                builder.setView(formElementsView);
-                // Add action buttons
-                builder.create();
-                builder.show();
+                Intent i = new Intent(CotizacionesActivity.this, ConceptosActivity.class);
+                startActivity(i);
             }
         });
 

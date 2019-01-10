@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".LauncherActivity"
+        <activity
+            android:name=".LauncherActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,18 +29,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".RegistroActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".MainActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".CotizacionesActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".NuevaCotizacionActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".VerPDFActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RegistroActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CotizacionesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".NuevaCotizacionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".VerPDFActivity"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -60,30 +68,43 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".TarjetasActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ClientesActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".FinanzasActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".RecursosHumanosActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".CrearEditarTarjetasActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".NominasActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".DiagnosticoActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".RealizarDiagnosticoActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Modelos.VerPDFDiagActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".TarjetasSeleccionarLetraActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".TarjetaDatosActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".VisualizarTarjetaActivity"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".TarjetasActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ClientesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FinanzasActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RecursosHumanosActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CrearEditarTarjetasActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".NominasActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DiagnosticoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RealizarDiagnosticoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Modelos.VerPDFDiagActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TarjetasSeleccionarLetraActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TarjetaDatosActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".VisualizarTarjetaActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ConceptosActivity"></activity>
     </application>
 
 </manifest>

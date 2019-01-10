@@ -80,7 +80,8 @@ class ConceptopsCursor extends CursorWrapper {
     public Concepto getConcepto(){
         Cursor cursor = getWrappedCursor();
         return new Concepto(cursor.getInt(cursor.getColumnIndex(DBSchema.ConceptopsTable.Columns.ID)),
-                cursor.getString(cursor.getColumnIndex(DBSchema.ConceptopsTable.Columns.NOMBRE)));
+                cursor.getString(cursor.getColumnIndex(DBSchema.ConceptopsTable.Columns.NOMBRE)),
+                cursor.getString(cursor.getColumnIndex(DBSchema.ConceptopsTable.Columns.PRECIO)));
     }
 }
 
@@ -220,11 +221,26 @@ public final class Querys {
                 new String[]{cardID});
     }
 
+    public void deleteConcepto(String cardID) {
+        db.delete(
+                DBSchema.ConceptopsTable.NAME,
+                DBSchema.ConceptopsTable.Columns.ID + " LIKE ?",
+                new String[]{cardID});
+    }
+
     public void updateCliente(Cliente cliente, String cardID) {
         db.update(
                 DBSchema.ClientesTable.NAME,
                 cliente.toContentValues(),
                 DBSchema.ClientesTable.Columns.ID + " LIKE ?",
+                new String[]{cardID});
+    }
+
+    public void updateConcepto(Concepto concepto, String cardID) {
+        db.update(
+                DBSchema.ConceptopsTable.NAME,
+                concepto.toContentValues(),
+                DBSchema.ConceptopsTable.Columns.ID + " LIKE ?",
                 new String[]{cardID});
     }
 

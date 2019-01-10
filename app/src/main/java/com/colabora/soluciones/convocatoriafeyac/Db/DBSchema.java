@@ -59,6 +59,7 @@ public final class DBSchema {
         public static final class Columns {
             public static final String ID = "id";
             public static final String NOMBRE = "nombre";
+            public static final String PRECIO = "precio";
         }
     }
 }

@@ -448,7 +448,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="Descuento"/>
+                        android:text="Descuento (al subtotal) "/>
 
                     <TextView
                         android:id="@+id/txtCotizacionDescuento"

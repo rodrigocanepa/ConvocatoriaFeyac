@@ -329,7 +329,7 @@ public class TemplatePDF {
 
     }
 
-    public void createTableTotal(String subtotal, String iva, String envio, String descuento, String total){
+    public void createTableTotal(String subtotal, String iva, String envio, String descuento, String total, String tipoDescuento){
 
         try{
             paragraph = new Paragraph();
@@ -369,7 +369,7 @@ public class TemplatePDF {
             celdaEnvio.addElement(pdfPTableEnvio);
 
             PdfPCell celdaDescuento = new PdfPCell();
-            pdfPTableDescuento.addCell(createTextCellLeft("Descuento"));
+            pdfPTableDescuento.addCell(createTextCellLeft("Descuento " + tipoDescuento));
             pdfPTableDescuento.addCell(createTextCellLeft(descuento));
             celdaDescuento.addElement(pdfPTableDescuento);
 

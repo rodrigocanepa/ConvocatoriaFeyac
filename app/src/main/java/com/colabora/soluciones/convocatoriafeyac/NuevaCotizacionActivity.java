@@ -64,12 +64,15 @@ import com.vansuita.pickimage.listeners.IPickResult;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class NuevaCotizacionActivity extends AppCompatActivity {
 
@@ -126,6 +129,8 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                     txtDialogPrecio.setText(conceptos.get(getAdapterPosition()).getPrecio());
                     txtDialogCantidad.setText(conceptos.get(getAdapterPosition()).getCantidad());
                     txtDialogConcepto.setText(conceptos.get(getAdapterPosition()).getConceptos());
+
+                    swDialogImpuestos.setChecked(true);
 
                     if(radioButtonCantidad.isChecked()){
                         textInputLayoutCantidad.setHint("Cantidad (obligatorio)");
@@ -201,13 +206,13 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                             if(swDescuento.isChecked()){
                                 if(spinnerDescuento.getSelectedItem().equals("$")){
                                     descuento = Double.valueOf(editDescuento.getText().toString());
-                                    txtDescuentos.setText("-$" + String.format("%.2f", descuento));
+                                    txtDescuentos.setText("-$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
                                 }
                                 else{
                                     double desc = Double.valueOf(editDescuento.getText().toString());
                                     double descReal = desc/100;
                                     descuento = subtotal * descReal;
-                                    txtDescuentos.setText("$" + String.format("%.2f", descuento));
+                                    txtDescuentos.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
                                 }
                             }
 
@@ -220,10 +225,10 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                             }
 
                             double total = subtotal - descuento + iva + gastosEnvio;
-                            txtTotal.setText("$" + String.format("%.2f", total));
-                            txtSubtotal.setText("$" + String.format("%.2f", subtotal));
-                            txtGastosEnvio.setText("$" + String.format("%.2f", gastosEnvio));
-                            txtIVA.setText("$" + String.format("%.2f", iva));
+                            txtTotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(total));
+                            txtSubtotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(subtotal));
+                            txtGastosEnvio.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(gastosEnvio));
+                            txtIVA.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(iva));
 
                             // ****************************************************************
                             builder.dismiss();
@@ -400,11 +405,14 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
     private String cargoAdmin;
     private String nombreAdmin;
     private String telefonoAdmin;
+    private String terminosCondiciones;
 
     private ListView listViewConceptos;
     private Button buscarConceptos;
 
     private List<Concepto> conceptosList;
+
+    private NumberFormat formatter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -450,6 +458,9 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
         radioButtonCantidad.setChecked(true);
         radioButtonHoras.setChecked(false);
 
+        txtNotasDestinatario.setText("En caso de requerir factura se necesitarán los datos fiscales de persona física o moral según sea el caso");
+
+        formatter = new DecimalFormat("#,###");
 
         Intent i = getIntent();
         ex_folio = i.getStringExtra(EXTRA_FOLIO);
@@ -461,10 +472,12 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
         nombreAdmin = sharedPreferences.getString("nombreAdmin","");
         cargoAdmin = sharedPreferences.getString("cargoAdmin","");
         telefonoAdmin = sharedPreferences.getString("telefonoAdmin","");
+        terminosCondiciones = sharedPreferences.getString("terminosCondiciones","");
 
         txtNombreEncargado.setText(nombreAdmin);
         txtNumeroEncargado.setText(telefonoAdmin);
         txtCargoEncargado.setText(cargoAdmin);
+        txtTerminos.setText(terminosCondiciones);
 
         File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
         if(!folder.exists())
@@ -560,7 +573,7 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
         descuentos.add("$");
 
         Date date = Calendar.getInstance().getTime();
-        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        final DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         String today = formatter.format(date);
 
         swGastosEnvio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -583,12 +596,12 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                         if (swDescuento.isChecked()) {
                             if (spinnerDescuento.getSelectedItem().equals("$")) {
                                 descuento = Double.valueOf(editDescuento.getText().toString());
-                                txtDescuentos.setText("-$" + String.format("%.2f", descuento));
+                                txtDescuentos.setText("-$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
                             } else {
                                 double desc = Double.valueOf(editDescuento.getText().toString());
                                 double descReal = desc / 100;
                                 descuento = subtotal * descReal;
-                                txtDescuentos.setText("-$" + String.format("%.2f", descuento));
+                                txtDescuentos.setText("-$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
                             }
                         }
 
@@ -599,10 +612,10 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                         }
 
                         double total = subtotal - descuento + iva + gastosEnvio;
-                        txtTotal.setText("$" + String.format("%.2f", total));
-                        txtSubtotal.setText("$" + String.format("%.2f", subtotal));
-                        txtGastosEnvio.setText("$" + String.format("%.2f", gastosEnvio));
-                        txtIVA.setText("$" + String.format("%.2f", iva));
+                        txtTotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(total));
+                        txtSubtotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(subtotal));
+                        txtGastosEnvio.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(gastosEnvio));
+                        txtIVA.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(iva));
 
                         // ****************************************************************
                     }
@@ -623,22 +636,22 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                         if (swDescuento.isChecked()) {
                             if (spinnerDescuento.getSelectedItem().equals("$")) {
                                 descuento = Double.valueOf(editDescuento.getText().toString());
-                                txtDescuentos.setText("-$" + String.format("%.2f", descuento));
+                                txtDescuentos.setText("-$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
                             } else {
                                 double desc = Double.valueOf(editDescuento.getText().toString());
                                 double descReal = desc / 100;
                                 descuento = subtotal * descReal;
-                                txtDescuentos.setText("-$" + String.format("%.2f", descuento));
+                                txtDescuentos.setText("-$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
                             }
                         }
 
                         double gastosEnvio = 0;
 
                         double total = subtotal - descuento + iva + gastosEnvio;
-                        txtTotal.setText("$" + String.format("%.2f", total));
-                        txtSubtotal.setText("$" + String.format("%.2f", subtotal));
-                        txtGastosEnvio.setText("$" + String.format("%.2f", gastosEnvio));
-                        txtIVA.setText("$" + String.format("%.2f", iva));
+                        txtTotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(total));
+                        txtSubtotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(subtotal));
+                        txtGastosEnvio.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(gastosEnvio));
+                        txtIVA.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(iva));
 
                         // ****************************************************************
                     }
@@ -665,13 +678,13 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                         if(swDescuento.isChecked()){
                             if(spinnerDescuento.getSelectedItem().equals("$")){
                                 descuento = Double.valueOf(editDescuento.getText().toString());
-                                txtDescuentos.setText("-$" + String.format("%.2f", descuento));
+                                txtDescuentos.setText("-$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
                             }
                             else{
                                 double desc = Double.valueOf(editDescuento.getText().toString());
                                 double descReal = desc/100;
                                 descuento = subtotal * descReal;
-                                txtDescuentos.setText("-$" + String.format("%.2f", descuento));
+                                txtDescuentos.setText("-$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
                             }
                         }
 
@@ -685,10 +698,10 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
 
 
                         double total = subtotal - descuento + iva + gastosEnvio;
-                        txtTotal.setText("$" + String.format("%.2f", total));
-                        txtSubtotal.setText("$" + String.format("%.2f", subtotal));
-                        txtGastosEnvio.setText("$" + String.format("%.2f", gastosEnvio));
-                        txtIVA.setText("$" + String.format("%.2f", iva));
+                        txtTotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(total));
+                        txtSubtotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(subtotal));
+                        txtGastosEnvio.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(gastosEnvio));
+                        txtIVA.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(iva));
 
                         // ****************************************************************
                     }
@@ -712,13 +725,13 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                     if(swDescuento.isChecked()){
                         if(spinnerDescuento.getSelectedItem().equals("$")){
                             descuento = Double.valueOf(editDescuento.getText().toString());
-                            txtDescuentos.setText("-$" + String.format("%.2f", descuento));
+                            txtDescuentos.setText("-$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
                         }
                         else{
                             double desc = Double.valueOf(editDescuento.getText().toString());
                             double descReal = desc/100;
                             descuento = subtotal * descReal;
-                            txtDescuentos.setText("-$" + String.format("%.2f", descuento));
+                            txtDescuentos.setText("-$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
                         }
                     }
 
@@ -731,10 +744,10 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                     }
 
                     double total = subtotal - descuento + iva + gastosEnvio;
-                    txtTotal.setText("$" + String.format("%.2f", total));
-                    txtSubtotal.setText("$" + String.format("%.2f", subtotal));
-                    txtGastosEnvio.setText("$" + String.format("%.2f", gastosEnvio));
-                    txtIVA.setText("$" + String.format("%.2f", iva));
+                    txtTotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(total));
+                    txtSubtotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(subtotal));
+                    txtGastosEnvio.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(gastosEnvio));
+                    txtIVA.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(iva));
                 }
             }
         });
@@ -764,13 +777,13 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                     if(swDescuento.isChecked()){
                         if(spinnerDescuento.getSelectedItem().equals("$")){
                             descuento = Double.valueOf(editDescuento.getText().toString());
-                            txtDescuentos.setText("-$" + String.format("%.2f", descuento));
+                            txtDescuentos.setText("-$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
                         }
                         else{
                             double desc = Double.valueOf(editDescuento.getText().toString());
                             double descReal = desc/100;
                             descuento = subtotal * descReal;
-                            txtDescuentos.setText("-$" + String.format("%.2f", descuento));
+                            txtDescuentos.setText("-$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
                         }
                     }
 
@@ -783,10 +796,10 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                     }
 
                     double total = subtotal - descuento + iva + gastosEnvio;
-                    txtTotal.setText("$" + String.format("%.2f", total));
-                    txtSubtotal.setText("$" + String.format("%.2f", subtotal));
-                    txtGastosEnvio.setText("$" + String.format("%.2f", gastosEnvio));
-                    txtIVA.setText("$" + String.format("%.2f", iva));
+                    txtTotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(total));
+                    txtSubtotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(subtotal));
+                    txtGastosEnvio.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(gastosEnvio));
+                    txtIVA.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(iva));
 
                     // ****************************************************************
                 }
@@ -945,13 +958,13 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                     if(swDescuento.isChecked()){
                         if(spinnerDescuento.getSelectedItem().equals("$")){
                             descuento = Double.valueOf(editDescuento.getText().toString());
-                            txtDescuentos.setText("-$" + String.format("%.2f", descuento));
+                            txtDescuentos.setText("-$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
                         }
                         else{
                             double desc = Double.valueOf(editDescuento.getText().toString());
                             double descReal = desc/100;
                             descuento = subtotal * descReal;
-                            txtDescuentos.setText("-$" + String.format("%.2f", descuento));
+                            txtDescuentos.setText("-$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
                         }
                     }
 
@@ -965,15 +978,14 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
 
 
                     double total = subtotal - descuento + iva + gastosEnvio;
-                    txtTotal.setText("$" + String.format("%.2f", total));
-                    txtSubtotal.setText("$" + String.format("%.2f", subtotal));
-                    txtGastosEnvio.setText("$" + String.format("%.2f", gastosEnvio));
-                    txtIVA.setText("$" + String.format("%.2f", iva));
+                    txtTotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(total));
+                    txtSubtotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(subtotal));
+                    txtGastosEnvio.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(gastosEnvio));
+                    txtIVA.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(iva));
 
                     // ****************************************************************
                 }
                 else {
-                    editDescuento.setText("0");
                 }
 
 
@@ -1008,13 +1020,13 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                     if(swDescuento.isChecked()){
                         if(spinnerDescuento.getSelectedItem().equals("$")){
                             descuento = Double.valueOf(editDescuento.getText().toString());
-                            txtDescuentos.setText("-$" + String.format("%.2f", descuento));
+                            txtDescuentos.setText("-$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
                         }
                         else{
                             double desc = Double.valueOf(editDescuento.getText().toString());
                             double descReal = desc/100;
                             descuento = subtotal * descReal;
-                            txtDescuentos.setText("-$" + String.format("%.2f", descuento));
+                            txtDescuentos.setText("-$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
                         }
                     }
 
@@ -1028,15 +1040,14 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
 
 
                     double total = subtotal - descuento + iva + gastosEnvio;
-                    txtTotal.setText("$" + String.format("%.2f", total));
-                    txtSubtotal.setText("$" + String.format("%.2f", subtotal));
-                    txtGastosEnvio.setText("$" + String.format("%.2f", gastosEnvio));
-                    txtIVA.setText("$" + String.format("%.2f", iva));
+                    txtTotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(total));
+                    txtSubtotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(subtotal));
+                    txtGastosEnvio.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(gastosEnvio));
+                    txtIVA.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(iva));
 
                     // ****************************************************************
                 }
                 else{
-                    editGastosEnvio.setText("0");
                 }
             }
 
@@ -1073,6 +1084,8 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                 TextInputLayout textInputLayoutPrecio = (TextInputLayout)builder.findViewById(R.id.txtInputLayoutPrecio);
                 TextInputLayout textInputLayoutCantidad = (TextInputLayout)builder.findViewById(R.id.txtInputLayoutCantidad);
 
+                swDialogImpuestos.setChecked(true);
+
                 if(radioButtonCantidad.isChecked()){
                     textInputLayoutCantidad.setHint("Cantidad (obligatorio)");
                     textInputLayoutPrecio.setHint("Precio (obligatorio)");
@@ -1095,44 +1108,47 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         //builder.dismiss();
 
-                        final Dialog builder = new Dialog(NuevaCotizacionActivity.this);
-
-                        // Get the layout inflater
-                        //LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                        //final View formElementsView = inflater.inflate(R.layout.dialog_nuevo_concepto,
-                        //      null, false);
-
-                        builder.setContentView(R.layout.dialog_lista_conceptos);
-
-                        listViewConceptos = (ListView) builder.findViewById(R.id.listViewConceptos);
                         conceptosList = querys.getAllConceptos();
-                        final List<String> conc = new ArrayList<>();
-                        for(int i = 0; i < conceptosList.size(); i++){
-                            conc.add(conceptosList.get(i).getNombre());
+                        if(conceptosList.size() > 0 ){
+                            final Dialog builder = new Dialog(NuevaCotizacionActivity.this);
+
+                            // Get the layout inflater
+                            //LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                            //final View formElementsView = inflater.inflate(R.layout.dialog_nuevo_concepto,
+                            //      null, false);
+
+                            builder.setContentView(R.layout.dialog_lista_conceptos);
+
+                            listViewConceptos = (ListView) builder.findViewById(R.id.listViewConceptos);
+
+
+                            MyListAdapter adaptador = new MyListAdapter(NuevaCotizacionActivity.this, R.layout.list_conceptos, conceptosList);
+                            listViewConceptos.setAdapter(adaptador);
+
+                            listViewConceptos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    txtDialogConcepto.setText(conceptosList.get(position).getNombre());
+                                    txtDialogPrecio.setText(conceptosList.get(position).getPrecio());
+                                    builder.dismiss();
+                                }
+                            });
+
+                            builder.setTitle("Conceptos");
+                            // Inflate and set the layout for the dialog
+                            // Pass null as the parent view because its going in the dialog layout
+                            DisplayMetrics metrics = getResources().getDisplayMetrics();
+                            int width = metrics.widthPixels;
+                            int height = metrics.heightPixels;
+
+                            builder.create();
+                            builder.show();
+                            builder.getWindow().setLayout((7 * width)/7, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(), "Aún no tiene conceptos almacenados en su base de datos", Toast.LENGTH_LONG).show();
                         }
 
-
-                        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(NuevaCotizacionActivity.this, R.layout.support_simple_spinner_dropdown_item, conc);
-                        listViewConceptos.setAdapter(adaptador);
-
-                        listViewConceptos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                txtDialogConcepto.setText(conc.get(position));
-                                builder.dismiss();
-                            }
-                        });
-
-                        builder.setTitle("Conceptos");
-                        // Inflate and set the layout for the dialog
-                        // Pass null as the parent view because its going in the dialog layout
-                        DisplayMetrics metrics = getResources().getDisplayMetrics();
-                        int width = metrics.widthPixels;
-                        int height = metrics.heightPixels;
-
-                        builder.create();
-                        builder.show();
-                        builder.getWindow().setLayout((6 * width)/7, ViewGroup.LayoutParams.WRAP_CONTENT);
 
                     }
                 });
@@ -1192,13 +1208,13 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                         if(swDescuento.isChecked()){
                             if(spinnerDescuento.getSelectedItem().equals("$")){
                                 descuento = Double.valueOf(editDescuento.getText().toString());
-                                txtDescuentos.setText("-$" + String.format("%.2f", descuento));
+                                txtDescuentos.setText("-$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
                             }
                             else{
                                 double desc = Double.valueOf(editDescuento.getText().toString());
                                 double descReal = desc/100;
                                 descuento = subtotal * descReal;
-                                txtDescuentos.setText("$" + String.format("%.2f", descuento));
+                                txtDescuentos.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
                             }
                         }
 
@@ -1209,12 +1225,12 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                                 gastosEnvio = Double.valueOf(editGastosEnvio.getText().toString());
                             }
                         }
-
                         double total = subtotal - descuento + iva + gastosEnvio;
-                        txtTotal.setText("$" + String.format("%.2f", total));
-                        txtSubtotal.setText("$" + String.format("%.2f", subtotal));
-                        txtGastosEnvio.setText("$" + String.format("%.2f", gastosEnvio));
-                        txtIVA.setText("$" + String.format("%.2f", iva));
+                      //  String formattedNumber = formatter.format(total);
+                        txtTotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(total));
+                        txtSubtotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(subtotal));
+                        txtGastosEnvio.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(gastosEnvio));
+                        txtIVA.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(iva));
 
                         // ****************************************************************
                         builder.dismiss();
@@ -1226,7 +1242,7 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
 
                 builder.create();
                 builder.show();
-                builder.getWindow().setLayout((6 * width)/7, ViewGroup.LayoutParams.WRAP_CONTENT);
+                builder.getWindow().setLayout((7 * width)/7, ViewGroup.LayoutParams.WRAP_CONTENT);
             }
         });
 
@@ -1306,12 +1322,27 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
 
                 Cotizacion cotizacion = new Cotizacion(folio, fecha, subtotal, iva, envio, descuento, total, notasDestinatario, terminos, nombre_enc, cargo_enc, numero_enc, vencimiento, notasAdmin);
                 querys.insertCotizacion(cotizacion);
-                generacionCotizacionPDF(folio, fecha, subtotal, iva, envio, descuento, total, notasDestinatario, terminos, nombre_enc, cargo_enc, numero_enc, vencimiento);
+
+                String tipoDescuento = "";
+                if(!descuento.equals("-$0.00")) {
+                    if (spinnerDescuento.getSelectedItem().toString().equals("%")) {
+                        tipoDescuento = "(" + String.valueOf(editDescuento.getText().toString()) + "%)";
+                    } else {
+                        tipoDescuento = ("($)");
+                    }
+                }
+
+                // *********** Guardamos los principales datos de los nuevos usuarios *************
+                sharedPreferences = getSharedPreferences("misDatos", 0);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("terminosCondiciones", terminos);
+                editor.commit();
+                generacionCotizacionPDF(folio, fecha, subtotal, iva, envio, descuento, total, notasDestinatario, terminos, nombre_enc, cargo_enc, numero_enc, vencimiento, tipoDescuento);
             }
         });
     }
 
-    private void generacionCotizacionPDF(String folio, String fecha, String subtotal, String iva, String envio, String descuento, String total, String notas, String terminos, String atte, String cargo, String telefono, String vencimiento){
+    private void generacionCotizacionPDF(String folio, String fecha, String subtotal, String iva, String envio, String descuento, String total, String notas, String terminos, String atte, String cargo, String telefono, String vencimiento, String tipoDescuento){
 
         imgLogo.setDrawingCacheEnabled(true);
         imgLogo.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
@@ -1333,8 +1364,8 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
         for(int i = 0; i < conceptos.size(); i++){
             double precio = Double.valueOf(conceptos.get(i).getPrecio());
             double importe = Double.valueOf(conceptos.get(i).getImporte());
-            String precio_ = String.format("%.2f", precio);
-            String importe_ = String.format("%.2f", importe);
+            String precio_ = NumberFormat.getNumberInstance(Locale.US).format(precio);
+            String importe_ = NumberFormat.getNumberInstance(Locale.US).format(importe);
             rowsConceptops.add(new String[] {conceptos.get(i).getConceptos(), conceptos.get(i).getCantidad(),  precio_, conceptos.get(i).getImpuestos(), importe_});
         }
 
@@ -1345,7 +1376,7 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
             templatePDF.creaTableCotizacion(headerConceptos2, rowsConceptops);
         }
 
-        templatePDF.createTableTotal(subtotal, iva, envio, descuento, total);
+        templatePDF.createTableTotal(subtotal, iva, envio, descuento, total, tipoDescuento);
         templatePDF.addLine();
         templatePDF.addSections("Notas");
         templatePDF.addParagraph(notas);
