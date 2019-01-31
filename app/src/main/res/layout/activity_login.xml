@@ -95,7 +95,7 @@
             android:textSize="14sp"
             android:text="Login"
             android:textStyle="bold"
-            android:layout_marginTop="24sp"
+            android:layout_marginTop="20sp"
             android:textColor="@android:color/white"
             android:layout_gravity="center"
             android:background="@drawable/borde_redondeado_boton_face"/>
@@ -139,22 +139,40 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btnFaceBack"
-            android:layout_width="wrap_content"
-            android:layout_height="35sp"
-            android:layout_marginTop="15sp"
-            android:background="@drawable/borde_redondeado_boton_face"
-            android:paddingStart="15sp"
-            android:paddingEnd="25sp"
-            android:drawablePadding="12sp"
-            android:layout_gravity="center"
-            android:drawableStart="@drawable/ic_facebook_app_symbol"
-            android:text="FACEBOOK"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+        <FrameLayout
+            android:id="@+id/FrameLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp">
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_buttonFace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnFaceBack"
+                android:layout_width="wrap_content"
+                android:layout_height="35sp"
+                android:layout_marginTop="15sp"
+                android:background="@drawable/borde_redondeado_boton_face"
+                android:paddingStart="15sp"
+                android:paddingEnd="25sp"
+                android:drawablePadding="12sp"
+                android:layout_gravity="center"
+                android:drawableStart="@drawable/ic_facebook_app_symbol"
+                android:text="FACEBOOK"
+                android:layout_margin="2sp"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
+
 
     </LinearLayout>
 

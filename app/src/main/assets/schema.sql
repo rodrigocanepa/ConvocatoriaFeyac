@@ -14,6 +14,7 @@ CREATE TABLE "cotizaciones" ("id" INTEGER PRIMARY KEY AUTOINCREMENT,
                         "numero_enc" TEXT,
                         "vencimiento" TEXT,
                         "notasAdmin" TEXT);
+
 CREATE TABLE "clientes" ("id" INTEGER PRIMARY KEY AUTOINCREMENT,
                                                  "nombre" TEXT,
                                                  "descripcion" TEXT,
@@ -28,6 +29,16 @@ CREATE TABLE "proveedores" ("id" INTEGER PRIMARY KEY AUTOINCREMENT,
                         "direccion" TEXT,
                         "telefono" TEXT,
                         "horario" TEXT);
+
 CREATE TABLE "conceptos" ("id" INTEGER PRIMARY KEY AUTOINCREMENT,
                         "nombre" TEXT,
                         "precio" TEXT);
+
+CREATE TABLE "CotizacionesConceptos" ("id" INTEGER PRIMARY KEY AUTOINCREMENT,
+                        "idCotizacion" TEXT,
+                        "nombre" TEXT,
+                        "cantidad" TEXT,
+                        "precio" TEXT,
+                        "importe" TEXT,
+                        "iva" TEXT,
+                        "iva_precio" TEXT);

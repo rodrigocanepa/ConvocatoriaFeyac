@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 
 public final class DateBaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "pymeassistant.db";
+    private static final String DATABASE_NAME = "pymeassistant2.db";
     private static final int SCHEMA_VERSION = 1;
 
     private Context context;
@@ -79,5 +79,6 @@ public final class DateBaseHelper extends SQLiteOpenHelper {
 
         }
     }
+
 }
 

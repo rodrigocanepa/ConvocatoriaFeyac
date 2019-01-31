@@ -62,4 +62,19 @@ public final class DBSchema {
             public static final String PRECIO = "precio";
         }
     }
+
+    public static final class CotizacionesConceptosTable{
+        public static final String NAME = "CotizacionesConceptos";
+
+        public static final class Columns {
+            public static final String ID = "id";
+            public static final String ID_COTIZACION = "idCotizacion";
+            public static final String NOMBRE = "nombre";
+            public static final String CANTIDAD = "cantidad";
+            public static final String PRECIO = "precio";
+            public static final String IMPORTE = "importe";
+            public static final String IVA = "iva";
+            public static final String IVA_PRECIO = "iva_precio";
+        }
+    }
 }

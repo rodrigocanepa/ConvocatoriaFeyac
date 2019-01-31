@@ -12,7 +12,11 @@
     <uses-permission android:name="android.hardware.camera.autofocus" />
     <uses-permission android:name="com.android.vending.BILLING" />
 
+    <!-- VERY IMPORTANT! Don't forget this permission, or in-app billing won't work. -->
+    <uses-permission android:name="com.android.vending.BILLING" />
+
     <application
+        android:name=".ConvocatoriaFeyacApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Pyme Assistant"
@@ -20,6 +24,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
         <activity
             android:name=".LauncherActivity"
             android:screenOrientation="portrait">
@@ -104,7 +113,8 @@
         <activity
             android:name=".VisualizarTarjetaActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ConceptosActivity"></activity>
+        <activity android:name=".ConceptosActivity" />
+        <activity android:name=".SuscripcionesActivity"></activity>
     </application>
 
 </manifest>

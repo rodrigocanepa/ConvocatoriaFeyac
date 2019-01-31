@@ -577,7 +577,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="6sp"
-                android:text="Visualizar"/>
+                android:text="Visualizar/Guardar"/>
 
         </LinearLayout>
 

@@ -8,6 +8,7 @@ import android.graphics.CornerPathEffect;
 
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Cliente;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Concepto;
+import com.colabora.soluciones.convocatoriafeyac.Modelos.ConceptoCotizacion;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Cotizacion;
 
 import java.util.ArrayList;
@@ -85,6 +86,24 @@ class ConceptopsCursor extends CursorWrapper {
     }
 }
 
+class ConceptosCotizacionCursor extends CursorWrapper {
+    public ConceptosCotizacionCursor(Cursor cursor) {
+        super(cursor);
+    }
+
+    public ConceptoCotizacion getConceptoCotizacion(){
+        Cursor cursor = getWrappedCursor();
+        return new ConceptoCotizacion(cursor.getInt(cursor.getColumnIndex(DBSchema.CotizacionesConceptosTable.Columns.ID)),
+                cursor.getInt(cursor.getColumnIndex(DBSchema.CotizacionesConceptosTable.Columns.ID_COTIZACION)),
+                cursor.getString(cursor.getColumnIndex(DBSchema.CotizacionesConceptosTable.Columns.NOMBRE)),
+                cursor.getString(cursor.getColumnIndex(DBSchema.CotizacionesConceptosTable.Columns.CANTIDAD)),
+                cursor.getString(cursor.getColumnIndex(DBSchema.CotizacionesConceptosTable.Columns.PRECIO)),
+                cursor.getString(cursor.getColumnIndex(DBSchema.CotizacionesConceptosTable.Columns.IMPORTE)),
+                cursor.getString(cursor.getColumnIndex(DBSchema.CotizacionesConceptosTable.Columns.IVA)),
+                cursor.getString(cursor.getColumnIndex(DBSchema.CotizacionesConceptosTable.Columns.IVA_PRECIO)));
+    }
+}
+
 
 public final class Querys {
 
@@ -104,6 +123,19 @@ public final class Querys {
         ClientesCursor cursor = new ClientesCursor(db.rawQuery(query, null));
         while (cursor.moveToNext()){
             myUser = cursor.getCliente();
+        }
+        cursor.close();
+
+        return myUser;
+    }
+
+    public Cotizacion getCotizacionPorID(String idUser){
+
+        String query = "SELECT * FROM " + DBSchema.CotizacionesTable.NAME + " where id = " + idUser;
+        Cotizacion myUser = new Cotizacion();
+        CotizacionCursor cursor = new CotizacionCursor(db.rawQuery(query, null));
+        while (cursor.moveToNext()){
+            myUser = cursor.getCotizacion();
         }
         cursor.close();
 
@@ -130,6 +162,18 @@ public final class Querys {
         CotizacionCursor cursor = new CotizacionCursor(db.rawQuery("SELECT * FROM " + DBSchema.CotizacionesTable.NAME, null));
         while (cursor.moveToNext()){
             list.add(cursor.getCotizacion());
+        }
+        cursor.close();
+
+        return list;
+    }
+
+    public List<ConceptoCotizacion> getAllConceptosCotizacionesPorID(String id){
+        ArrayList<ConceptoCotizacion> list = new ArrayList<ConceptoCotizacion>();
+
+        ConceptosCotizacionCursor cursor = new ConceptosCotizacionCursor(db.rawQuery("SELECT * FROM " + DBSchema.CotizacionesConceptosTable.NAME + " where idCotizacion = " + id, null));
+        while (cursor.moveToNext()){
+            list.add(cursor.getConceptoCotizacion());
         }
         cursor.close();
 
@@ -214,9 +258,23 @@ public final class Querys {
                 concepto.toContentValues());
     }
 
+    public void insertConceptoCotizacion(ConceptoCotizacion conceptoCotizacion) {
+        db.insert(
+                DBSchema.CotizacionesConceptosTable.NAME,
+                null,
+                conceptoCotizacion.toContentValues());
+    }
+
     public void deleteCotizacion(String cardID) {
         db.delete(
                 DBSchema.CotizacionesTable.NAME,
+                DBSchema.CotizacionesTable.Columns.ID + " LIKE ?",
+                new String[]{cardID});
+    }
+
+    public void deleteCotizacionConceptos(String cardID) {
+        db.delete(
+                DBSchema.CotizacionesConceptosTable.NAME,
                 DBSchema.CotizacionesTable.Columns.ID + " LIKE ?",
                 new String[]{cardID});
     }
@@ -228,6 +286,13 @@ public final class Querys {
                 new String[]{cardID});
     }
 
+    public void deleteConceptoCotizacion(String cardID) {
+        db.delete(
+                DBSchema.CotizacionesConceptosTable.NAME,
+                DBSchema.CotizacionesConceptosTable.Columns.ID + " LIKE ?",
+                new String[]{cardID});
+    }
+
     public void updateCliente(Cliente cliente, String cardID) {
         db.update(
                 DBSchema.ClientesTable.NAME,
@@ -236,11 +301,27 @@ public final class Querys {
                 new String[]{cardID});
     }
 
+    public void updateCotizacion(Cotizacion cotizacion, String cardID) {
+        db.update(
+                DBSchema.CotizacionesTable.NAME,
+                cotizacion.toContentValues(),
+                DBSchema.CotizacionesTable.Columns.FOLIO + " LIKE ?",
+                new String[]{cardID});
+    }
+
     public void updateConcepto(Concepto concepto, String cardID) {
         db.update(
                 DBSchema.ConceptopsTable.NAME,
                 concepto.toContentValues(),
                 DBSchema.ConceptopsTable.Columns.ID + " LIKE ?",
+                new String[]{cardID});
+    }
+
+    public void updateConceptoCotizacion(ConceptoCotizacion concepto, String cardID) {
+        db.update(
+                DBSchema.CotizacionesConceptosTable.NAME,
+                concepto.toContentValues(),
+                DBSchema.CotizacionesConceptosTable.Columns.ID + " LIKE ?",
                 new String[]{cardID});
     }
 

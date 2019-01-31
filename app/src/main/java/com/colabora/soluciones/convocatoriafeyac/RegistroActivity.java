@@ -65,7 +65,7 @@ public class RegistroActivity extends AppCompatActivity {
                     // LANZAMOS SEGUNDA ACTIVITY, ESTO SE QUEDA GUARDADO
                     user.getEmail();
                     user.getDisplayName();
-                    Intent i = new Intent(RegistroActivity.this, MainActivity.class);
+                    Intent i = new Intent(RegistroActivity.this, SuscripcionesActivity.class);
                     startActivity(i);
                     finish();
 

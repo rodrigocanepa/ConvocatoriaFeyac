@@ -1,41 +1,36 @@
 package com.colabora.soluciones.convocatoriafeyac;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.colabora.soluciones.convocatoriafeyac.util.IabBroadcastReceiver;
 import com.colabora.soluciones.convocatoriafeyac.util.IabHelper;
 import com.colabora.soluciones.convocatoriafeyac.util.IabResult;
 import com.colabora.soluciones.convocatoriafeyac.util.Inventory;
 import com.colabora.soluciones.convocatoriafeyac.util.Purchase;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-public class LauncherActivity extends Activity implements IabBroadcastReceiver.IabBroadcastListener,
+import java.util.ArrayList;
+import java.util.List;
+
+public class SuscripcionesActivity extends Activity implements IabBroadcastReceiver.IabBroadcastListener,
         DialogInterface.OnClickListener{
 
-    private RelativeLayout linearAliados;
-    private RelativeLayout relativeLayoutDesarrollado;
-
-    FirebaseAuth.AuthStateListener mAuthListener;
-    private FirebaseAuth mAuth;
-
-    private boolean sesion = false;
-
+    private ImageView imgSuscripciones;
+    private Button btnSuscripciones;
 
     // Debug tag, for logging
     static final String TAG = "TrivialDrive";
@@ -67,41 +62,17 @@ public class LauncherActivity extends Activity implements IabBroadcastReceiver.I
     // Provides purchase notification while this app is running
     IabBroadcastReceiver mBroadcastReceiver;
 
-    private boolean suscripcion = false;
-    private SharedPreferences sharedPreferences;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_launcher);
+        setContentView(R.layout.activity_suscripciones);
 
-        linearAliados = (RelativeLayout) findViewById(R.id.linealLauncherAliados);
-        relativeLayoutDesarrollado = (RelativeLayout)findViewById(R.id.relativeLauncherDesarrollado);
+        imgSuscripciones = (ImageView)findViewById(R.id.imgSuscripciones);
+        btnSuscripciones = (Button)findViewById(R.id.btnSuscripcion);
 
-        linearAliados.setVisibility(View.INVISIBLE);
-        relativeLayoutDesarrollado.setVisibility(View.INVISIBLE);
-
-        //FirebaseAuth.getInstance().signOut();
-
-        mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener(){
-
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser(); //FirebaseAuth.getInstance().getCurrentUser;
-
-                if(user != null){
-                    Log.i("SESION", "Sesión iniciada con email: " + user.getEmail());
-                    sesion = true;
-
-                }else{
-                    Log.i("SESION", "Sesión cerrada");
-                    sesion = false;
-                }
-            }
-        };
-
+        imgSuscripciones.setImageResource(R.drawable.pyme_pagos);
+        imgSuscripciones.setColorFilter(Color.argb(180,20,20,20), PorterDuff.Mode.DARKEN);
 
         // KEY base 64 obtenida en la consola de developers google con la aplicación desarrollado por nosotros
         String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjNGiPcEqtqQAnFp0C9jMVMfe1vDe3iSgdWvcxhiTWWDEinjpaohc6ZVaq6hdi3E8skBY31kH7Y9bYK5bSar9DY7BFGfjyGGsT3KCjkbSkcXDeQcZseuWJyl0kM2MYcLL9A1+0rByFutR3l/DcxIFxccE2NRxjMb/o4chOAdgGgtvbR8ov+aixQfJnOsVGRYdJTSQKydtNgpOHHvfbeNBk88DwFG3I08rdIJ6d6GzI5VjEzUj+xm9h7QXZiGLxj8oJLiITSTAPNgQHcVe/m2sBuS9vzzN27BRhEanlHxU0T1LEiq/CzwOM+Sx16YSqFQSrQh+1H0q5G173X5HQ2ZLLQIDAQAB";
@@ -110,7 +81,7 @@ public class LauncherActivity extends Activity implements IabBroadcastReceiver.I
         mHelper = new IabHelper(this, base64EncodedPublicKey);
 
         // enable debug logging (for a production application, you should set this to false).
-        mHelper.enableDebugLogging(true);
+        mHelper.enableDebugLogging(false);
 
         // Start setup. This is asynchronous and the specified listener
         // will be called once setup completes.
@@ -121,7 +92,7 @@ public class LauncherActivity extends Activity implements IabBroadcastReceiver.I
 
                 if (!result.isSuccess()) {
                     // Oh noes, there was a problem.
-                    //complain("Ha ocurrido un problema al iniciar la configuración de los pagos: " + result);
+                    complain("Ha ocurrido un problema al iniciar la configuración de los pagos: " + result);
                     return;
                 }
 
@@ -135,7 +106,7 @@ public class LauncherActivity extends Activity implements IabBroadcastReceiver.I
                 // Note: registering this listener in an Activity is a bad idea, but is done here
                 // because this is a SAMPLE. Regardless, the receiver must be registered after
                 // IabHelper is setup, but before first call to getPurchases().
-                mBroadcastReceiver = new IabBroadcastReceiver(LauncherActivity.this);
+                mBroadcastReceiver = new IabBroadcastReceiver(SuscripcionesActivity.this);
                 IntentFilter broadcastFilter = new IntentFilter(IabBroadcastReceiver.ACTION);
                 registerReceiver(mBroadcastReceiver, broadcastFilter);
 
@@ -144,76 +115,10 @@ public class LauncherActivity extends Activity implements IabBroadcastReceiver.I
                 try {
                     mHelper.queryInventoryAsync(mGotInventoryListener);
                 } catch (IabHelper.IabAsyncInProgressException e) {
-                   // complain("Error al consultar el inventario. Otra operación asíncrona en progreso.");
+                    complain("Error al consultar el inventario. Otra operación asíncrona en progreso.");
                 }
             }
         });
-
-
-
-        Animation animation = AnimationUtils.loadAnimation(LauncherActivity.this, R.anim.transparentar);
-        final Animation animation1 = AnimationUtils.loadAnimation(LauncherActivity.this, R.anim.transparentar);
-        relativeLayoutDesarrollado.setAnimation(animation);
-
-        animation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                relativeLayoutDesarrollado.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                linearAliados.setAnimation(animation1);
-                relativeLayoutDesarrollado.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        animation1.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                linearAliados.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-               if (sesion == true && suscripcion == true){
-                   // LANZAMOS SEGUNDA ACTIVITY, ESTO SE QUEDA GUARDADO
-                   //final String UUIDUser = user.getUid();
-                   Intent i = new Intent(LauncherActivity.this, MainActivity.class);
-                   finish();
-                   startActivity(i);
-               }
-               else if(sesion == true && suscripcion == false){
-                  /* Intent i = new Intent(LauncherActivity.this, MainActivity.class);
-                   finish();
-                   startActivity(i);*/
-
-                   Intent i = new Intent(LauncherActivity.this, SuscripcionesActivity.class);
-                   finish();
-                   startActivity(i);
-               }
-               else{
-                   Intent i = new Intent(LauncherActivity.this, LoginActivity.class);
-                   finish();
-                   startActivity(i);
-               }
-
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-
-
     }
 
     // Listener that's called when we finish querying the items and subscriptions we own
@@ -226,7 +131,7 @@ public class LauncherActivity extends Activity implements IabBroadcastReceiver.I
 
             // Is it a failure?
             if (result.isFailure()) {
-                //complain("Error al consultar el inventario: " + result);
+                complain("Error al consultar el inventario: " + result);
                 return;
             }
 
@@ -267,27 +172,125 @@ public class LauncherActivity extends Activity implements IabBroadcastReceiver.I
             Log.d(TAG, "User " + (mSubscribedToInfiniteGas ? "HAS" : "DOES NOT HAVE")
                     + " infinite gas subscription.");
             if(mSubscribedToInfiniteGas){
-                suscripcion = true;
-                // *********** Guardamos los principales datos de los nuevos usuarios *************
-                sharedPreferences = getSharedPreferences("misDatos", 0);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("suscripcion" , suscripcion);
-                editor.commit();
-                // ******************************************************************************
-            }
-            else{
-                // *********** Guardamos los principales datos de los nuevos usuarios *************
-                sharedPreferences = getSharedPreferences("misDatos", 0);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("suscripcion" , false);
-                editor.commit();
-                // ******************************************************************************
+                Intent i = new Intent(SuscripcionesActivity.this, MainActivity.class);
+                startActivity(i);
+                finish();
             }
 
             Log.d(TAG, "Initial inventory query finished; enabling main UI.");
         }
 
     };
+
+    public void suscripcionCliked(View arg0) {
+        if (!mHelper.subscriptionsSupported()) {
+            complain("Subscriptions not supported on your device yet. Sorry!");
+            return;
+        }
+
+        String payload = "";
+
+
+        List<String> oldSkus = null;
+        //oldSkus =  new ArrayList<>();
+        //oldSkus.add(SKU_BASICO_MONTHLY);
+
+        Log.d(TAG, "Launching purchase flow for gas subscription.");
+        try {
+            mHelper.launchPurchaseFlow(this, SKU_BASICO_MONTHLY, IabHelper.ITEM_TYPE_SUBS,
+                    oldSkus, RC_REQUEST, mPurchaseFinishedListener, payload);
+        } catch (IabHelper.IabAsyncInProgressException e) {
+            complain("Error al iniciar el flujo de compra. Otra operación asíncrona en progreso.");
+        }
+        // Reset the dialog options
+        mSelectedSubscriptionPeriod = "";
+        mFirstChoiceSku = "";
+        mSecondChoiceSku = "";
+
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int id) {
+
+    }
+
+    // Callback for when a purchase is finished
+    IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
+        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
+            Log.d(TAG, "Purchase finished: " + result + ", purchase: " + purchase);
+
+            // if we were disposed of in the meantime, quit.
+            if (mHelper == null) return;
+
+            if (result.isFailure()) {
+                complain("Error comprando: " + result);
+                return;
+            }
+            if (!verifyDeveloperPayload(purchase)) {
+                complain("Error al comprar. Falló la verificación de autenticidad.");
+                return;
+            }
+
+            Log.d(TAG, "Purchase successful.");
+
+            if (purchase.getSku().equals(SKU_BASICO_MONTHLY)) {
+                // bought the infinite gas subscription
+                Log.d(TAG, "Infinite gas subscription purchased.");
+                Toast.makeText(getApplicationContext(),"¡Gracias por suscribirte! Recuerda que tienes un período gratis por 30 días", Toast.LENGTH_LONG).show();
+                mSubscribedToInfiniteGas = true;
+                mAutoRenewEnabled = purchase.isAutoRenewing();
+                mInfiniteGasSku = purchase.getSku();
+
+                if(mSubscribedToInfiniteGas){
+                    Intent i = new Intent(SuscripcionesActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }
+        }
+    };
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "onActivityResult(" + requestCode + "," + resultCode + "," + data);
+        if (mHelper == null) return;
+
+        // Pass on the activity result to the helper for handling
+        if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
+            // not handled, so handle it ourselves (here's where you'd
+            // perform any handling of activity results not related to in-app
+            // billing...
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+        else {
+            Log.d(TAG, "onActivityResult handled by IABUtil.");
+        }
+    }
+
+    @Override
+    public void receivedBroadcast() {
+        // Received a broadcast notification that the inventory of items has changed
+        Log.d(TAG, "Received broadcast notification. Querying inventory.");
+        try {
+            mHelper.queryInventoryAsync(mGotInventoryListener);
+        } catch (IabHelper.IabAsyncInProgressException e) {
+            complain("Error al consultar el inventario. Otra operación asíncrona en progreso.");
+        }
+    }
+
+    void complain(String message) {
+        Log.e(TAG, "Pyme Assitant Error: " + message);
+        alert("Error: " + message);
+    }
+
+    void alert(String message) {
+        AlertDialog.Builder bld = new AlertDialog.Builder(this);
+        bld.setMessage(message);
+        bld.setNeutralButton("OK", null);
+        Log.d(TAG, "Showing alert dialog: " + message);
+        bld.create().show();
+    }
 
     boolean verifyDeveloperPayload(Purchase p) {
         String payload = p.getDeveloperPayload();
@@ -318,20 +321,6 @@ public class LauncherActivity extends Activity implements IabBroadcastReceiver.I
         return true;
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseAuth.getInstance().addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if(mAuthListener != null){
-            FirebaseAuth.getInstance().removeAuthStateListener(mAuthListener);
-        }
-    }
-
     // We're being destroyed. It's important to dispose of the helper here!
     @Override
     public void onDestroy() {
@@ -347,39 +336,6 @@ public class LauncherActivity extends Activity implements IabBroadcastReceiver.I
         if (mHelper != null) {
             mHelper.disposeWhenFinished();
             mHelper = null;
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult(" + requestCode + "," + resultCode + "," + data);
-        if (mHelper == null) return;
-
-        // Pass on the activity result to the helper for handling
-        if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
-            // not handled, so handle it ourselves (here's where you'd
-            // perform any handling of activity results not related to in-app
-            // billing...
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-        else {
-            Log.d(TAG, "onActivityResult handled by IABUtil.");
-        }
-    }
-
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-
-    }
-
-    @Override
-    public void receivedBroadcast() {
-// Received a broadcast notification that the inventory of items has changed
-        Log.d(TAG, "Received broadcast notification. Querying inventory.");
-        try {
-            mHelper.queryInventoryAsync(mGotInventoryListener);
-        } catch (IabHelper.IabAsyncInProgressException e) {
-            //complain("Error al consultar el inventario. Otra operación asíncrona en progreso.");
         }
     }
 }

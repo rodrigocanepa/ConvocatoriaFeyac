@@ -29,6 +29,8 @@ import android.widget.Toast;
 
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Cliente;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.VerPDFDiagActivity;
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.github.barteksc.pdfviewer.util.FileUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -740,6 +742,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
 
                             FirebaseAuth.getInstance().signOut();
+                            LoginManager.getInstance().logOut();
                             Intent i = new Intent(MainActivity.this, LoginActivity.class);
                             startActivity(i);
                             finish();

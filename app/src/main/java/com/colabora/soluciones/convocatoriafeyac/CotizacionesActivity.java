@@ -97,6 +97,25 @@ public class CotizacionesActivity extends AppCompatActivity {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 getApplicationContext().startActivity(intent);
                             }
+                            else if(item.getTitle().equals("Editar")){
+                                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(CotizacionesActivity.this);
+                                builder.setMessage("¿Desea editar esta cotización?")
+                                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                Intent i = new Intent(CotizacionesActivity.this, NuevaCotizacionActivity.class);
+                                                i.putExtra(NuevaCotizacionActivity.EXTRA_FOLIO_EDITAR, cotizaciones.get(pos).getFolio());
+                                                startActivity(i);
+                                            }
+                                        })
+                                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                            }
+                                        });// Create the AlertDialog object and return it
+                                builder.create();
+                                builder.show();
+                            }
                             else if(item.getTitle().equals("Eliminar")){
                                 android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(CotizacionesActivity.this);
                                 builder.setMessage("¿Desea eliminar esta cotización?")

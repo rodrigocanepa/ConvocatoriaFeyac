@@ -48,6 +48,7 @@ import android.widget.Toast;
 
 import com.colabora.soluciones.convocatoriafeyac.Db.Querys;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Concepto;
+import com.colabora.soluciones.convocatoriafeyac.Modelos.ConceptoCotizacion;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Conceptos;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Cotizacion;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.TemplatePDF;
@@ -276,6 +277,47 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                                     // *********** LLENAMOS EL RECYCLER VIEW *****************************
                                     adapter = new NuevaCotizacionActivity.DataConfigAdapter(conceptos, getApplicationContext());
                                     recyclerView.setAdapter(adapter);
+
+                                    // ****************** ACTUALIZAMOS EL SUBTOTAL ********************
+                                    double subtotal = 0;
+                                    double iva = 0;
+                                    double descuento = 0;
+
+                                    for(int j = 0; j < conceptos.size(); j++){
+                                        subtotal += Double.valueOf(conceptos.get(j).getImporte());
+                                        iva += Double.valueOf(conceptos.get(j).getImpuestos_pesos());
+                                    }
+
+                                    if(swDescuento.isChecked()){
+                                        if(spinnerDescuento.getSelectedItem().equals("$")){
+                                            descuento = Double.valueOf(editDescuento.getText().toString());
+                                            txtDescuentos.setText("-$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
+                                        }
+                                        else{
+                                            double desc = Double.valueOf(editDescuento.getText().toString());
+                                            double descReal = desc/100;
+                                            descuento = subtotal * descReal;
+                                            txtDescuentos.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(descuento));
+                                        }
+                                    }
+
+                                    double gastosEnvio = 0;
+
+                                    if(swGastosEnvio.isChecked()){
+                                        if (editGastosEnvio.getText().toString().length() > 0) {
+                                            gastosEnvio = Double.valueOf(editGastosEnvio.getText().toString());
+                                        }
+                                    }
+
+                                    double total = subtotal - descuento + iva + gastosEnvio;
+                                    txtTotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(total));
+                                    txtSubtotal.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(subtotal));
+                                    txtGastosEnvio.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(gastosEnvio));
+                                    txtIVA.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(iva));
+
+                                    // ****************************************************************
+
+
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -395,7 +437,10 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
     private Querys querys;
 
     public static final String EXTRA_FOLIO = "extra_folio";
+    public static final String EXTRA_FOLIO_EDITAR = "extra_folio_editar";
+
     private String ex_folio = "";
+    private String ex_folio_editar = "";
 
     private ImageView imgSubtotal;
     private ImageView imgConceptos;
@@ -458,13 +503,16 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
         radioButtonCantidad.setChecked(true);
         radioButtonHoras.setChecked(false);
 
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
         txtNotasDestinatario.setText("En caso de requerir factura se necesitarán los datos fiscales de persona física o moral según sea el caso");
 
         formatter = new DecimalFormat("#,###");
 
         Intent i = getIntent();
         ex_folio = i.getStringExtra(EXTRA_FOLIO);
-        editNoFormato.setText(ex_folio);
+        ex_folio_editar = i.getStringExtra(EXTRA_FOLIO_EDITAR);
+
 
         // Leemos la memoria para ver que tarjetas se han creado
         sharedPreferences = getSharedPreferences("misDatos", 0);
@@ -478,6 +526,40 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
         txtNumeroEncargado.setText(telefonoAdmin);
         txtCargoEncargado.setText(cargoAdmin);
         txtTerminos.setText(terminosCondiciones);
+
+        if(ex_folio_editar != null){
+            Cotizacion cotizacion = querys.getCotizacionPorID(ex_folio_editar);
+            editNoFormato.setText(cotizacion.getFolio());
+            editFecha.setText(cotizacion.getFecha());
+            editVencimiento.setText(cotizacion.getVencimiento());
+            txtNombreEncargado.setText(cotizacion.getNombre_enc());
+            txtNumeroEncargado.setText(cotizacion.getNumero_enc());
+            txtCargoEncargado.setText(cotizacion.getCargo_enc());
+            txtTerminos.setText(cotizacion.getTerminos());
+            txtNotasDestinatario.setText(cotizacion.getNotasDestinatario());
+            txtNotasAdmin.setText(cotizacion.getNotasAdmin());
+
+
+            List<ConceptoCotizacion> conceptoCotizacions = new ArrayList<>();
+            conceptoCotizacions = querys.getAllConceptosCotizacionesPorID(ex_folio_editar);
+
+            for(int j = 0; j < conceptoCotizacions.size(); j++){
+                conceptos.add(new Conceptos(conceptoCotizacions.get(j).getNombre(), conceptoCotizacions.get(j).getCantidad(), conceptoCotizacions.get(j).getPrecio(), conceptoCotizacions.get(j).getImporte(), conceptoCotizacions.get(j).getIva(), conceptoCotizacions.get(j).getIva_precio()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new NuevaCotizacionActivity.DataConfigAdapter(conceptos, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+
+            txtTotal.setText(cotizacion.getTotal());
+            txtSubtotal.setText(cotizacion.getSubtotal());
+            txtGastosEnvio.setText(cotizacion.getEnvio());
+            txtIVA.setText(cotizacion.getIva());
+        }
+        else{
+            editNoFormato.setText(ex_folio);
+        }
+
 
         File folder = new  File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
         if(!folder.exists())
@@ -571,6 +653,11 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
 
         descuentos.add("%");
         descuentos.add("$");
+
+
+        final ArrayAdapter<String> adapterCategoria = new ArrayAdapter<String>(
+                NuevaCotizacionActivity.this, R.layout.support_simple_spinner_dropdown_item, descuentos);
+        spinnerDescuento.setAdapter(adapterCategoria);
 
         Date date = Calendar.getInstance().getTime();
         final DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -1057,10 +1144,6 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
             }
         });
 
-        final ArrayAdapter<String> adapterCategoria = new ArrayAdapter<String>(
-                NuevaCotizacionActivity.this, R.layout.support_simple_spinner_dropdown_item, descuentos);
-        spinnerDescuento.setAdapter(adapterCategoria);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         btnAgregarConcepto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1321,7 +1404,29 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                 }
 
                 Cotizacion cotizacion = new Cotizacion(folio, fecha, subtotal, iva, envio, descuento, total, notasDestinatario, terminos, nombre_enc, cargo_enc, numero_enc, vencimiento, notasAdmin);
-                querys.insertCotizacion(cotizacion);
+
+
+                if(ex_folio_editar != null){
+                    querys.updateCotizacion(cotizacion, ex_folio_editar);
+
+                    List<ConceptoCotizacion> list = querys.getAllConceptosCotizacionesPorID(ex_folio_editar);
+                    for (int i = 0; i < list.size(); i++){
+                        querys.deleteConceptoCotizacion(String.valueOf(list.get(i).getId()));
+                    }
+                    for (int i = 0; i < conceptos.size(); i++){
+                        ConceptoCotizacion conceptoCotizacion = new ConceptoCotizacion(Integer.valueOf(folio), conceptos.get(i).getConceptos(), conceptos.get(i).getCantidad(), conceptos.get(i).getPrecio(), conceptos.get(i).getImporte(),"",conceptos.get(i).getImpuestos_pesos());
+                        querys.insertConceptoCotizacion(conceptoCotizacion);
+                    }
+                }
+                else{
+                    querys.insertCotizacion(cotizacion);
+                    for (int i = 0; i < conceptos.size(); i++){
+                        ConceptoCotizacion conceptoCotizacion = new ConceptoCotizacion(Integer.valueOf(folio), conceptos.get(i).getConceptos(), conceptos.get(i).getCantidad(), conceptos.get(i).getPrecio(), conceptos.get(i).getImporte(),"",conceptos.get(i).getImpuestos_pesos());
+                        querys.insertConceptoCotizacion(conceptoCotizacion);
+                    }
+                    ex_folio_editar = String.valueOf(folio);
+                }
+
 
                 String tipoDescuento = "";
                 if(!descuento.equals("-$0.00")) {
