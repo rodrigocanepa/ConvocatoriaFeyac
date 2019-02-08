@@ -3,6 +3,7 @@ package com.colabora.soluciones.convocatoriafeyac;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class RegistroActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
     private ProgressDialog progressDialog;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

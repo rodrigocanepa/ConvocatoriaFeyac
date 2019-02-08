@@ -193,13 +193,13 @@ public class LoginActivity extends Activity {
                     }
                     else{
 
-                        /*Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(i);
-                        finish();*/
-
-                        Intent i = new Intent(LoginActivity.this, SuscripcionesActivity.class);
+                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(i);
                         finish();
+
+                       /* Intent i = new Intent(LoginActivity.this, SuscripcionesActivity.class);
+                        startActivity(i);
+                        finish();*/
                     }
 
 

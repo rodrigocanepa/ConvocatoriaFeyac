@@ -189,13 +189,13 @@ public class LauncherActivity extends Activity implements IabBroadcastReceiver.I
                    startActivity(i);
                }
                else if(sesion == true && suscripcion == false){
-                  /* Intent i = new Intent(LauncherActivity.this, MainActivity.class);
-                   finish();
-                   startActivity(i);*/
-
-                   Intent i = new Intent(LauncherActivity.this, SuscripcionesActivity.class);
+                   Intent i = new Intent(LauncherActivity.this, MainActivity.class);
                    finish();
                    startActivity(i);
+
+                  /* Intent i = new Intent(LauncherActivity.this, SuscripcionesActivity.class);
+                   finish();
+                   startActivity(i);*/
                }
                else{
                    Intent i = new Intent(LauncherActivity.this, LoginActivity.class);

@@ -156,7 +156,7 @@
                 android:id="@+id/imgMainRH"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/rh"
+                android:src="@drawable/responsive_web"
                 android:scaleType="centerCrop"/>
 
             <TextView
@@ -166,7 +166,7 @@
                 android:textStyle="bold"
                 android:textSize="24sp"
                 android:textColor="@android:color/white"
-                android:text="DIAGNÓSTICO DE EMPRESA"/>
+                android:text="CREAR MI PÁGINA WEB"/>
 
         </RelativeLayout>
 

@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/txtAreaEstatusActual"
+            android:id="@+id/txtDatosEmpresaActual"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="ÁREA EN TURNO"
@@ -29,7 +29,7 @@
             android:background="@drawable/borde_redondeado_blur_sin_fondo">
 
             <TextView
-                android:id="@+id/txtEstatusActualPregunta"
+                android:id="@+id/txtDatosEmpresaPregunta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="18sp"
@@ -42,17 +42,18 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearDatosEmpresaTres"
+        android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12sp"
-        android:layout_marginRight="12sp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:paddingTop="20sp"
+        android:layout_marginLeft="4sp"
+        android:layout_marginRight="4sp"
         android:gravity="center">
 
         <Button
-            android:id="@+id/btnEstatusActualSi"
+            android:id="@+id/btnEstatusActualTresSi"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -61,17 +62,17 @@
             android:text="Si"/>
 
         <Button
-            android:id="@+id/btnEstatusActualNo"
+            android:id="@+id/btnEstatusActualTresNo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
             android:background="@android:color/white"
+            android:layout_marginRight="2sp"
             android:text="No"/>
 
         <Button
-            android:id="@+id/btnEstatusActualNoSe"
+            android:id="@+id/btnEstatusActualTresNoSe"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -81,8 +82,58 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linearDatosEmpresaDos"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:paddingTop="20sp"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginRight="6sp">
+
+            <Button
+                android:id="@+id/btnEstatusActualDos1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:text="Si"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginLeft="6sp">
+
+            <Button
+                android:id="@+id/btnEstatusActualDos2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:text="No"/>
+
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
     <Button
-        android:id="@+id/btnEstatusActualSigPregunta"
+        android:id="@+id/btnDatosEmpresaSigPregunta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -93,9 +144,5 @@
         android:text="Siguiente"/>
 
 
-    <com.github.mikephil.charting.charts.RadarChart
-        android:id="@+id/chartEstatusActualDiagnostico"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 </RelativeLayout>

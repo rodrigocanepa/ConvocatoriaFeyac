@@ -9,6 +9,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_diagnostico"
+        android:orderInCategory="100"
+        android:title="Diagnóstico"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_Cerrar"
         android:orderInCategory="100"
         android:title="Cerrar Sesión"

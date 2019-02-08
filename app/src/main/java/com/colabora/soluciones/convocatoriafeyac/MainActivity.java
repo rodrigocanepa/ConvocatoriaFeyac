@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Cliente;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.VerPDFDiagActivity;
+import com.colabora.soluciones.convocatoriafeyac.web.DisenoWebActivity;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.github.barteksc.pdfviewer.util.FileUtils;
@@ -589,7 +590,7 @@ public class MainActivity extends AppCompatActivity {
         imgRH.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, DiagnosticoActivity.class);
+                Intent i = new Intent(MainActivity.this, DisenoWebActivity.class);
                 startActivity(i);
             }
         });
@@ -756,6 +757,11 @@ public class MainActivity extends AppCompatActivity {
             // Create the AlertDialog object and return it
             builder.create();
             builder.show();
+        }
+
+        else if(id == R.id.action_diagnostico){
+            Intent i = new Intent(MainActivity.this, DiagnosticosMenuActivity.class);
+            startActivity(i);
         }
 
         return super.onOptionsItemSelected(item);
