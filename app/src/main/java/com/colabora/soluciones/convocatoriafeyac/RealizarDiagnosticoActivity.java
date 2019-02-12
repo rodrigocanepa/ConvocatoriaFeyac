@@ -25,6 +25,8 @@ import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -470,6 +472,9 @@ public class RealizarDiagnosticoActivity extends AppCompatActivity {
 
                                 Toast.makeText(getApplicationContext(), "Diagnóstico completado con éxito", Toast.LENGTH_LONG).show();
                                 templatePDF.closeDocument();
+
+                                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); //FirebaseAuth.getInstance().getCurrentUser;
+                                UUIDUser = user.getUid();
 
                                 editor.putString(UUIDUser + "diagnosticoEstatusActual", date);
                                 editor.putString(UUIDUser + "diagnosticoEstatusActualContabilidad", Integer.toString(contadorContabilidad));

@@ -27,6 +27,8 @@ import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -103,20 +105,20 @@ public class DatosEmpresaDiagnosticoActivity extends AppCompatActivity {
         preguntas.add(new PreguntasDiagnostico("", "7. ¿Algún integrante cuenta con una discapacidad? (poner # por genero).", false, ""));
 
         preguntas.add(new PreguntasDiagnostico("", "8. ¿Tienes a tu personal dado de alta ante IMSS (incluyendote)? (poner # por genero).", false, ""));
-        preguntas.add(new PreguntasDiagnostico("", "9. ¿Cuenta con logotipo?.", false, ""));
-        preguntas.add(new PreguntasDiagnostico("", "9.1. En caso de contar con logotipo responder si está registrado ante el IMPI.", false, ""));
-        preguntas.add(new PreguntasDiagnostico("", "10. ¿Cuenta con página web?.", false, ""));
-        preguntas.add(new PreguntasDiagnostico("", "11. ¿Cuenta con red o redes sociales?.", false, ""));
-        preguntas.add(new PreguntasDiagnostico("", "12. ¿Tiene tu proyecto un plan de negocios?.", false, ""));
-        preguntas.add(new PreguntasDiagnostico("", "13. ¿Conoces a tus clientes?.", false, ""));
-        preguntas.add(new PreguntasDiagnostico("", "14. ¿Conoces a tus competencia?.", false, ""));
-        preguntas.add(new PreguntasDiagnostico("", "15. ¿Tu negocio ya genera ingresos fijos mensuales?.", false, ""));
-        preguntas.add(new PreguntasDiagnostico("", "16. ¿Alguna vez has tomado cursos o talleres?.", false, ""));
-        preguntas.add(new PreguntasDiagnostico("", "17. ¿Has sido acreedor de fondo o financiamiento?.", false, ""));
-        preguntas.add(new PreguntasDiagnostico("", "18. ¿Conoces los costos de producción de tus productos y precio de venta?.", false, ""));
-        preguntas.add(new PreguntasDiagnostico("", "19. ¿Tienes un catalogo de tus productos o servicios?.", false, ""));
-        preguntas.add(new PreguntasDiagnostico("", "20. ¿Cuentas con un contador?.", false, ""));
-        preguntas.add(new PreguntasDiagnostico("", "21. ¿Formas parte de una comunidad empresarial? (cámara, asociación, movimiento, etc..).", false, ""));
+        preguntas.add(new PreguntasDiagnostico("", "6. ¿Cuenta con logotipo?.", false, ""));
+        preguntas.add(new PreguntasDiagnostico("", "6.1. En caso de contar con logotipo responder si está registrado ante el IMPI.", false, ""));
+        preguntas.add(new PreguntasDiagnostico("", "7. ¿Cuenta con página web?.", false, ""));
+        preguntas.add(new PreguntasDiagnostico("", "8. ¿Cuenta con red o redes sociales?.", false, ""));
+        preguntas.add(new PreguntasDiagnostico("", "9. ¿Tiene tu proyecto un plan de negocios?.", false, ""));
+        preguntas.add(new PreguntasDiagnostico("", "10. ¿Conoces a tus clientes?.", false, ""));
+        preguntas.add(new PreguntasDiagnostico("", "11. ¿Conoces a tus competencia?.", false, ""));
+        preguntas.add(new PreguntasDiagnostico("", "12. ¿Tu negocio ya genera ingresos fijos mensuales?.", false, ""));
+        preguntas.add(new PreguntasDiagnostico("", "13. ¿Alguna vez has tomado cursos o talleres?.", false, ""));
+        preguntas.add(new PreguntasDiagnostico("", "14. ¿Has sido acreedor de fondo o financiamiento?.", false, ""));
+        preguntas.add(new PreguntasDiagnostico("", "15. ¿Conoces los costos de producción de tus productos y precio de venta?.", false, ""));
+        preguntas.add(new PreguntasDiagnostico("", "16. ¿Tienes un catalogo de tus productos o servicios?.", false, ""));
+        preguntas.add(new PreguntasDiagnostico("", "17. ¿Cuentas con un contador?.", false, ""));
+        preguntas.add(new PreguntasDiagnostico("", "18. ¿Formas parte de una comunidad empresarial? (cámara, asociación, movimiento, etc..).", false, ""));
 
         // ********************************************************** DECLARAMOS LAS ACTIVIDADES A REALIZAR **************************************************************
         actividades.add("");
@@ -345,6 +347,12 @@ public class DatosEmpresaDiagnosticoActivity extends AppCompatActivity {
                                 respuestasRepresentante.add(new String[]{"Preocupación 1", misDatos.getString("general_preocupacion_uno", "")});
                                 respuestasRepresentante.add(new String[]{"Preocupación 2", misDatos.getString("general_preocupacion_dos", "")});
                                 respuestasRepresentante.add(new String[]{"Preocupación 3", misDatos.getString("general_preocupacion_tres", "")});
+                                respuestasRepresentante.add(new String[]{"# Integrantes hombres", misDatos.getString("general_hombres", "")});
+                                respuestasRepresentante.add(new String[]{"# Integrantes mujeres", misDatos.getString("general_mujeres", "")});
+                                respuestasRepresentante.add(new String[]{"# Integrantes hombres IMSS", misDatos.getString("general_hombresIMSS", "")});
+                                respuestasRepresentante.add(new String[]{"# Integrantes mujeres IMSS", misDatos.getString("general_mujeresIMSS", "")});
+                                respuestasRepresentante.add(new String[]{"# Integrantes hombres Discapacidad", misDatos.getString("general_mujeresDisc", "")});
+                                respuestasRepresentante.add(new String[]{"# Integrantes hombres Discapacidad", misDatos.getString("general_mujeresDisc", "")});
 
                                 templatePDF.addSectionsCenter("REPRESENTANTE LEGAL");
 
@@ -367,14 +375,10 @@ public class DatosEmpresaDiagnosticoActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Diagnóstico completado con éxito", Toast.LENGTH_LONG).show();
                                 templatePDF.closeDocument();
 
-                                editor.putString(UUIDUser + "diagnosticoEstatusActual", date);
-                                editor.putString(UUIDUser + "diagnosticoEstatusActualContabilidad", Integer.toString(contadorContabilidad));
-                                editor.putString(UUIDUser + "diagnosticoEstatusActualProcuracion", Integer.toString(contadorProcuracion));
-                                editor.putString(UUIDUser + "diagnosticoEstatusActualInnovacion", Integer.toString(contadorInnovacion));
-                                editor.putString(UUIDUser + "diagnosticoEstatusActualLegal", Integer.toString(contadorLegal));
-                                editor.putString(UUIDUser + "diagnosticoEstatusActualVentas", Integer.toString(contadorVentas));
-                                editor.putString(UUIDUser + "diagnosticoEstatusActualPlaneacion", Integer.toString(contadorPlaneacion));
+                                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); //FirebaseAuth.getInstance().getCurrentUser;
+                                UUIDUser = user.getUid();
 
+                                editor.putString(UUIDUser + "diagnosticoDatosGenerales", date);
                                 editor.commit();
 
                                 templatePDF.viewPDF2("Diagnostico2");
@@ -392,7 +396,7 @@ public class DatosEmpresaDiagnosticoActivity extends AppCompatActivity {
                                 }
                                 else if(contador == 5){
                                     if(preguntas.get(contador).getRespuesta().equals("En proceso") || preguntas.get(contador).getRespuesta().equals("No")){
-                                        contador = contador + 3;
+                                        contador = 11;
                                     }
                                     else{
                                         contador++;
@@ -406,8 +410,14 @@ public class DatosEmpresaDiagnosticoActivity extends AppCompatActivity {
                                         contador++;
                                     }
                                 }
+
                                 else{
-                                    contador++;
+                                    if(contador == 7){
+                                        contador = 11;
+                                    }
+                                    else{
+                                        contador++;
+                                    }
                                 }
                                 setPreguntas();
                                 btnSi.setBackgroundColor(Color.WHITE);

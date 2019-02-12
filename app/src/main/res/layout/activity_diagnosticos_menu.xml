@@ -51,7 +51,7 @@
             android:layout_alignParentLeft="true"
             android:layout_margin="6sp"
             android:textColor="@android:color/white"
-            android:text="Preguntas: 48"/>
+            android:text="Preguntas: 32"/>
 
     </RelativeLayout>
 
@@ -122,7 +122,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MARKETING"
+            android:text="SERVICIOS"
             android:gravity="center"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
@@ -147,7 +147,7 @@
             android:layout_alignParentLeft="true"
             android:layout_margin="6sp"
             android:textColor="@android:color/white"
-            android:text="Preguntas: 30"/>
+            android:text="Preguntas: 10"/>
 
     </RelativeLayout>
 
@@ -170,7 +170,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PROCESOS"
+            android:text="PRODUCTOS"
             android:gravity="center"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
@@ -195,7 +195,7 @@
             android:layout_alignParentLeft="true"
             android:layout_margin="6sp"
             android:textColor="@android:color/white"
-            android:text="Preguntas: 30"/>
+            android:text="Preguntas: 10"/>
 
     </RelativeLayout>
 

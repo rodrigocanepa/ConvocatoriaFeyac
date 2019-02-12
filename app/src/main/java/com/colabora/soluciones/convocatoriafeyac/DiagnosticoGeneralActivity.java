@@ -44,6 +44,13 @@ public class DiagnosticoGeneralActivity extends AppCompatActivity {
     private TextInputEditText editTelefono;
     private TextInputEditText editCorreo;
 
+    private TextInputEditText editHombres;
+    private TextInputEditText editMujeres;
+    private TextInputEditText editHombresIMSS;
+    private TextInputEditText editMujeresIMSS;
+    private TextInputEditText editHombresDiscapacidad;
+    private TextInputEditText editMujeresDiscapacidad;
+
     private Button btnFem;
     private Button btnMasc;
 
@@ -100,6 +107,13 @@ public class DiagnosticoGeneralActivity extends AppCompatActivity {
         editEdad = (TextInputEditText)findViewById(R.id.txtDiagGeneralEdad);
         editTelefono = (TextInputEditText)findViewById(R.id.txtDiagGeneralTelefono);
         editCorreo = (TextInputEditText)findViewById(R.id.txtDiagGeneralCorreo);
+
+        editHombres = (TextInputEditText)findViewById(R.id.txtDiagGeneralIntegrantesHombres);
+        editMujeres = (TextInputEditText)findViewById(R.id.txtDiagGeneralIntegrantesMujeres);
+        editHombresIMSS = (TextInputEditText)findViewById(R.id.txtDiagGeneralIntegrantesHombresIMSS);
+        editMujeresIMSS = (TextInputEditText)findViewById(R.id.txtDiagGeneralIntegrantesMujeresIMSS);
+        editHombresDiscapacidad = (TextInputEditText)findViewById(R.id.txtDiagGeneralIntegrantesHombresDiscapacidad);
+        editMujeresDiscapacidad = (TextInputEditText)findViewById(R.id.txtDiagGeneralIntegrantesMujeresDiscapacidad);
 
         btnFem = (Button)findViewById(R.id.btnDiagGeneralFem);
         btnMasc = (Button)findViewById(R.id.btnDiagGeneralMasc);
@@ -532,6 +546,12 @@ public class DiagnosticoGeneralActivity extends AppCompatActivity {
                 String edad = editEdad.getText().toString();
                 String correo = editCorreo.getText().toString();
                 String telefono = editTelefono.getText().toString();
+                String hombres = editHombres.getText().toString();
+                String mujeres = editMujeres.getText().toString();
+                String hombresIMSS = editHombresIMSS.getText().toString();
+                String mujeresIMSS = editMujeresIMSS.getText().toString();
+                String hombresDiscapacidad = editHombresDiscapacidad.getText().toString();
+                String mujeresDiscapacidad = editMujeresDiscapacidad.getText().toString();
 
                 if(nombre.length() < 1){
                     editNombre.setError("Ingrese un valor");
@@ -565,7 +585,10 @@ public class DiagnosticoGeneralActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Debe seleccionar su grado académico", Toast.LENGTH_LONG).show();
                     return;
                 }
-
+                else if(contador < 3){
+                    Toast.makeText(getApplicationContext(), "Debe escoger el orden de sus preocupaciones para continuar", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 // Leemos la memoria para ver que tarjetas se han creado
                 sharedPreferences = getSharedPreferences("misDatos", 0);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -579,7 +602,12 @@ public class DiagnosticoGeneralActivity extends AppCompatActivity {
                 editor.putString("general_preocupacion_uno", preocupacion_uno);
                 editor.putString("general_preocupacion_dos", preocupacion_dos);
                 editor.putString("general_preocupacion_tres", preocupacion_tres);
-
+                editor.putString("general_mujeres", mujeres);
+                editor.putString("general_hombres", hombres);
+                editor.putString("general_mujeresIMSS", mujeresIMSS);
+                editor.putString("general_hombresIMSS", hombresIMSS);
+                editor.putString("general_mujeresDisc", mujeresDiscapacidad);
+                editor.putString("general_hombresDisc", hombresDiscapacidad);
                 editor.commit();
                 // *****************************************************
 

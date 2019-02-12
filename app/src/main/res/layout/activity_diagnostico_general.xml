@@ -73,11 +73,25 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputEditText
+                    android:id="@+id/txtDiagGeneralCorreo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionDone"
+                    android:hint="Correo" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
                     android:id="@+id/txtDiagGeneralIntegrantesHombres"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text|textCapSentences"
-                    android:imeOptions="actionDone"
+                    android:inputType="number|textCapSentences"
+                    android:imeOptions="actionNext"
                     android:hint="# De integrantes del proyecto hombres" />
 
             </android.support.design.widget.TextInputLayout>
@@ -90,8 +104,8 @@
                     android:id="@+id/txtDiagGeneralIntegrantesMujeres"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text|textCapSentences"
-                    android:imeOptions="actionDone"
+                    android:inputType="number|textCapSentences"
+                    android:imeOptions="actionNext"
                     android:hint="# De integrantes del proyecto mujeres" />
 
             </android.support.design.widget.TextInputLayout>
@@ -101,15 +115,56 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/txtDiagGeneralCorreo"
+                    android:id="@+id/txtDiagGeneralIntegrantesHombresIMSS"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text|textCapSentences"
-                    android:imeOptions="actionDone"
-                    android:hint="Correo" />
+                    android:inputType="number|textCapSentences"
+                    android:imeOptions="actionNext"
+                    android:hint="# De integrantes del proyecto registrados en el IMSS hombres" />
 
             </android.support.design.widget.TextInputLayout>
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/txtDiagGeneralIntegrantesMujeresIMSS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number|textCapSentences"
+                    android:imeOptions="actionNext"
+                    android:hint="# De integrantes del proyecto registrados en el IMSS mujeres" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/txtDiagGeneralIntegrantesHombresDiscapacidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number|textCapSentences"
+                    android:imeOptions="actionNext"
+                    android:hint="# De integrantes del proyecto con alguna discapacidad hombres" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/txtDiagGeneralIntegrantesMujeresDiscapacidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number|textCapSentences"
+                    android:imeOptions="actionDone"
+                    android:hint="# De integrantes del proyecto con alguna discapacidad mujeres" />
+
+            </android.support.design.widget.TextInputLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
