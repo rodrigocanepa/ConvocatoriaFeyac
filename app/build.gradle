@@ -4,8 +4,9 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.colabora.soluciones.convocatoriafeyac"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 28
+        multiDexEnabled true
         versionCode 5
         versionName "1.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -34,6 +35,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     implementation 'com.google.zxing:core:3.2.1'
     implementation 'com.github.jrvansuita:PickImage:+'
+    implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.itextpdf:itextg:5.5.10'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     testImplementation 'junit:junit:4.12'

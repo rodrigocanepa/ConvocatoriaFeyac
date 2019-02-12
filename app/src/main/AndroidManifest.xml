@@ -117,7 +117,10 @@
         <activity android:name=".web.DisenoWebActivity" />
         <activity android:name=".DatosEmpresaDiagnosticoActivity" />
         <activity android:name=".DiagnosticosMenuActivity" />
-        <activity android:name=".DiagnosticoGeneralActivity"></activity>
+        <activity android:name=".DiagnosticoGeneralActivity" />
+        <activity android:name=".Finanzas.MenuFinanzasActivity" />
+        <activity android:name=".Finanzas.ProductosServiciosActivity" />
+        <activity android:name=".Finanzas.InversionActivity"></activity>
     </application>
 
 </manifest>

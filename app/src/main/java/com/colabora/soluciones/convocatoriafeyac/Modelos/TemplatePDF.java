@@ -387,10 +387,10 @@ public class TemplatePDF {
             pdfPTableTotalPrecio.addCell(createTextCellNombre(total));*/
             pdfPTable.addCell(celdaSubtotal);
             pdfPTable.addCell(celdaIVA);
-            if(!envio.equals("$0.00")){
+            if(!(envio.equals("$0.00") || (envio.equals("$0")))){
                 pdfPTable.addCell(celdaEnvio);
             }
-            if(!descuento.equals("-$0.00")){
+            if(!(descuento.equals("-$0.00")) || (envio.equals("-$0"))){
                 pdfPTable.addCell(celdaDescuento);
             }
             pdfPTable.addCell(celdaTotal);

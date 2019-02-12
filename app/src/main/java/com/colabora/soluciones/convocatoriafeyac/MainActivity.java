@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.colabora.soluciones.convocatoriafeyac.Finanzas.MenuFinanzasActivity;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Cliente;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.VerPDFDiagActivity;
 import com.colabora.soluciones.convocatoriafeyac.web.DisenoWebActivity;
@@ -498,6 +499,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                Intent i = new Intent(MainActivity.this, MenuFinanzasActivity.class);
+                startActivity(i);
+                /*
                 // ***************************** GUARDAMOS LA IMAGEN ***********************
                 File folder = new File(Environment.getExternalStorageDirectory().toString(), "Documents");
                 if(!folder.exists())
@@ -567,6 +571,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Debes descargar Microsoft Excel en la Playstore para avanzar", Toast.LENGTH_LONG).show();
                     }
                 }
+                */
 
             }
         });

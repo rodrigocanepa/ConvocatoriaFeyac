@@ -11,8 +11,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.FileProvider;
@@ -191,7 +193,7 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                             conceptos.add(concepto);
 
                             // *********** LLENAMOS EL RECYCLER VIEW *****************************
-                            adapter = new NuevaCotizacionActivity.DataConfigAdapter(conceptos, getApplicationContext());
+                            adapter = new DataConfigAdapter(conceptos, getApplicationContext());
                             recyclerView.setAdapter(adapter);
 
                             // ****************** ACTUALIZAMOS EL SUBTOTAL ********************
@@ -258,7 +260,9 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                     int width = metrics.widthPixels;
                     int height = metrics.heightPixels;
 
-                    builder.create();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        builder.create();
+                    }
                     builder.show();
                     builder.getWindow().setLayout((6 * width)/7, ViewGroup.LayoutParams.WRAP_CONTENT);
                 }
@@ -1187,6 +1191,7 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                     }
                 });
                 buscarConceptos.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void onClick(View v) {
                         //builder.dismiss();
@@ -1224,7 +1229,9 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                             int width = metrics.widthPixels;
                             int height = metrics.heightPixels;
 
-                            builder.create();
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                builder.create();
+                            }
                             builder.show();
                             builder.getWindow().setLayout((7 * width)/7, ViewGroup.LayoutParams.WRAP_CONTENT);
                         }
@@ -1275,7 +1282,7 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                         conceptos.add(concepto);
 
                         // *********** LLENAMOS EL RECYCLER VIEW *****************************
-                        adapter = new NuevaCotizacionActivity.DataConfigAdapter(conceptos, getApplicationContext());
+                        adapter = new DataConfigAdapter(conceptos, getApplicationContext());
                         recyclerView.setAdapter(adapter);
 
                         // ****************** ACTUALIZAMOS EL SUBTOTAL ********************
@@ -1323,7 +1330,9 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
                 int width = metrics.widthPixels;
                 int height = metrics.heightPixels;
 
-                builder.create();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder.create();
+                }
                 builder.show();
                 builder.getWindow().setLayout((7 * width)/7, ViewGroup.LayoutParams.WRAP_CONTENT);
             }
