@@ -112,28 +112,40 @@
         <activity
             android:name=".VisualizarTarjetaActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ConceptosActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SuscripcionesActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".web.DisenoWebActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".DatosEmpresaDiagnosticoActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".DiagnosticosMenuActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".DiagnosticoGeneralActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Finanzas.MenuFinanzasActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Finanzas.ProductosServiciosActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Finanzas.InversionActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ProductosDiagnosticoActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ServiciosDiagnosticoActivity"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ConceptosActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SuscripcionesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".web.DisenoWebActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DatosEmpresaDiagnosticoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DiagnosticosMenuActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DiagnosticoGeneralActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Finanzas.MenuFinanzasActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Finanzas.ProductosServiciosActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Finanzas.InversionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ProductosDiagnosticoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ServiciosDiagnosticoActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".PlanDeNegocios.PlanNegociosActivity"></activity>
     </application>
 
 </manifest>

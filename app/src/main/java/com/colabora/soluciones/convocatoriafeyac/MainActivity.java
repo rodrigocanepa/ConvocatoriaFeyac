@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.colabora.soluciones.convocatoriafeyac.Finanzas.MenuFinanzasActivity;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Cliente;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.VerPDFDiagActivity;
+import com.colabora.soluciones.convocatoriafeyac.PlanDeNegocios.PlanNegociosActivity;
 import com.colabora.soluciones.convocatoriafeyac.web.DisenoWebActivity;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
@@ -766,6 +767,10 @@ public class MainActivity extends AppCompatActivity {
 
         else if(id == R.id.action_diagnostico){
             Intent i = new Intent(MainActivity.this, DiagnosticosMenuActivity.class);
+            startActivity(i);
+        }
+        else if(id == R.id.action_plan){
+            Intent i = new Intent(MainActivity.this, PlanNegociosActivity.class);
             startActivity(i);
         }
 

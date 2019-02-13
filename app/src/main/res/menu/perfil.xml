@@ -15,6 +15,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_plan"
+        android:orderInCategory="100"
+        android:title="Plan de negocios"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_Cerrar"
         android:orderInCategory="100"
         android:title="Cerrar Sesión"
