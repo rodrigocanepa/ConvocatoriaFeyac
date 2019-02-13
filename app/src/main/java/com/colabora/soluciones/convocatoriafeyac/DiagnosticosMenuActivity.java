@@ -102,16 +102,16 @@ public class DiagnosticosMenuActivity extends AppCompatActivity {
         imgMarketing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent i = new Intent(DiagnosticosMenuActivity.this, OtrasAreasActivity.class);
-                startActivity(i);*/
+                Intent i = new Intent(DiagnosticosMenuActivity.this, ServiciosDiagnosticoActivity.class);
+                startActivity(i);
             }
         });
 
         imgProcesos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent i = new Intent(DiagnosticosMenuActivity.this, OtrasAreasActivity.class);
-                startActivity(i);*/
+                Intent i = new Intent(DiagnosticosMenuActivity.this, ProductosDiagnosticoActivity.class);
+                startActivity(i);
             }
         });
 

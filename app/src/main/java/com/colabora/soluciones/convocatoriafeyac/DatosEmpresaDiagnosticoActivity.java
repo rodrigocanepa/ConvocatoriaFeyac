@@ -381,7 +381,7 @@ public class DatosEmpresaDiagnosticoActivity extends AppCompatActivity {
                                 editor.putString(UUIDUser + "diagnosticoDatosGenerales", date);
                                 editor.commit();
 
-                                templatePDF.viewPDF2("Diagnostico2");
+                                templatePDF.viewPDF2("DiagnosticoGeneral");
 
                                 finish();
                             }

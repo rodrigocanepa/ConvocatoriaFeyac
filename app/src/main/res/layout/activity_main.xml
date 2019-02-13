@@ -142,7 +142,7 @@
                 android:textStyle="bold"
                 android:textSize="24sp"
                 android:textColor="@android:color/white"
-                android:text="CALCULADORA DE NÓMINAS"/>
+                android:text="CALCULADORA DE PRESTACIONES DEL TRABAJADOR"/>
 
         </RelativeLayout>
 
