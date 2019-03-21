@@ -171,7 +171,18 @@
         <activity android:name=".web.salud.WebsSaludSeccion4" />
         <activity android:name=".web.salud.WebsSaludSeccion5" />
         <activity android:name=".web.salud.WebsSaludSeccion6" />
-        <activity android:name=".web.salud.WebsSaludSeccion7"></activity>
+        <activity android:name=".web.salud.WebsSaludSeccion7" />
+        <activity android:name=".web.productos.WebsProductosSeccion1" />
+        <activity android:name=".web.productos.WebsProductosSeccion2" />
+        <activity android:name=".web.productos.WebsProductosSeccion3" />
+        <activity android:name=".web.productos.WebsProductosSeccion4" />
+        <activity android:name=".web.productos.WebsProductosSeccion5" />
+        <activity android:name=".web.productos.WebsProductosSeccion6" />
+        <activity android:name=".web.comida.WebsComidaSeccion2" />
+        <activity android:name=".web.comida.WebsComidaSeccion3" />
+        <activity android:name=".web.comida.WebsComidaSeccion4" />
+        <activity android:name=".web.comida.WebsComidaSeccion5" />
+        <activity android:name=".web.comida.WebsComidaSeccion6"></activity>
     </application>
 
 </manifest>

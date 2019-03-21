@@ -3,6 +3,8 @@ package com.colabora.soluciones.convocatoriafeyac.web.salud;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,8 +12,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.colabora.soluciones.convocatoriafeyac.Modelos.Horario;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.caracteristicas_web;
+import com.colabora.soluciones.convocatoriafeyac.Modelos.pagWebs;
 import com.colabora.soluciones.convocatoriafeyac.R;
+import com.colabora.soluciones.convocatoriafeyac.web.servicios.WebsServiciosSeccion7;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -45,7 +52,7 @@ public class WebsSaludSeccion7 extends AppCompatActivity {
     private Map<String, Object> sociales;
 
     private List<caracteristicas_web> servicio = new ArrayList<>();
-    private List<caracteristicas_web> hora = new ArrayList<>();
+    private List<Horario> hora = new ArrayList<>();
     private List<caracteristicas_web> caracteristicas = new ArrayList<>();
 
     // variables home
@@ -83,7 +90,8 @@ public class WebsSaludSeccion7 extends AppCompatActivity {
     // variables sociales
     private String sociales_titulo = "";
     private String sociales_facebook = "";
-    private String socailes_instagram = "";
+    private String sociales_instagram = "";
+    private String sociales_twitter = "";
 
     private String imagen = "";
     private String titulo = "";
@@ -98,6 +106,12 @@ public class WebsSaludSeccion7 extends AppCompatActivity {
         editFacebook = (TextInputEditText)findViewById(R.id.txtSaludSeccion7Facebook);
         editInstagram= (TextInputEditText)findViewById(R.id.txtSaludSeccion7Instagram);
         editTwitter = (TextInputEditText)findViewById(R.id.txtSaludSeccion7Twitter);
+
+        db = FirebaseFirestore.getInstance();
+        progressDialog = new ProgressDialog(WebsSaludSeccion7.this);
+
+        progressDialog.setTitle("Subiendo Información");
+        progressDialog.setMessage("Espere un momento mientras el sistema sube su información a la base de datos");
 
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,6 +130,8 @@ public class WebsSaludSeccion7 extends AppCompatActivity {
                     editor.putString("web_salud_twitter_seccion_7", twitter);
                     editor.commit();
                     // ******************************************************************************
+
+                    progressDialog.show();
 
                     web = new HashMap<>();
                     home = new HashMap<>();
@@ -200,6 +216,65 @@ public class WebsSaludSeccion7 extends AppCompatActivity {
                         servicio.add(new caracteristicas_web(imagen, titulo, descripcion));
                     }
 
+                    if(sharedPreferences.getString("web_salud_seccion_3_recycler", "").equals("1")){
+                        imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica1_titulo","");
+                        titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica1_descripcion","");
+
+                        hora.add(new Horario(imagen, titulo, ""));
+                    }
+
+                    else if(sharedPreferences.getString("web_salud_seccion_3_recycler", "").equals("2")){
+                        imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica1_titulo","");
+                        titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica1_descripcion","");
+
+                        hora.add(new Horario(imagen, titulo, ""));
+
+                        imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica2_titulo","");
+                        titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica2_descripcion","");
+
+                        hora.add(new Horario(imagen, titulo, ""));
+                    }
+
+                    else if(sharedPreferences.getString("web_salud_seccion_3_recycler", "").equals("3")){
+                        imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica1_titulo","");
+                        titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica1_descripcion","");
+
+                        hora.add(new Horario(imagen, titulo, ""));
+
+                        imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica2_titulo","");
+                        titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica2_descripcion","");
+
+                        hora.add(new Horario(imagen, titulo, ""));
+
+                        imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica3_titulo","");
+                        titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica3_descripcion","");
+
+                        hora.add(new Horario(imagen, titulo, ""));
+                    }
+
+                    else if(sharedPreferences.getString("web_salud_seccion_3_recycler", "").equals("4")){
+                        imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica1_titulo","");
+                        titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica1_descripcion","");
+
+                        hora.add(new Horario(imagen, titulo, ""));
+
+                        imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica2_titulo","");
+                        titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica2_descripcion","");
+
+                        hora.add(new Horario(imagen, titulo, ""));
+
+                        imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica3_titulo","");
+                        titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica3_descripcion","");
+
+                        hora.add(new Horario(imagen, titulo, ""));
+
+                        imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica4_titulo","");
+                        titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica4_descripcion","");
+
+                        hora.add(new Horario(imagen, titulo, ""));
+                    }
+
+
                     about_navbar = "Generalidades";
                     about_titulo = sharedPreferences.getString("web_salud_seccion_4_titulo", "");
                     about_descripcion = sharedPreferences.getString("web_salud_seccion_4_descripcion", "");
@@ -252,6 +327,79 @@ public class WebsSaludSeccion7 extends AppCompatActivity {
                     contacto_ubicacion = sharedPreferences.getString("web_salud_ubicacion_contacto","");
                     contacto_telefono = sharedPreferences.getString("web_salud_telefono_contacto","");
 
+                    sociales_titulo = "";
+                    sociales_facebook = "";
+                    sociales_instagram = "";
+                    sociales_twitter = "";
+
+                    sociales.put("titulo", sociales_titulo);
+                    sociales.put("facebook", sociales_facebook);
+                    sociales.put("twitter", sociales_twitter);
+                    sociales.put("instagram", sociales_instagram);
+
+                    contacto.put("navbar", contacto_navbar);
+                    contacto.put("titulo", contacto_titulo);
+                    contacto.put("telefono", contacto_telefono);
+                    contacto.put("email", contacto_email);
+                    contacto.put("lugar", contacto_ubicacion);
+
+                    baner.put("titulo",banner_titulo);
+                    baner.put("descripcion",banner_descripcion);
+                    baner.put("autor",banner_autor);
+
+                    about.put("navbar", about_navbar);
+                    about.put("titulo", about_titulo);
+                    about.put("descripcion", about_descripcion);
+                    about.put("caracteristicas", caracteristicas);
+
+                    horario.put("titulo", horarios_titulo);
+                    horario.put("hora", hora);
+
+                    servicios.put("navbar",servicios_navbar);
+                    servicios.put("titulo",servicios_titulo);
+                    servicios.put("descripcion",servicios_descripcion);
+                    servicios.put("servicio",servicio);
+
+                    home.put("navbar", home_navbar);
+                    home.put("logo", home_logo);
+                    home.put("imagen", home_imagen);
+                    home.put("titulo", home_titulo);
+                    home.put("subtitulo", home_subtitulo);
+
+                    web.put("home", home);
+                    web.put("servicios", servicios);
+                    web.put("horario", horario);
+                    web.put("about", about);
+                    web.put("banner", baner);
+                    web.put("contacto", contacto);
+                    web.put("sociales", sociales);
+
+                    pagWebs pag = new pagWebs("",web, 5);
+
+                    db.collection("webs").document(sharedPreferences.getString("nombrePagWeb", ""))
+                            .set(pag)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    if(progressDialog.isShowing()){
+                                        progressDialog.dismiss();
+                                    }
+                                    Toast.makeText(getApplicationContext(),"¡Página web creada exitosamente!", Toast.LENGTH_LONG).show();
+                                    String url = "http://health.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
+                                    Intent i = new Intent(Intent.ACTION_VIEW);
+                                    i.setData(Uri.parse(url));
+                                    startActivity(i);
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    if(progressDialog.isShowing()){
+                                        progressDialog.dismiss();
+                                    }
+                                    Toast.makeText(getApplicationContext(),"Ha ocurrido un error, favor de volver a intentar", Toast.LENGTH_LONG).show();
+                                }
+                            });
 
                 }
                 else{

@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.colabora.soluciones.convocatoriafeyac.R;
 import com.colabora.soluciones.convocatoriafeyac.VisualizarTarjetaActivity;
 import com.colabora.soluciones.convocatoriafeyac.web.salud.WebsSaludSeccion1;
+import com.colabora.soluciones.convocatoriafeyac.web.salud.WebsSaludSeccion7;
 import com.colabora.soluciones.convocatoriafeyac.web.servicios.WebsServiciosSeccion1;
 import com.colabora.soluciones.convocatoriafeyac.web.servicios.WebsServiciosSeccion2;
 import com.colabora.soluciones.convocatoriafeyac.web.servicios.WebsServiciosSeccion3;
@@ -162,7 +163,7 @@ public class WebVisualizacionPreviaActivity extends AppCompatActivity {
 
                                             }
                                             else if(tipo_pag.equals("salud")){
-                                                Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsSaludSeccion1.class);
+                                                Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsSaludSeccion7.class);
                                                 startActivity(i);
                                             }
                                         }
