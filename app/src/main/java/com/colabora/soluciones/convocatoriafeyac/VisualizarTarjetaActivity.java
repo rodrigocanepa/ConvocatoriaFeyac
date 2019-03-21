@@ -274,32 +274,34 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
             txtFacebook3.setTypeface(typeface1);
             txtInstagram3.setTypeface(typeface1);
 
-            txtNombre1.setTextSize(10);
-            txtCargo1.setTextSize(8);
-            txtTelefono1.setTextSize(8);
-            txtCorreo1.setTextSize(8);
-            txtPagina1.setTextSize(8);
-            txtDireccion1.setTextSize(8);
-            txtFacebook1.setTextSize(8);
-            txtInstagram1.setTextSize(8);
+            // **************************
+            txtNombre1.setTextSize(20);
+            txtCargo1.setTextSize(16);
+            txtTelefono1.setTextSize(16);
+            txtCorreo1.setTextSize(16);
+            txtPagina1.setTextSize(16);
+            txtDireccion1.setTextSize(16);
+            txtFacebook1.setTextSize(16);
+            txtInstagram1.setTextSize(16);
 
-            txtNombre2.setTextSize(10);
-            txtCargo2.setTextSize(8);
-            txtTelefono2.setTextSize(8);
-            txtCorreo2.setTextSize(8);
-            txtPagina2.setTextSize(8);
-            txtDireccion2.setTextSize(8);
-            txtFacebook2.setTextSize(8);
-            txtInstagram2.setTextSize(8);
+            txtNombre2.setTextSize(20);
+            txtCargo2.setTextSize(16);
+            txtTelefono2.setTextSize(16);
+            txtCorreo2.setTextSize(16);
+            txtPagina2.setTextSize(16);
+            txtDireccion2.setTextSize(16);
+            txtFacebook2.setTextSize(16);
+            txtInstagram2.setTextSize(16);
 
-            txtNombre3.setTextSize(10);
-            txtCargo3.setTextSize(8);
-            txtTelefono3.setTextSize(8);
-            txtCorreo3.setTextSize(8);
-            txtPagina3.setTextSize(8);
-            txtDireccion3.setTextSize(8);
-            txtFacebook3.setTextSize(8);
-            txtInstagram3.setTextSize(8);
+            txtNombre3.setTextSize(20);
+            txtCargo3.setTextSize(16);
+            txtTelefono3.setTextSize(16);
+            txtCorreo3.setTextSize(16);
+            txtPagina3.setTextSize(16);
+            txtDireccion3.setTextSize(16);
+            txtFacebook3.setTextSize(16);
+            txtInstagram3.setTextSize(16);
+             // ****************************
 
         }
         else if (seleccionTipoLetra == 2){
@@ -446,8 +448,8 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
         // ************************************************************************************************
         if(seleccionEstiloTarjeta == 1){
             linearLayout1.setVisibility(View.VISIBLE);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras_1).into(imgView1);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente__1).into(imgView2);
+            Picasso.get().load(R.drawable.detras_1).into(imgView1);
+            Picasso.get().load(R.drawable.frente__1).into(imgView2);
 
             if(pagina.length() > 0){
                 try {
@@ -469,8 +471,8 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
 
         if(seleccionEstiloTarjeta == 2){
             linearLayout1.setVisibility(View.VISIBLE);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras2).into(imgView1);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente2).into(imgView2);
+            Picasso.get().load(R.drawable.detras2).into(imgView1);
+            Picasso.get().load(R.drawable.frente2).into(imgView2);
 
             if(pagina.length() > 0){
                 try {
@@ -493,8 +495,8 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
 
         if(seleccionEstiloTarjeta == 3){
             linearLayout2.setVisibility(View.VISIBLE);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras3).into(imgView1);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente3).into(imgView2);
+            Picasso.get().load(R.drawable.detras3).into(imgView1);
+            Picasso.get().load(R.drawable.frente3).into(imgView2);
 
             if(pagina.length() > 0){
                 try {
@@ -517,8 +519,8 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
 
         if(seleccionEstiloTarjeta == 4){
             linearLayout3.setVisibility(View.VISIBLE);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras4).into(imgView1);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente4).into(imgView2);
+            Picasso.get().load(R.drawable.detras4).into(imgView1);
+            Picasso.get().load(R.drawable.frente4).into(imgView2);
 
             if(pagina.length() > 0){
                 try {
@@ -541,8 +543,8 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
 
         if(seleccionEstiloTarjeta == 5){
             linearLayout1.setVisibility(View.VISIBLE);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras_5).into(imgView1);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente5).into(imgView2);
+            Picasso.get().load(R.drawable.detras_5).into(imgView1);
+            Picasso.get().load(R.drawable.frente5).into(imgView2);
 
             if(pagina.length() > 0){
                 try {
@@ -565,8 +567,8 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
 
         if(seleccionEstiloTarjeta == 6){
             linearLayout2.setVisibility(View.VISIBLE);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras6).into(imgView1);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente6).into(imgView2);
+            Picasso.get().load(R.drawable.detras6).into(imgView1);
+            Picasso.get().load(R.drawable.frente6).into(imgView2);
 
             if(pagina.length() > 0){
                 try {
@@ -589,8 +591,8 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
 
         if(seleccionEstiloTarjeta == 7){
             linearLayout1.setVisibility(View.VISIBLE);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras7).into(imgView1);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente__7).into(imgView2);
+            Picasso.get().load(R.drawable.detras7).into(imgView1);
+            Picasso.get().load(R.drawable.frente__7).into(imgView2);
 
             if(pagina.length() > 0){
                 try {
@@ -613,8 +615,8 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
 
         if(seleccionEstiloTarjeta == 8){
             linearLayout1.setVisibility(View.VISIBLE);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras8).into(imgView1);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente8).into(imgView2);
+            Picasso.get().load(R.drawable.detras8).into(imgView1);
+            Picasso.get().load(R.drawable.frente8).into(imgView2);
 
             if(pagina.length() > 0){
                 try {
@@ -637,8 +639,8 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
 
         if(seleccionEstiloTarjeta == 9){
             linearLayout2.setVisibility(View.VISIBLE);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras9).into(imgView1);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente9).into(imgView2);
+            Picasso.get().load(R.drawable.detras9).into(imgView1);
+            Picasso.get().load(R.drawable.frente9).into(imgView2);
 
             if(pagina.length() > 0){
                 try {
@@ -661,8 +663,8 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
 
         if(seleccionEstiloTarjeta == 10){
             linearLayout3.setVisibility(View.VISIBLE);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras10).into(imgView1);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente10).into(imgView2);
+            Picasso.get().load(R.drawable.detras10).into(imgView1);
+            Picasso.get().load(R.drawable.frente10).into(imgView2);
 
             if(pagina.length() > 0){
                 try {
@@ -685,8 +687,8 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
 
         if(seleccionEstiloTarjeta == 11){
             linearLayout1.setVisibility(View.VISIBLE);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras11).into(imgView1);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente11).into(imgView2);
+            Picasso.get().load(R.drawable.detras11).into(imgView1);
+            Picasso.get().load(R.drawable.frente11).into(imgView2);
 
             if(pagina.length() > 0){
                 try {
@@ -709,8 +711,8 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
 
         if(seleccionEstiloTarjeta == 12){
             linearLayout2.setVisibility(View.VISIBLE);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.detras12).into(imgView1);
-            Picasso.with(VisualizarTarjetaActivity.this).load(R.drawable.frente12).into(imgView2);
+            Picasso.get().load(R.drawable.detras12).into(imgView1);
+            Picasso.get().load(R.drawable.frente12).into(imgView2);
 
             if(pagina.length() > 0){
                 try {

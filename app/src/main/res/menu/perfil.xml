@@ -21,6 +21,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_administrador"
+        android:orderInCategory="100"
+        android:title="Administrador"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_Cerrar"
         android:orderInCategory="100"
         android:title="Cerrar Sesión"

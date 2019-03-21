@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,8 +31,10 @@ import android.widget.Toast;
 import com.colabora.soluciones.convocatoriafeyac.Finanzas.MenuFinanzasActivity;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Cliente;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.VerPDFDiagActivity;
+import com.colabora.soluciones.convocatoriafeyac.PlanDeNegocios.AdmonPlanActivity;
 import com.colabora.soluciones.convocatoriafeyac.PlanDeNegocios.PlanNegociosActivity;
 import com.colabora.soluciones.convocatoriafeyac.web.DisenoWebActivity;
+import com.colabora.soluciones.convocatoriafeyac.web.MenuPagWebActivity;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.github.barteksc.pdfviewer.util.FileUtils;
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private TextInputEditText editTelefonoAdmin;
     private ImageView imgLogo;
     private TextView txtDialogFoto;
+    private EditText editAdmon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -500,9 +504,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                /*
                 Intent i = new Intent(MainActivity.this, MenuFinanzasActivity.class);
                 startActivity(i);
-                /*
+                */
+
+
+
                 // ***************************** GUARDAMOS LA IMAGEN ***********************
                 File folder = new File(Environment.getExternalStorageDirectory().toString(), "Documents");
                 if(!folder.exists())
@@ -572,7 +580,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Debes descargar Microsoft Excel en la Playstore para avanzar", Toast.LENGTH_LONG).show();
                     }
                 }
-                */
+
 
             }
         });
@@ -596,7 +604,10 @@ public class MainActivity extends AppCompatActivity {
         imgRH.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, DisenoWebActivity.class);
+
+                //Toast.makeText(getApplicationContext(), "Disponible en próxima actualizaición", Toast.LENGTH_LONG).show();
+
+                Intent i = new Intent(MainActivity.this, MenuPagWebActivity.class);
                 startActivity(i);
             }
         });
@@ -772,6 +783,49 @@ public class MainActivity extends AppCompatActivity {
         else if(id == R.id.action_plan){
             Intent i = new Intent(MainActivity.this, PlanNegociosActivity.class);
             startActivity(i);
+        }
+        else if(id == R.id.action_administrador){
+
+            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+            // Get the layout inflater
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final View formElementsView = inflater.inflate(R.layout.dialog_administrador,
+                    null, false);
+
+            editAdmon = (EditText) formElementsView.findViewById(R.id.admonCodigo);
+
+            builder.setTitle("Administrador");
+
+            builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                    String nombreEmpresa = editAdmon.getText().toString();
+                    if(nombreEmpresa.equals("AdmonColaboraTrabajo")){
+                        Intent j = new Intent(MainActivity.this, AdmonPlanActivity.class);
+                        startActivity(j);
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "Contraseña incorrecta", Toast.LENGTH_LONG).show();
+                    }
+
+                }
+            });
+
+            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+
+            // Inflate and set the layout for the dialog
+            // Pass null as the parent view because its going in the dialog layout
+            builder.setView(formElementsView);
+            // Add action buttons
+            builder.create();
+            builder.show();
         }
 
         return super.onOptionsItemSelected(item);

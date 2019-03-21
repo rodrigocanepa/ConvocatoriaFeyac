@@ -340,9 +340,9 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
         public void bindConfig(final Conceptos conceptos) {
             txtConcepto.setText(conceptos.getConceptos());
             txtCantidad.setText(conceptos.getCantidad());
-            txtPrecio.setText("$" + conceptos.getPrecio());
+            txtPrecio.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(Double.valueOf(conceptos.getPrecio())));
             txtImpuesto.setText(conceptos.getImpuestos());
-            txtDescuento.setText("$" + conceptos.getImporte());
+            txtDescuento.setText("$" + NumberFormat.getNumberInstance(Locale.US).format(Double.valueOf(conceptos.getImporte())));
 
         }
 
@@ -434,8 +434,8 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
 
     // GENERACION DE PDF
     private TemplatePDF templatePDF;
-    private String[]headerConceptos = {"Concepto", "Cantidad", "Precio", "Impuestos", "Importe"};
-    private String[]headerConceptos2 = {"Concepto", "Horas", "Tarifa", "Impuestos", "Importe"};
+    private String[]headerConceptos = {"Concepto", "Cantidad", "Precio", "Importe"};
+    private String[]headerConceptos2 = {"Concepto", "Horas", "Tarifa", "Importe"};
 
     private AlertDialog alert;
     private Querys querys;
@@ -1480,7 +1480,7 @@ public class NuevaCotizacionActivity extends AppCompatActivity {
             double importe = Double.valueOf(conceptos.get(i).getImporte());
             String precio_ = NumberFormat.getNumberInstance(Locale.US).format(precio);
             String importe_ = NumberFormat.getNumberInstance(Locale.US).format(importe);
-            rowsConceptops.add(new String[] {conceptos.get(i).getConceptos(), conceptos.get(i).getCantidad(),  precio_, conceptos.get(i).getImpuestos(), importe_});
+            rowsConceptops.add(new String[] {conceptos.get(i).getConceptos(), conceptos.get(i).getCantidad(),  "$" + precio_, "$" + importe_});
         }
 
         if(radioButtonCantidad.isChecked()){

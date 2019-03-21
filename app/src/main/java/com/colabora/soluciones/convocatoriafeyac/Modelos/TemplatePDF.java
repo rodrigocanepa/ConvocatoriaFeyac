@@ -335,7 +335,7 @@ public class TemplatePDF {
             paragraph = new Paragraph();
             paragraph.setFont(fText);
             PdfPTable pdfPTable = new PdfPTable(1);
-            pdfPTable.setWidthPercentage(43);
+            pdfPTable.setWidthPercentage(50);
             pdfPTable.setSpacingAfter(20);
             pdfPTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
             //pdfPTable.setWidths(new int[]{ 3, 2});
@@ -428,8 +428,8 @@ public class TemplatePDF {
         try{
             paragraph = new Paragraph();
             paragraph.setFont(fText);
-            PdfPTable pdfPTable = new PdfPTable(5);
-            pdfPTable.setWidths(new int[]{3, 1, 1, 1, 1});
+            PdfPTable pdfPTable = new PdfPTable(4);
+            pdfPTable.setWidths(new int[]{3, 1, 1, 1});
             pdfPTable.setSpacingBefore(20);
             pdfPTable.setWidthPercentage(100);
             PdfPCell pdfPCell;

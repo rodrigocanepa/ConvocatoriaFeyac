@@ -24,8 +24,10 @@ import com.colabora.soluciones.convocatoriafeyac.Db.Querys;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Concepto;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Conceptos;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ConceptosActivity extends AppCompatActivity {
 
@@ -131,7 +133,7 @@ public class ConceptosActivity extends AppCompatActivity {
                 txtCantidad.setText("Precio no registrado");
             }
             else{
-                txtCantidad.setText("$" + conceptos.getPrecio());
+                txtCantidad.setText("$" +  NumberFormat.getNumberInstance(Locale.US).format(Double.valueOf(conceptos.getPrecio())));
             }
         }
 

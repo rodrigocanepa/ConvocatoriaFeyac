@@ -31,12 +31,12 @@ public class MenuFinanzasActivity extends AppCompatActivity {
         imgPersional = (ImageView)findViewById(R.id.imgMainPersonal);
         imgGastosFijos = (ImageView)findViewById(R.id.imgMainGastosFijos);
 
-        imgServicios.setColorFilter(Color.argb(150,20,20,20), PorterDuff.Mode.DARKEN);
-        imgPrecios.setColorFilter(Color.argb(150,20,20,20), PorterDuff.Mode.DARKEN);
-        imgCostos.setColorFilter(Color.argb(150,20,20,20), PorterDuff.Mode.DARKEN);
-        imgInversion.setColorFilter(Color.argb(150,20,20,20), PorterDuff.Mode.DARKEN);
-        imgPersional.setColorFilter(Color.argb(150,20,20,20), PorterDuff.Mode.DARKEN);
-        imgGastosFijos.setColorFilter(Color.argb(150,20,20,20), PorterDuff.Mode.DARKEN);
+        imgServicios.setColorFilter(Color.argb(130,20,20,20), PorterDuff.Mode.DARKEN);
+        imgPrecios.setColorFilter(Color.argb(130,20,20,20), PorterDuff.Mode.DARKEN);
+        imgCostos.setColorFilter(Color.argb(130,20,20,20), PorterDuff.Mode.DARKEN);
+        imgInversion.setColorFilter(Color.argb(130,20,20,20), PorterDuff.Mode.DARKEN);
+        imgPersional.setColorFilter(Color.argb(130,20,20,20), PorterDuff.Mode.DARKEN);
+        imgGastosFijos.setColorFilter(Color.argb(130,20,20,20), PorterDuff.Mode.DARKEN);
 
         imgServicios.setOnClickListener(new View.OnClickListener() {
             @Override

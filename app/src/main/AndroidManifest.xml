@@ -145,7 +145,33 @@
         <activity
             android:name=".ServiciosDiagnosticoActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".PlanDeNegocios.PlanNegociosActivity"></activity>
+        <activity
+            android:name=".PlanDeNegocios.PlanNegociosActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PlanDeNegocios.AdmonPlanActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".web.MenuPagWebActivity" />
+        <activity android:name=".web.WebVisualizacionPreviaActivity" />
+        <activity android:name=".web.aplicaciones.WebAppsSeccion1Activity" />
+        <activity android:name=".web.aplicaciones.WebsAppsSeccion2Activity" />
+        <activity android:name=".web.aplicaciones.WebAppsFeaturesActivity" />
+        <activity android:name=".web.comida.WebsComidaSeccion1" />
+        <activity android:name=".web.servicios.WebsServiciosSeccion1" />
+        <activity android:name=".web.servicios.WebsServiciosSeccion2" />
+        <activity android:name=".web.servicios.WebsServiciosSeccion3" />
+        <activity android:name=".web.servicios.WebsServiciosSeccion4" />
+        <activity android:name=".web.servicios.WebsServiciosSeccion5" />
+        <activity android:name=".web.servicios.WebsServiciosSeccion6" />
+        <activity android:name=".web.servicios.WebsServiciosSeccion7" />
+        <activity android:name=".web.servicios.WebsServiciosSeccion8" />
+        <activity android:name=".web.salud.WebsSaludSeccion1" />
+        <activity android:name=".web.salud.WebsSaludSeccion2" />
+        <activity android:name=".web.salud.WebsSaludSeccion3" />
+        <activity android:name=".web.salud.WebsSaludSeccion4" />
+        <activity android:name=".web.salud.WebsSaludSeccion5" />
+        <activity android:name=".web.salud.WebsSaludSeccion6" />
+        <activity android:name=".web.salud.WebsSaludSeccion7"></activity>
     </application>
 
 </manifest>

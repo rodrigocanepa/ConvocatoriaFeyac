@@ -118,24 +118,57 @@ public class VerPDFDiagActivity extends AppCompatActivity {
             btnCompartir.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                        File folder = new File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+                        if (!folder.exists())
+                            folder.mkdirs();
+                        File file = new File(folder, "Diagnostico.pdf");                    //old way
+                        //Uri uri = Uri.fromFile(file);
+                        //new way
+                        Uri pd = FileProvider.getUriForFile(VerPDFDiagActivity.this, "com.colabora.soluciones.convocatoriafeyac.provider", file);
+                        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
 
-                    File folder = new File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
-                    if (!folder.exists())
-                        folder.mkdirs();
-                    File file = new File(folder, "Diagnostico.pdf");                    //old way
-                    //Uri uri = Uri.fromFile(file);
-                    //new way
-                    Uri pd = FileProvider.getUriForFile(VerPDFDiagActivity.this, "com.colabora.soluciones.convocatoriafeyac.provider", file);
-                    Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                        //intent.setDataAndType(pd,"application/pdf");
+                        intent.setType("application/pdf");
+                        //String shareBodyText = "Para la mejora continua de mi empresa/negocio he realizado un diagnóstico el cual se comparto a continuación por medio de la aplicación Pyme Assistant";
+                        //intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Diágnostico Pyme Assitant");
+                        intent.putExtra(android.content.Intent.EXTRA_STREAM, pd);
 
-                    //intent.setDataAndType(pd,"application/pdf");
-                    intent.setType("application/pdf");
-                    //String shareBodyText = "Para la mejora continua de mi empresa/negocio he realizado un diagnóstico el cual se comparto a continuación por medio de la aplicación Pyme Assistant";
-                    //intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Diágnostico Pyme Assitant");
-                    intent.putExtra(android.content.Intent.EXTRA_STREAM, pd);
+                        startActivity(Intent.createChooser(intent, "Escoge un método para compartir"));
 
-                    startActivity(Intent.createChooser(intent, "Escoge un método para compartir"));
+                }
+            });
 
+            btnFinalizar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
+
+        else if(direccion.equals("Plan")){
+            btnCompartir.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if(direccion.equals("Plan")){
+                        File folder = new File(Environment.getExternalStorageDirectory().toString(), "PymeAssitant");
+                        if (!folder.exists())
+                            folder.mkdirs();
+                        File file = new File(folder, "Plan.pdf");                    //old way
+                        //Uri uri = Uri.fromFile(file);
+                        //new way
+                        Uri pd = FileProvider.getUriForFile(VerPDFDiagActivity.this, "com.colabora.soluciones.convocatoriafeyac.provider", file);
+                        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+
+                        //intent.setDataAndType(pd,"application/pdf");
+                        intent.setType("application/pdf");
+                        //String shareBodyText = "Para la mejora continua de mi empresa/negocio he realizado un diagnóstico el cual se comparto a continuación por medio de la aplicación Pyme Assistant";
+                        //intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Diágnostico Pyme Assitant");
+                        intent.putExtra(android.content.Intent.EXTRA_STREAM, pd);
+
+                        startActivity(Intent.createChooser(intent, "Escoge un método para compartir"));
+                    }
 
                 }
             });

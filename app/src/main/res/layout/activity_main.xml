@@ -30,7 +30,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textColor="@android:color/white"
                 android:text="COTIZACIONES"/>
 
@@ -54,7 +54,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textColor="@android:color/white"
                 android:text="TARJETAS DE PRESENTACIÓN"/>
 
@@ -85,7 +85,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textColor="@android:color/white"
                 android:text="ANÁLISIS FINANCIERO"/>
 
@@ -109,7 +109,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textColor="@android:color/white"
                 android:text="CLIENTES Y PROVEEDORES"/>
 
@@ -140,9 +140,9 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textColor="@android:color/white"
-                android:text="CALCULADORA DE PRESTACIONES DEL TRABAJADOR"/>
+                android:text="CÁLCULO DE NÓMINA DEL TRABAJADOR"/>
 
         </RelativeLayout>
 
@@ -164,7 +164,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textColor="@android:color/white"
                 android:text="CREAR MI PÁGINA WEB"/>
 
