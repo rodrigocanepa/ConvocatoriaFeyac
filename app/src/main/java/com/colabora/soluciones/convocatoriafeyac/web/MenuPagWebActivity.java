@@ -6,10 +6,15 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.colabora.soluciones.convocatoriafeyac.R;
+
+import io.github.yavski.fabspeeddial.FabSpeedDial;
+import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
 public class MenuPagWebActivity extends AppCompatActivity {
 
@@ -19,6 +24,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
     private ImageView imgAplicaciones;
     private ImageView imgModa;
     private ImageView imgComida;
+    private FabSpeedDial speedDialView;
 
 
     @Override
@@ -33,6 +39,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
         imgAplicaciones = (ImageView)findViewById(R.id.imgWebApps);
         imgModa = (ImageView)findViewById(R.id.imgWebModa);
         imgComida = (ImageView)findViewById(R.id.imgWebComida);
+        speedDialView = (FabSpeedDial)findViewById(R.id.speedDial);
 
         imgServicios.setColorFilter(Color.argb(150,20,20,20), PorterDuff.Mode.DARKEN);
         imgProductos.setColorFilter(Color.argb(150,20,20,20), PorterDuff.Mode.DARKEN);
@@ -40,6 +47,24 @@ public class MenuPagWebActivity extends AppCompatActivity {
         imgAplicaciones.setColorFilter(Color.argb(150,20,20,20), PorterDuff.Mode.DARKEN);
         imgModa.setColorFilter(Color.argb(150,20,20,20), PorterDuff.Mode.DARKEN);
         imgComida.setColorFilter(Color.argb(150,20,20,20), PorterDuff.Mode.DARKEN);
+
+        speedDialView.setMenuListener(new SimpleMenuListenerAdapter() {
+            @Override
+            public boolean onMenuItemSelected(MenuItem menuItem) {
+                //TODO: Start some activity
+                int id = menuItem.getItemId();
+
+                if(id == R.id.action_ver_mi_pag){
+                    Toast.makeText(getApplicationContext(), "Ver mi pag web", Toast.LENGTH_LONG).show();
+                    return true;
+                }
+                else if(id == R.id.action_editar_mi_pag){
+                    Toast.makeText(getApplicationContext(), "Editar mi pag web", Toast.LENGTH_LONG).show();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         imgComida.setOnClickListener(new View.OnClickListener() {
             @Override

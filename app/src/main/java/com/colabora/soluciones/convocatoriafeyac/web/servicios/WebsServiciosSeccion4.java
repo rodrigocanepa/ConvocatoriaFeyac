@@ -198,7 +198,7 @@ public class WebsServiciosSeccion4 extends AppCompatActivity {
         btnAddServicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(itemSimpleList.size() < 7){
+                if(itemSimpleList.size() < 6){
                     final AlertDialog.Builder builder = new AlertDialog.Builder(WebsServiciosSeccion4.this);
 
                     // Get the layout inflater

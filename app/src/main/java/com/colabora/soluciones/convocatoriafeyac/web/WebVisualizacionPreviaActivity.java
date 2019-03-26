@@ -25,6 +25,15 @@ import android.widget.Toast;
 
 import com.colabora.soluciones.convocatoriafeyac.R;
 import com.colabora.soluciones.convocatoriafeyac.VisualizarTarjetaActivity;
+import com.colabora.soluciones.convocatoriafeyac.web.comida.WebsComidaSeccion1;
+import com.colabora.soluciones.convocatoriafeyac.web.comida.WebsComidaSeccion6;
+import com.colabora.soluciones.convocatoriafeyac.web.moda.WebsModaSeccion1;
+import com.colabora.soluciones.convocatoriafeyac.web.moda.WebsModaSeccion4;
+import com.colabora.soluciones.convocatoriafeyac.web.moda.WebsModaSeccion7;
+import com.colabora.soluciones.convocatoriafeyac.web.productos.WebsProductosSeccion1;
+import com.colabora.soluciones.convocatoriafeyac.web.productos.WebsProductosSeccion3;
+import com.colabora.soluciones.convocatoriafeyac.web.productos.WebsProductosSeccion5;
+import com.colabora.soluciones.convocatoriafeyac.web.productos.WebsProductosSeccion6;
 import com.colabora.soluciones.convocatoriafeyac.web.salud.WebsSaludSeccion1;
 import com.colabora.soluciones.convocatoriafeyac.web.salud.WebsSaludSeccion7;
 import com.colabora.soluciones.convocatoriafeyac.web.servicios.WebsServiciosSeccion1;
@@ -146,10 +155,12 @@ public class WebVisualizacionPreviaActivity extends AppCompatActivity {
                                             Toast.makeText(getApplicationContext(), "La pagina web esta disponible", Toast.LENGTH_LONG).show();
 
                                             if(tipo_pag.equals("comida")){
-
+                                                Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsComidaSeccion6.class);
+                                                startActivity(i);
                                             }
                                             else if(tipo_pag.equals("moda")){
-                                                imageView.setImageResource(R.drawable.web_modas);
+                                                Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsModaSeccion7.class);
+                                                startActivity(i);
                                             }
                                             else if(tipo_pag.equals("aplicaciones")){
                                                 imageView.setImageResource(R.drawable.web_aplicaciones_moviles);
@@ -159,11 +170,11 @@ public class WebVisualizacionPreviaActivity extends AppCompatActivity {
                                                 startActivity(i);
                                             }
                                             else if(tipo_pag.equals("productos")){
-                                                imageView.setImageResource(R.drawable.web_producto);
-
+                                                Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsProductosSeccion1.class);
+                                                startActivity(i);
                                             }
                                             else if(tipo_pag.equals("salud")){
-                                                Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsSaludSeccion7.class);
+                                                Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsSaludSeccion1.class);
                                                 startActivity(i);
                                             }
                                         }

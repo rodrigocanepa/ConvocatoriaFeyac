@@ -99,7 +99,7 @@ public class WebsServiciosSeccion6 extends AppCompatActivity {
 
                     itemTitulo.setText(itemFotos.get(position).getTitulo());
                     itemDescripcion.setText(itemFotos.get(position).getDescripcion());
-                    Picasso.get().load(itemFotos.get(position).getUrl()).into(img);
+                    Picasso.get().load(itemFotos.get(position).getUrl()).into(imgPortafolio);
 
 
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -284,7 +284,7 @@ public class WebsServiciosSeccion6 extends AppCompatActivity {
         addCaracteristica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(itemFotoList.size() < 4){
+                if(itemFotoList.size() < 6){
                     final AlertDialog.Builder builder = new AlertDialog.Builder(WebsServiciosSeccion6.this);
 
                     // Get the layout inflater
@@ -391,7 +391,7 @@ public class WebsServiciosSeccion6 extends AppCompatActivity {
                     builder.show();
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Sólo se permiten máximo 3 ventajas competitivas", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Sólo se permiten máximo 6 servicios", Toast.LENGTH_LONG).show();
                 }
 
             }
