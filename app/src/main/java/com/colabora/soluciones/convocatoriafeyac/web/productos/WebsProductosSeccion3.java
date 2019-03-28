@@ -17,10 +17,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.colabora.soluciones.convocatoriafeyac.Modelos.caracteristicas_web;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.itemSimple;
 import com.colabora.soluciones.convocatoriafeyac.R;
 import com.colabora.soluciones.convocatoriafeyac.web.salud.WebsSaludSeccion2;
 import com.colabora.soluciones.convocatoriafeyac.web.salud.WebsSaludSeccion3;
+import com.colabora.soluciones.convocatoriafeyac.web.servicios.WebsServiciosSeccion2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -184,6 +186,12 @@ public class WebsProductosSeccion3 extends AppCompatActivity {
     private List<itemSimple> itemSimpleList = new ArrayList<>();
     private SharedPreferences sharedPreferences;
 
+    private String imagen_ = "";
+    private String titulo = "";
+    private String descripcion = "";
+
+    private List<caracteristicas_web> servicio = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,6 +208,186 @@ public class WebsProductosSeccion3 extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("misDatos", 0);
         nombre_web = sharedPreferences.getString("nombrePagWeb","");
 
+        txtTitulo.setText(sharedPreferences.getString("web_productos_seccion_3_titulo", ""));
+        if(sharedPreferences.getString("web_productos_seccion_3_recycler","").equals("1")){
+            imagen_ = "";
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica1_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica1_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            for (int i = 0; i < servicio.size(); i++){
+                itemSimpleList.add(new itemSimple(servicio.get(i).getTitulo(), servicio.get(i).getDescripcion()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsProductosSeccion3.DataConfigAdapter(itemSimpleList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
+        else if(sharedPreferences.getString("web_productos_seccion_3_recycler","").equals("2")){
+            imagen_ = "";
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica1_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica1_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            imagen_ = "";
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica2_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica2_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            for (int i = 0; i < servicio.size(); i++){
+                itemSimpleList.add(new itemSimple(servicio.get(i).getTitulo(), servicio.get(i).getDescripcion()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsProductosSeccion3.DataConfigAdapter(itemSimpleList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+
+        }
+
+        else if(sharedPreferences.getString("web_productos_seccion_3_recycler","").equals("3")){
+            imagen_ = "";
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica1_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica1_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            imagen_ = "";
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica2_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica2_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica3_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica3_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            for (int i = 0; i < servicio.size(); i++){
+                itemSimpleList.add(new itemSimple(servicio.get(i).getTitulo(), servicio.get(i).getDescripcion()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsProductosSeccion3.DataConfigAdapter(itemSimpleList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+
+        }
+
+        else if(sharedPreferences.getString("web_productos_seccion_3_recycler","").equals("4")){
+            imagen_ = "";
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica1_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica1_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            imagen_ = "";
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica2_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica2_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica3_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica3_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica4_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica4_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            for (int i = 0; i < servicio.size(); i++){
+                itemSimpleList.add(new itemSimple(servicio.get(i).getTitulo(), servicio.get(i).getDescripcion()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsProductosSeccion3.DataConfigAdapter(itemSimpleList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+
+        }
+
+        else if(sharedPreferences.getString("web_productos_seccion_3_recycler","").equals("5")){
+            imagen_ = "";
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica1_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica1_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            imagen_ = "";
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica2_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica2_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica3_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica3_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica4_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica4_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica5_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica5_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            for (int i = 0; i < servicio.size(); i++){
+                itemSimpleList.add(new itemSimple(servicio.get(i).getTitulo(), servicio.get(i).getDescripcion()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsProductosSeccion3.DataConfigAdapter(itemSimpleList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+
+        }
+
+        else if(sharedPreferences.getString("web_productos_seccion_3_recycler","").equals("6")){
+            imagen_ = "";
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica1_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica1_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            imagen_ = "";
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica2_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica2_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica3_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica3_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica4_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica4_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica5_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica5_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica6_titulo","");
+            descripcion = sharedPreferences.getString("web_productos_seccion_3_caracteristica6_descripcion","");
+
+            servicio.add(new caracteristicas_web(imagen_, titulo, descripcion));
+
+            for (int i = 0; i < servicio.size(); i++){
+                itemSimpleList.add(new itemSimple(servicio.get(i).getTitulo(), servicio.get(i).getDescripcion()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsProductosSeccion3.DataConfigAdapter(itemSimpleList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+
+        }
 
         addCaracteristica.setOnClickListener(new View.OnClickListener() {
             @Override

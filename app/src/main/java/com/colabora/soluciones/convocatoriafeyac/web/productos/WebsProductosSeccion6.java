@@ -110,6 +110,12 @@ public class WebsProductosSeccion6 extends AppCompatActivity {
 
         progressDialog.setTitle("Subiendo Información");
         progressDialog.setMessage("Espere un momento mientras el sistema sube su información a la base de datos");
+        sharedPreferences = getSharedPreferences("misDatos", 0);
+
+        editEmail.setText(sharedPreferences.getString("web_productos_email_contacto", ""));
+        editUbicacion.setText(sharedPreferences.getString("web_productos_ubicacion_contacto", ""));
+        editTelefono.setText(sharedPreferences.getString("web_productos_telefono_contacto", ""));
+
 
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -488,6 +494,9 @@ public class WebsProductosSeccion6 extends AppCompatActivity {
                                 if(progressDialog.isShowing()){
                                     progressDialog.dismiss();
                                 }
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("tipo_mi_pag_web", "2");
+                                editor.commit();
                                 Toast.makeText(getApplicationContext(),"¡Página web creada exitosamente!", Toast.LENGTH_LONG).show();
                                 String url = "http://products.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
                                 Intent i = new Intent(Intent.ACTION_VIEW);

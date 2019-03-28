@@ -155,11 +155,11 @@ public class WebVisualizacionPreviaActivity extends AppCompatActivity {
                                             Toast.makeText(getApplicationContext(), "La pagina web esta disponible", Toast.LENGTH_LONG).show();
 
                                             if(tipo_pag.equals("comida")){
-                                                Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsComidaSeccion6.class);
+                                                Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsComidaSeccion1.class);
                                                 startActivity(i);
                                             }
                                             else if(tipo_pag.equals("moda")){
-                                                Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsModaSeccion7.class);
+                                                Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsModaSeccion1.class);
                                                 startActivity(i);
                                             }
                                             else if(tipo_pag.equals("aplicaciones")){

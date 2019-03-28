@@ -28,40 +28,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Por favor, ingrese los datos correspondientes a las sección de su página web."
-                android:layout_marginBottom="10sp"/>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/txt_web_producto_seccion5_texto1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:imeOptions="actionDone"
-                    android:hint="Título" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/txt_web_producto_seccion5_descripcion1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:imeOptions="actionDone"
-                    android:hint="Descripción" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="5sp"
                 android:text="Ahora vamos a agregar nuestros principales servicios (Mínimo 2, Máximo 6)"/>
 

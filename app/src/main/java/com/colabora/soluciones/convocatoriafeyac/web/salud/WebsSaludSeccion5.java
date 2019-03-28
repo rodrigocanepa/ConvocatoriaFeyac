@@ -52,6 +52,12 @@ public class WebsSaludSeccion5 extends AppCompatActivity {
         editDescripcion= (TextInputEditText)findViewById(R.id.txtSaludSeccion5Descripcion);
         editAutor = (TextInputEditText)findViewById(R.id.txtSaludSeccion5Autor);
 
+        sharedPreferences = getSharedPreferences("misDatos", 0);
+
+        editTitulo.setText(sharedPreferences.getString("web_salud_titulo_baner", ""));
+        editDescripcion.setText(sharedPreferences.getString("web_salud_frase_baner", ""));
+        editAutor.setText(sharedPreferences.getString("web_salud_autor_baner", ""));
+
 
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
@@ -77,6 +78,21 @@ public class WebsProductosSeccion1 extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("misDatos", 0);
         nombre_web = sharedPreferences.getString("nombrePagWeb","");
+
+        editTitulo.setText(sharedPreferences.getString("web_productos_titulo_home", ""));
+        editDescripcion.setText(sharedPreferences.getString("web_productos_subtitulo_home", ""));
+        Picasso.get().load(sharedPreferences.getString("web_productos_img_1_seccion_1","")).into(img);
+        Picasso.get().load(sharedPreferences.getString("web_productos_img_2_seccion_1","")).into(img2);
+        if (sharedPreferences.getString("web_productos_img_1_seccion_1","").length() > 1){
+            imgUpoloaded = true;
+        }
+        if (sharedPreferences.getString("web_productos_img_2_seccion_1","").length() > 1){
+            imgUpoloaded2 = true;
+        }
+        if (sharedPreferences.getString("web_productos_img_3_seccion_1","").length() > 1){
+            Picasso.get().load(sharedPreferences.getString("web_productos_img_3_seccion_1","")).into(img3);
+        }
+
 
         btnSubirFoto.setOnClickListener(new View.OnClickListener() {
             @Override

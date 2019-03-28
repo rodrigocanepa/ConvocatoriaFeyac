@@ -124,6 +124,10 @@ public class WebsModaSeccion7 extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("misDatos", 0);
         nombre_web = sharedPreferences.getString("nombrePagWeb","");
 
+        editTwitter.setText(sharedPreferences.getString("web_moda_twitter_seccion7", ""));
+        editInstagram.setText(sharedPreferences.getString("web_moda_instagram_seccion7", ""));
+        editFacebook.setText(sharedPreferences.getString("web_moda_facebook_seccion7", ""));
+
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -415,6 +419,9 @@ public class WebsModaSeccion7 extends AppCompatActivity {
                                 if(progressDialog.isShowing()){
                                     progressDialog.dismiss();
                                 }
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("tipo_mi_pag_web", "4");
+                                editor.commit();
                                 Toast.makeText(getApplicationContext(),"¡Página web creada exitosamente!", Toast.LENGTH_LONG).show();
                                 String url = "http://fashion.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
                                 Intent i = new Intent(Intent.ACTION_VIEW);

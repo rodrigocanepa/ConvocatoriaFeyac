@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
@@ -66,6 +67,16 @@ public class WebsServiciosSeccion1 extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("misDatos", 0);
         nombre_web = sharedPreferences.getString("nombrePagWeb","");
+
+        editTitulo.setText(sharedPreferences.getString("web_servicios_titulo_home", ""));
+        Picasso.get().load(sharedPreferences.getString("web_servicios_img_seccion_1","")).into(img);
+        Picasso.get().load(sharedPreferences.getString("web_servicios_logo_seccion_1","")).into(logo);
+        if (sharedPreferences.getString("web_servicios_img_seccion_1","").length() > 1){
+            imgUpoloaded = true;
+        }
+        if (sharedPreferences.getString("web_servicios_logo_seccion_1","").length() > 1){
+            imgUpoloaded2 = true;
+        }
 
         btnSubirFoto.setOnClickListener(new View.OnClickListener() {
             @Override

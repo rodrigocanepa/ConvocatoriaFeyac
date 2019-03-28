@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.colabora.soluciones.convocatoriafeyac.Modelos.Horario;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.itemSimple;
 import com.colabora.soluciones.convocatoriafeyac.R;
 import com.colabora.soluciones.convocatoriafeyac.web.servicios.WebsServiciosSeccion2;
@@ -204,6 +205,10 @@ public class WebsSaludSeccion3 extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private SharedPreferences sharedPreferences;
 
+    private String imagen = "";
+    private String titulo = "";
+    private List<Horario> hora = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,6 +221,97 @@ public class WebsSaludSeccion3 extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         sharedPreferences = getSharedPreferences("misDatos", 0);
+
+        if(sharedPreferences.getString("web_salud_seccion_3_recycler", "").equals("1")){
+            imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica1_titulo","");
+            titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica1_descripcion","");
+
+            hora.add(new Horario(imagen, titulo, ""));
+
+            for (int i = 0; i < hora.size(); i++){
+                itemSimpleList.add(new itemSimple(hora.get(i).getDia(), hora.get(i).getDehora()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsSaludSeccion3.DataConfigAdapter(itemSimpleList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
+
+        else if(sharedPreferences.getString("web_salud_seccion_3_recycler", "").equals("2")){
+            imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica1_titulo","");
+            titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica1_descripcion","");
+
+            hora.add(new Horario(imagen, titulo, ""));
+
+            imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica2_titulo","");
+            titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica2_descripcion","");
+
+            hora.add(new Horario(imagen, titulo, ""));
+
+            for (int i = 0; i < hora.size(); i++){
+                itemSimpleList.add(new itemSimple(hora.get(i).getDia(), hora.get(i).getDehora()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsSaludSeccion3.DataConfigAdapter(itemSimpleList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
+
+        else if(sharedPreferences.getString("web_salud_seccion_3_recycler", "").equals("3")){
+            imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica1_titulo","");
+            titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica1_descripcion","");
+
+            hora.add(new Horario(imagen, titulo, ""));
+
+            imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica2_titulo","");
+            titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica2_descripcion","");
+
+            hora.add(new Horario(imagen, titulo, ""));
+
+            imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica3_titulo","");
+            titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica3_descripcion","");
+
+            hora.add(new Horario(imagen, titulo, ""));
+
+            for (int i = 0; i < hora.size(); i++){
+                itemSimpleList.add(new itemSimple(hora.get(i).getDia(), hora.get(i).getDehora()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsSaludSeccion3.DataConfigAdapter(itemSimpleList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
+
+        else if(sharedPreferences.getString("web_salud_seccion_3_recycler", "").equals("4")){
+            imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica1_titulo","");
+            titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica1_descripcion","");
+
+            hora.add(new Horario(imagen, titulo, ""));
+
+            imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica2_titulo","");
+            titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica2_descripcion","");
+
+            hora.add(new Horario(imagen, titulo, ""));
+
+            imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica3_titulo","");
+            titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica3_descripcion","");
+
+            hora.add(new Horario(imagen, titulo, ""));
+
+            imagen = sharedPreferences.getString("web_salud_seccion_3_caracteristica4_titulo","");
+            titulo = sharedPreferences.getString("web_salud_seccion_3_caracteristica4_descripcion","");
+
+            hora.add(new Horario(imagen, titulo, ""));
+
+            for (int i = 0; i < hora.size(); i++){
+                itemSimpleList.add(new itemSimple(hora.get(i).getDia(), hora.get(i).getDehora()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsSaludSeccion3.DataConfigAdapter(itemSimpleList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
+
 
         addCaracteristica.setOnClickListener(new View.OnClickListener() {
             @Override

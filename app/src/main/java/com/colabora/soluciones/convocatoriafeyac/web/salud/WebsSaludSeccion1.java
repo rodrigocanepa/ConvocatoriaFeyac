@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
@@ -65,6 +66,13 @@ public class WebsSaludSeccion1 extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("misDatos", 0);
         nombre_web = sharedPreferences.getString("nombrePagWeb","");
+
+        editTitulo.setText(sharedPreferences.getString("web_salud_titulo_home", ""));
+        editDescripcion.setText(sharedPreferences.getString("web_salud_subtitulo_home", ""));
+        Picasso.get().load(sharedPreferences.getString("web_servicios_img_seccion_1","")).into(img);
+        if (sharedPreferences.getString("web_salud_img_seccion_1","").length() > 1){
+            imgUpoloaded = true;
+        }
 
         btnSubirFoto.setOnClickListener(new View.OnClickListener() {
             @Override

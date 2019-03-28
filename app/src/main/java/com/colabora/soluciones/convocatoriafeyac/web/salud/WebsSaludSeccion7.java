@@ -109,9 +109,14 @@ public class WebsSaludSeccion7 extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         progressDialog = new ProgressDialog(WebsSaludSeccion7.this);
+        sharedPreferences = getSharedPreferences("misDatos", 0);
 
         progressDialog.setTitle("Subiendo Información");
         progressDialog.setMessage("Espere un momento mientras el sistema sube su información a la base de datos");
+
+        editInstagram.setText(sharedPreferences.getString("web_salud_instagram_seccion_7", ""));
+        editTwitter.setText(sharedPreferences.getString("web_salud_twitter_seccion_7", ""));
+        editFacebook.setText(sharedPreferences.getString("web_salud_facebook_seccion_7", ""));
 
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -384,6 +389,9 @@ public class WebsSaludSeccion7 extends AppCompatActivity {
                                     if(progressDialog.isShowing()){
                                         progressDialog.dismiss();
                                     }
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("tipo_mi_pag_web", "5");
+                                    editor.commit();
                                     Toast.makeText(getApplicationContext(),"¡Página web creada exitosamente!", Toast.LENGTH_LONG).show();
                                     String url = "http://health.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
                                     Intent i = new Intent(Intent.ACTION_VIEW);

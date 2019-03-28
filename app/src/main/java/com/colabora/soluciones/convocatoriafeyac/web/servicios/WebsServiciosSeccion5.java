@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.colabora.soluciones.convocatoriafeyac.Modelos.caracteristicas_web;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.itemSimple;
 import com.colabora.soluciones.convocatoriafeyac.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -30,6 +31,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
@@ -201,6 +203,11 @@ public class WebsServiciosSeccion5 extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private SharedPreferences sharedPreferences;
 
+    private String caracteristicas_titulo = "";
+    private String caracteristicas_descripcion = "";
+    private String caracteristicas_imagen = "";
+    private List<caracteristicas_web> caracteristicas = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -217,10 +224,78 @@ public class WebsServiciosSeccion5 extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("misDatos", 0);
         nombre_web = sharedPreferences.getString("nombrePagWeb","");
 
+        txtTitulo.setText(sharedPreferences.getString("web_servicios_seccion_5_titulo", ""));
+        txtDescripcion.setText(sharedPreferences.getString("web_servicios_seccion_5_descripcion", ""));
+
+        if(sharedPreferences.getString("web_servicios_seccion_5_recycler","").equals("1")){
+            caracteristicas_titulo = sharedPreferences.getString("web_servicios_seccion_2_caracteristica1_titulo","");
+            caracteristicas_descripcion = sharedPreferences.getString("web_servicios_seccion_2_caracteristica1_descripcion","");
+            caracteristicas_imagen = "";
+
+            caracteristicas.add(new caracteristicas_web(caracteristicas_imagen, caracteristicas_titulo, caracteristicas_descripcion));
+
+            for (int i = 0; i < caracteristicas.size(); i++){
+                itemSimpleList.add(new itemSimple(caracteristicas.get(i).getTitulo(), caracteristicas.get(i).getDescripcion()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsServiciosSeccion5.DataConfigAdapter(itemSimpleList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
+        else if(sharedPreferences.getString("web_servicios_seccion_5_recycler","").equals("2")){
+            caracteristicas_titulo = sharedPreferences.getString("web_servicios_seccion_5_caracteristica1_titulo","");
+            caracteristicas_descripcion = sharedPreferences.getString("web_servicios_seccion_5_caracteristica1_descripcion","");
+            caracteristicas_imagen = "";
+
+            caracteristicas.add(new caracteristicas_web(caracteristicas_imagen, caracteristicas_titulo, caracteristicas_descripcion));
+
+            caracteristicas_titulo = sharedPreferences.getString("web_servicios_seccion_5_caracteristica2_titulo","");
+            caracteristicas_descripcion = sharedPreferences.getString("web_servicios_seccion_5_caracteristica2_descripcion","");
+            caracteristicas_imagen = "";
+
+            caracteristicas.add(new caracteristicas_web(caracteristicas_imagen, caracteristicas_titulo, caracteristicas_descripcion));
+
+            for (int i = 0; i < caracteristicas.size(); i++){
+                itemSimpleList.add(new itemSimple(caracteristicas.get(i).getTitulo(), caracteristicas.get(i).getDescripcion()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsServiciosSeccion5.DataConfigAdapter(itemSimpleList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
+        else if(sharedPreferences.getString("web_servicios_seccion_5_recycler","").equals("3")){
+            caracteristicas_titulo = sharedPreferences.getString("web_servicios_seccion_5_caracteristica1_titulo","");
+            caracteristicas_descripcion = sharedPreferences.getString("web_servicios_seccion_5_caracteristica1_descripcion","");
+            caracteristicas_imagen = "";
+
+            caracteristicas.add(new caracteristicas_web(caracteristicas_imagen, caracteristicas_titulo, caracteristicas_descripcion));
+
+            caracteristicas_titulo = sharedPreferences.getString("web_servicios_seccion_5_caracteristica2_titulo","");
+            caracteristicas_descripcion = sharedPreferences.getString("web_servicios_seccion_5_caracteristica2_descripcion","");
+            caracteristicas_imagen = "";
+
+            caracteristicas.add(new caracteristicas_web(caracteristicas_imagen, caracteristicas_titulo, caracteristicas_descripcion));
+
+            caracteristicas_titulo = sharedPreferences.getString("web_servicios_seccion_5_caracteristica3_titulo","");
+            caracteristicas_descripcion = sharedPreferences.getString("web_servicios_seccion_5_caracteristica3_descripcion","");
+            caracteristicas_imagen = "";
+
+            caracteristicas.add(new caracteristicas_web(caracteristicas_imagen, caracteristicas_titulo, caracteristicas_descripcion));
+
+            for (int i = 0; i < caracteristicas.size(); i++){
+                itemSimpleList.add(new itemSimple(caracteristicas.get(i).getTitulo(), caracteristicas.get(i).getDescripcion()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsServiciosSeccion5.DataConfigAdapter(itemSimpleList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
+
+
         addCaracteristica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(itemSimpleList.size() < 4){
+                if(itemSimpleList.size() < 3){
                     final AlertDialog.Builder builder = new AlertDialog.Builder(WebsServiciosSeccion5.this);
 
                     // Get the layout inflater

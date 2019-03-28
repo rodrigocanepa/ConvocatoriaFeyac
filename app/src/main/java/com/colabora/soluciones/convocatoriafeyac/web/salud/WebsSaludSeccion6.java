@@ -33,6 +33,12 @@ public class WebsSaludSeccion6 extends AppCompatActivity {
         editEmail= (TextInputEditText)findViewById(R.id.txtSaludSeccion6Email);
         editTelefono = (TextInputEditText)findViewById(R.id.txtSaludSeccion6Telefono);
 
+        sharedPreferences = getSharedPreferences("misDatos", 0);
+        editTelefono.setText(sharedPreferences.getString("web_salud_telefono_contacto", ""));
+        editEmail.setText(sharedPreferences.getString("web_salud_email_contacto", ""));
+        editUbicacion.setText(sharedPreferences.getString("web_salud_ubicacion_contacto", ""));
+
+
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

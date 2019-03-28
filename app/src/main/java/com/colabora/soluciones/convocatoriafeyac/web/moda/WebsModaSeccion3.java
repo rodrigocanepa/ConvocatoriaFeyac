@@ -23,7 +23,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.colabora.soluciones.convocatoriafeyac.Modelos.ItemFoto;
+import com.colabora.soluciones.convocatoriafeyac.Modelos.caracteristicas_web;
+import com.colabora.soluciones.convocatoriafeyac.Modelos.itemSimple;
 import com.colabora.soluciones.convocatoriafeyac.R;
+import com.colabora.soluciones.convocatoriafeyac.web.productos.WebsProductosSeccion3;
 import com.colabora.soluciones.convocatoriafeyac.web.servicios.WebsServiciosSeccion6;
 import com.colabora.soluciones.convocatoriafeyac.web.servicios.WebsServiciosSeccion7;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -263,6 +266,11 @@ public class WebsModaSeccion3 extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private String url_ = "";
 
+    private String img = "";
+    private String titulo = "";
+    private String descripcion = "";
+    private List<caracteristicas_web> work = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -280,6 +288,72 @@ public class WebsModaSeccion3 extends AppCompatActivity {
 
         progressDialog.setTitle("Subiendo Información");
         progressDialog.setMessage("Espere un momento mientras el sistema sube su información a la base de datos");
+
+
+        if(sharedPreferences.getString("web_moda_seccion_3_recycler", "").equals("1")){
+            img = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_url","");
+            titulo = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_titulo","");
+            descripcion = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_descripcion","");
+
+            work.add(new caracteristicas_web(img, titulo, descripcion));
+
+            for (int i = 0; i < work.size(); i++){
+                itemFotoList.add(new ItemFoto(work.get(i).getTitulo(), work.get(i).getDescripcion(), work.get(i).getImagen()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsModaSeccion3.DataConfigAdapter(itemFotoList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+
+        }
+        else if(sharedPreferences.getString("web_moda_seccion_3_recycler", "").equals("2")){
+            img = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_url","");
+            titulo = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_titulo","");
+            descripcion = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_descripcion","");
+
+            work.add(new caracteristicas_web(img, titulo, descripcion));
+
+            img = sharedPreferences.getString("web_moda_seccion_3_caracteristica2_url","");
+            titulo = sharedPreferences.getString("web_moda_seccion_3_caracteristica2_titulo","");
+            descripcion = sharedPreferences.getString("web_moda_seccion_3_caracteristica2_descripcion","");
+
+            work.add(new caracteristicas_web(img, titulo, descripcion));
+
+            for (int i = 0; i < work.size(); i++){
+                itemFotoList.add(new ItemFoto(work.get(i).getTitulo(), work.get(i).getDescripcion(), work.get(i).getImagen()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsModaSeccion3.DataConfigAdapter(itemFotoList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
+        else if(sharedPreferences.getString("web_moda_seccion_3_recycler", "").equals("3")){
+            img = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_url","");
+            titulo = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_titulo","");
+            descripcion = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_descripcion","");
+
+            work.add(new caracteristicas_web(img, titulo, descripcion));
+
+            img = sharedPreferences.getString("web_moda_seccion_3_caracteristica2_url","");
+            titulo = sharedPreferences.getString("web_moda_seccion_3_caracteristica2_titulo","");
+            descripcion = sharedPreferences.getString("web_moda_seccion_3_caracteristica2_descripcion","");
+
+            work.add(new caracteristicas_web(img, titulo, descripcion));
+
+            img = sharedPreferences.getString("web_moda_seccion_3_caracteristica3_url","");
+            titulo = sharedPreferences.getString("web_moda_seccion_3_caracteristica3_titulo","");
+            descripcion = sharedPreferences.getString("web_moda_seccion_3_caracteristica3_descripcion","");
+
+            work.add(new caracteristicas_web(img, titulo, descripcion));
+
+            for (int i = 0; i < work.size(); i++){
+                itemFotoList.add(new ItemFoto(work.get(i).getTitulo(), work.get(i).getDescripcion(), work.get(i).getImagen()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsModaSeccion3.DataConfigAdapter(itemFotoList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
 
         addCaracteristica.setOnClickListener(new View.OnClickListener() {
             @Override

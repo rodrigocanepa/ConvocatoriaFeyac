@@ -32,6 +32,7 @@ import com.colabora.soluciones.convocatoriafeyac.CotizacionesActivity;
 import com.colabora.soluciones.convocatoriafeyac.LoginActivity;
 import com.colabora.soluciones.convocatoriafeyac.MainActivity;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.Cotizacion;
+import com.colabora.soluciones.convocatoriafeyac.Modelos.caracteristicas_web;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.itemSimple;
 import com.colabora.soluciones.convocatoriafeyac.NuevaCotizacionActivity;
 import com.colabora.soluciones.convocatoriafeyac.R;
@@ -44,6 +45,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
@@ -112,7 +114,7 @@ public class WebsServiciosSeccion2 extends AppCompatActivity {
                     itemTitulo.setText(itemSimpleList.get(position).getTitulo());
                     itemDescripcion.setText(itemSimpleList.get(position).getDescripcion());
 
-                    builder.setTitle("Nuevo Servicio");
+                    builder.setTitle("Característica");
                     builder.setMessage("Por favor, introduce un título y descripción de las características distintivas de tus servicios");
                     builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
@@ -216,11 +218,16 @@ public class WebsServiciosSeccion2 extends AppCompatActivity {
     private Button btnSiguiente;
     private boolean imgUpoloaded = false;
     private List<itemSimple> itemSimpleList = new ArrayList<>();
+    private List<caracteristicas_web> caracteristicas = new ArrayList<>();
 
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     private ProgressDialog progressDialog;
     private SharedPreferences sharedPreferences;
+
+    private String caracteristicas_titulo = "";
+    private String caracteristicas_descripcion = "";
+    private String caracteristicas_imagen = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -246,10 +253,85 @@ public class WebsServiciosSeccion2 extends AppCompatActivity {
         progressDialog.setTitle("Subiendo Información");
         progressDialog.setMessage("Espere un momento mientras el sistema sube su información a la base de datos");
 
+        txtTitulo.setText(sharedPreferences.getString("web_servicios_seccion_2_titulo", ""));
+        txtDescripcion.setText(sharedPreferences.getString("web_servicios_seccion_2_descripcion", ""));
+        txtDescripcion2.setText(sharedPreferences.getString("web_servicios_seccion_2_descripcion_2", ""));
+        Picasso.get().load(sharedPreferences.getString("web_servicios_img_seccion_2","")).into(img);
+        if (sharedPreferences.getString("web_servicios_img_seccion_2","").length() > 1){
+            imgUpoloaded = true;
+        }
+
+
+
+        if(sharedPreferences.getString("web_servicios_seccion_2_recycler","").equals("1")){
+            caracteristicas_titulo = sharedPreferences.getString("web_servicios_seccion_2_caracteristica1_titulo","");
+            caracteristicas_descripcion = sharedPreferences.getString("web_servicios_seccion_2_caracteristica1_descripcion","");
+            caracteristicas_imagen = "";
+
+            caracteristicas.add(new caracteristicas_web(caracteristicas_imagen, caracteristicas_titulo, caracteristicas_descripcion));
+
+            for (int i = 0; i < caracteristicas.size(); i++){
+                itemSimpleList.add(new itemSimple(caracteristicas.get(i).getTitulo(), caracteristicas.get(i).getDescripcion()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsServiciosSeccion2.DataConfigAdapter(itemSimpleList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
+        else if(sharedPreferences.getString("web_servicios_seccion_2_recycler","").equals("2")){
+            caracteristicas_titulo = sharedPreferences.getString("web_servicios_seccion_2_caracteristica1_titulo","");
+            caracteristicas_descripcion = sharedPreferences.getString("web_servicios_seccion_2_caracteristica1_descripcion","");
+            caracteristicas_imagen = "";
+
+            caracteristicas.add(new caracteristicas_web(caracteristicas_imagen, caracteristicas_titulo, caracteristicas_descripcion));
+
+            caracteristicas_titulo = sharedPreferences.getString("web_servicios_seccion_2_caracteristica2_titulo","");
+            caracteristicas_descripcion = sharedPreferences.getString("web_servicios_seccion_2_caracteristica2_descripcion","");
+            caracteristicas_imagen = "";
+
+            caracteristicas.add(new caracteristicas_web(caracteristicas_imagen, caracteristicas_titulo, caracteristicas_descripcion));
+
+            for (int i = 0; i < caracteristicas.size(); i++){
+                itemSimpleList.add(new itemSimple(caracteristicas.get(i).getTitulo(), caracteristicas.get(i).getDescripcion()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsServiciosSeccion2.DataConfigAdapter(itemSimpleList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
+        else if(sharedPreferences.getString("web_servicios_seccion_2_recycler","").equals("3")){
+            caracteristicas_titulo = sharedPreferences.getString("web_servicios_seccion_2_caracteristica1_titulo","");
+            caracteristicas_descripcion = sharedPreferences.getString("web_servicios_seccion_2_caracteristica1_descripcion","");
+            caracteristicas_imagen = "";
+
+            caracteristicas.add(new caracteristicas_web(caracteristicas_imagen, caracteristicas_titulo, caracteristicas_descripcion));
+
+            caracteristicas_titulo = sharedPreferences.getString("web_servicios_seccion_2_caracteristica2_titulo","");
+            caracteristicas_descripcion = sharedPreferences.getString("web_servicios_seccion_2_caracteristica2_descripcion","");
+            caracteristicas_imagen = "";
+
+            caracteristicas.add(new caracteristicas_web(caracteristicas_imagen, caracteristicas_titulo, caracteristicas_descripcion));
+
+            caracteristicas_titulo = sharedPreferences.getString("web_servicios_seccion_2_caracteristica3_titulo","");
+            caracteristicas_descripcion = sharedPreferences.getString("web_servicios_seccion_2_caracteristica3_descripcion","");
+            caracteristicas_imagen = "";
+
+            caracteristicas.add(new caracteristicas_web(caracteristicas_imagen, caracteristicas_titulo, caracteristicas_descripcion));
+
+            for (int i = 0; i < caracteristicas.size(); i++){
+                itemSimpleList.add(new itemSimple(caracteristicas.get(i).getTitulo(), caracteristicas.get(i).getDescripcion()));
+            }
+
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsServiciosSeccion2.DataConfigAdapter(itemSimpleList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
+
+
         addCaracteristica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(itemSimpleList.size() < 5){
+                if(itemSimpleList.size() < 3){
                     final AlertDialog.Builder builder = new AlertDialog.Builder(WebsServiciosSeccion2.this);
 
                     // Get the layout inflater
@@ -261,7 +343,7 @@ public class WebsServiciosSeccion2 extends AppCompatActivity {
                     itemDescripcion = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleDescripcion);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-                    builder.setTitle("Nuevo Servicio");
+                    builder.setTitle("Nueva Característica");
                     builder.setMessage("Por favor, introduce un título y descripción de las características distintivas de tus servicios");
                     builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
@@ -300,7 +382,7 @@ public class WebsServiciosSeccion2 extends AppCompatActivity {
                     builder.show();
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Sólo se permiten máximo 4 servicios", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Sólo se permiten máximo 3 características", Toast.LENGTH_LONG).show();
                 }
 
             }
