@@ -77,13 +77,13 @@ public class WebsServiciosSeccion3 extends AppCompatActivity {
         txtTitulo2.setText(sharedPreferences.getString("web_servicios_seccion_3_titulo2", ""));
         txtDescripcion1.setText(sharedPreferences.getString("web_servicios_seccion_3_descripcion1", ""));
         txtDescripcion2.setText(sharedPreferences.getString("web_servicios_seccion_3_descripcion2", ""));
-        Picasso.get().load(sharedPreferences.getString("web_servicios_img1_seccion_3","")).into(img1);
-        Picasso.get().load(sharedPreferences.getString("web_servicios_img2_seccion_3","")).into(img2);
         if (sharedPreferences.getString("web_servicios_img1_seccion_3","").length() > 1){
             imgUploaded1 = true;
+            Picasso.get().load(sharedPreferences.getString("web_servicios_img1_seccion_3","")).into(img1);
         }
         if (sharedPreferences.getString("web_servicios_img2_seccion_3","").length() > 1){
             imgUploaded2 = true;
+            Picasso.get().load(sharedPreferences.getString("web_servicios_img2_seccion_3","")).into(img2);
         }
 
 

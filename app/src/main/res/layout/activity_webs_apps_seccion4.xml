@@ -45,20 +45,6 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/txt_web_apps_seccion4_boton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:imeOptions="actionDone"
-                    android:hint="Texto del botón" />
-
-            </android.support.design.widget.TextInputLayout>
-
             <Button
                 android:id="@+id/btn_web_app_siguiente_seccion4"
                 android:layout_width="wrap_content"

@@ -27,6 +27,9 @@ public class WebsComidaSeccion4 extends AppCompatActivity {
         editDescripcion1 = (TextInputEditText)findViewById(R.id.txt_web_comida_seccion4_texto1);
         btnSiguiente = (Button)findViewById(R.id.btnComidaSeccion4Siguiente);
 
+        sharedPreferences = getSharedPreferences("misDatos", 0);
+        editDescripcion1.setText(sharedPreferences.getString("web_comida_descripcion_seccion_4", ""));
+
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

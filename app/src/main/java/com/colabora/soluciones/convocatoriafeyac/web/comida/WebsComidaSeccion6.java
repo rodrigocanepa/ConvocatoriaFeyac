@@ -126,6 +126,14 @@ public class WebsComidaSeccion6 extends AppCompatActivity {
         progressDialog.setTitle("Subiendo Información");
         progressDialog.setMessage("Espere un momento mientras el sistema sube su información a la base de datos");
 
+        sharedPreferences = getSharedPreferences("misDatos", 0);
+        editNombre.setText(sharedPreferences.getString("web_comida_nombre_seccion_6", ""));
+        editDireccion.setText(sharedPreferences.getString("web_comida_direccion_seccion_6", ""));
+        editCorreo.setText(sharedPreferences.getString("web_comida_correo_seccion_6", ""));
+        editTelefono.setText(sharedPreferences.getString("web_comida_telefono_seccion_6", ""));
+        editFacebook.setText(sharedPreferences.getString("web_comida_facebook_seccion_6", ""));
+        editInstagram.setText(sharedPreferences.getString("web_comida_instagram_seccion_6", ""));
+
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -561,6 +569,9 @@ public class WebsComidaSeccion6 extends AppCompatActivity {
                                 if(progressDialog.isShowing()){
                                     progressDialog.dismiss();
                                 }
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("tipo_mi_pag_web", "1");
+                                editor.commit();
                                 Toast.makeText(getApplicationContext(),"¡Página web creada exitosamente!", Toast.LENGTH_LONG).show();
                                 String url = "http://food.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
                                 Intent i = new Intent(Intent.ACTION_VIEW);

@@ -203,6 +203,13 @@ public class WebsComidaSeccion5 extends AppCompatActivity {
     private TextInputEditText itemDescripcion;
     private TextInputEditText itemPrecio;
 
+    private String specials_img = "";
+    private String specials_titulo = "";
+    private String specials_descripcion = "";
+    private int specials_precio = 0;
+    private List<MenuComida> items_menu = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -215,6 +222,177 @@ public class WebsComidaSeccion5 extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("misDatos", 0);
 
+        if(sharedPreferences.getString("web_comida_seccion_5_recycler", "").equals("1")){
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica1_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica1_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica1_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            menuComidaList = items_menu;
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsComidaSeccion5.DataConfigAdapter(menuComidaList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
+
+        else if(sharedPreferences.getString("web_comida_seccion_5_recycler", "").equals("2")){
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica1_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica1_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica1_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica2_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica2_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica2_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            menuComidaList = items_menu;
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsComidaSeccion5.DataConfigAdapter(menuComidaList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+
+        }
+        else if(sharedPreferences.getString("web_comida_seccion_5_recycler", "").equals("3")){
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica1_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica1_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica1_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica2_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica2_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica2_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica3_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica3_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica3_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            menuComidaList = items_menu;
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsComidaSeccion5.DataConfigAdapter(menuComidaList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+
+        }
+
+        else if(sharedPreferences.getString("web_comida_seccion_5_recycler", "").equals("4")){
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica1_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica1_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica1_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica2_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica2_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica2_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica3_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica3_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica3_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica4_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica4_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica4_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            menuComidaList = items_menu;
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsComidaSeccion5.DataConfigAdapter(menuComidaList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+
+        }
+
+        else if(sharedPreferences.getString("web_comida_seccion_5_recycler", "").equals("5")){
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica1_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica1_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica1_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica2_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica2_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica2_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica3_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica3_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica3_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica4_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica4_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica4_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica5_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica5_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica5_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            menuComidaList = items_menu;
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsComidaSeccion5.DataConfigAdapter(menuComidaList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+
+        }
+
+        else if(sharedPreferences.getString("web_comida_seccion_5_recycler", "").equals("6")){
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica1_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica1_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica1_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica2_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica2_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica2_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica3_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica3_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica3_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica4_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica4_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica4_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica5_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica5_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica5_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica6_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_5_caracteristica6_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_5_caracteristica6_precio",0);
+
+            items_menu.add(new MenuComida(specials_titulo, specials_precio, specials_descripcion));
+
+            menuComidaList = items_menu;
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsComidaSeccion5.DataConfigAdapter(menuComidaList, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+
+        }
 
         addCaracteristica.setOnClickListener(new View.OnClickListener() {
             @Override

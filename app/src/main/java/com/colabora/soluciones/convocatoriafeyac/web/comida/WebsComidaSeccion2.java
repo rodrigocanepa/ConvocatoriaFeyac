@@ -47,6 +47,14 @@ public class WebsComidaSeccion2 extends AppCompatActivity {
         editDescripcion3 = (TextInputEditText)findViewById(R.id.txt_web_comida_seccion2_descripcion3);
         btnSiguiente = (Button)findViewById(R.id.btnComidaSeccion2Siguiente);
 
+        sharedPreferences = getSharedPreferences("misDatos", 0);
+        editTitulo.setText(sharedPreferences.getString("web_comida_titulo_1_seccion_2", ""));
+        editTitulo2.setText(sharedPreferences.getString("web_comida_titulo_2_seccion_2", ""));
+        editTitulo3.setText(sharedPreferences.getString("web_comida_titulo_3_seccion_2", ""));
+        editDescripcion1.setText(sharedPreferences.getString("web_comida_descripcion_1_seccion_2", ""));
+        editDescripcion2.setText(sharedPreferences.getString("web_comida_descripcion_2_seccion_2", ""));
+        editDescripcion3.setText(sharedPreferences.getString("web_comida_descripcion_3_seccion_2", ""));
+
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

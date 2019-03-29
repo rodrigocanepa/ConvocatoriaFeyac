@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.colabora.soluciones.convocatoriafeyac.R;
 import com.colabora.soluciones.convocatoriafeyac.VisualizarTarjetaActivity;
+import com.colabora.soluciones.convocatoriafeyac.web.aplicaciones.WebAppsSeccion1Activity;
 import com.colabora.soluciones.convocatoriafeyac.web.comida.WebsComidaSeccion1;
 import com.colabora.soluciones.convocatoriafeyac.web.comida.WebsComidaSeccion6;
 import com.colabora.soluciones.convocatoriafeyac.web.moda.WebsModaSeccion1;
@@ -163,7 +164,8 @@ public class WebVisualizacionPreviaActivity extends AppCompatActivity {
                                                 startActivity(i);
                                             }
                                             else if(tipo_pag.equals("aplicaciones")){
-                                                imageView.setImageResource(R.drawable.web_aplicaciones_moviles);
+                                                Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebAppsSeccion1Activity.class);
+                                                startActivity(i);
                                             }
                                             else if(tipo_pag.equals("servicios")){
                                                 Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsServiciosSeccion1.class);

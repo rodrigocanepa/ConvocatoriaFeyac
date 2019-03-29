@@ -81,13 +81,13 @@ public class WebsProductosSeccion1 extends AppCompatActivity {
 
         editTitulo.setText(sharedPreferences.getString("web_productos_titulo_home", ""));
         editDescripcion.setText(sharedPreferences.getString("web_productos_subtitulo_home", ""));
-        Picasso.get().load(sharedPreferences.getString("web_productos_img_1_seccion_1","")).into(img);
-        Picasso.get().load(sharedPreferences.getString("web_productos_img_2_seccion_1","")).into(img2);
         if (sharedPreferences.getString("web_productos_img_1_seccion_1","").length() > 1){
             imgUpoloaded = true;
+            Picasso.get().load(sharedPreferences.getString("web_productos_img_1_seccion_1","")).into(img);
         }
         if (sharedPreferences.getString("web_productos_img_2_seccion_1","").length() > 1){
             imgUpoloaded2 = true;
+            Picasso.get().load(sharedPreferences.getString("web_productos_img_2_seccion_1","")).into(img2);
         }
         if (sharedPreferences.getString("web_productos_img_3_seccion_1","").length() > 1){
             Picasso.get().load(sharedPreferences.getString("web_productos_img_3_seccion_1","")).into(img3);

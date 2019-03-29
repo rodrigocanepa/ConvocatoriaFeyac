@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.colabora.soluciones.convocatoriafeyac.R;
+import com.colabora.soluciones.convocatoriafeyac.web.aplicaciones.WebAppsSeccion1Activity;
+import com.colabora.soluciones.convocatoriafeyac.web.comida.WebsComidaSeccion1;
 import com.colabora.soluciones.convocatoriafeyac.web.moda.WebsModaSeccion1;
 import com.colabora.soluciones.convocatoriafeyac.web.moda.WebsModaSeccion7;
 import com.colabora.soluciones.convocatoriafeyac.web.productos.WebsProductosSeccion1;
@@ -64,7 +66,15 @@ public class MenuPagWebActivity extends AppCompatActivity {
                 int id = menuItem.getItemId();
 
                 if(id == R.id.action_ver_mi_pag){
-                    if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("2")){
+                    if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("1")){
+                        if(sharedPreferences.getString("nombrePagWeb","").length() > 0){
+                            String url = "http://food.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse(url));
+                            startActivity(i);
+                        }
+                    }
+                    else if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("2")){
                         if(sharedPreferences.getString("nombrePagWeb","").length() > 0){
                             String url = "http://products.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
                             Intent i = new Intent(Intent.ACTION_VIEW);
@@ -96,10 +106,22 @@ public class MenuPagWebActivity extends AppCompatActivity {
                             startActivity(i);
                         }
                     }
+                    else if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("6")){
+                        if(sharedPreferences.getString("nombrePagWeb","").length() > 0){
+                            String url = "http://apps.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse(url));
+                            startActivity(i);
+                        }
+                    }
                     return true;
                 }
                 else if(id == R.id.action_editar_mi_pag){
-                    if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("2")){
+                    if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("1")){
+                        Intent i = new Intent(MenuPagWebActivity.this, WebsComidaSeccion1.class);
+                        startActivity(i);
+                    }
+                    else if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("2")){
                         Intent i = new Intent(MenuPagWebActivity.this, WebsProductosSeccion1.class);
                         startActivity(i);
                     }
@@ -113,6 +135,10 @@ public class MenuPagWebActivity extends AppCompatActivity {
                     }
                     else if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("5")){
                         Intent i = new Intent(MenuPagWebActivity.this, WebsSaludSeccion1.class);
+                        startActivity(i);
+                    }
+                    else if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("6")){
+                        Intent i = new Intent(MenuPagWebActivity.this, WebAppsSeccion1Activity.class);
                         startActivity(i);
                     }
                     return true;

@@ -24,7 +24,9 @@ import android.widget.Toast;
 
 import com.colabora.soluciones.convocatoriafeyac.Modelos.EspecialidadesComida;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.ItemFoto;
+import com.colabora.soluciones.convocatoriafeyac.Modelos.itemSimple;
 import com.colabora.soluciones.convocatoriafeyac.R;
+import com.colabora.soluciones.convocatoriafeyac.web.moda.WebsModaSeccion4;
 import com.colabora.soluciones.convocatoriafeyac.web.productos.WebsProductosSeccion5;
 import com.colabora.soluciones.convocatoriafeyac.web.productos.WebsProductosSeccion6;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -267,6 +269,11 @@ public class WebsComidaSeccion3 extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
     private String url_ = "";
+    private String specials_img = "";
+    private String specials_titulo = "";
+    private String specials_descripcion = "";
+    private int specials_precio = 0;
+    private List<EspecialidadesComida> items = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -285,6 +292,198 @@ public class WebsComidaSeccion3 extends AppCompatActivity {
 
         progressDialog.setTitle("Subiendo Información");
         progressDialog.setMessage("Espere un momento mientras el sistema sube su información a la base de datos");
+
+        if(sharedPreferences.getString("web_comida_seccion_3_recycler", "").equals("1")){
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica1_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica1_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica1_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica1_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            especialidadesComidas = items;
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsComidaSeccion3.DataConfigAdapter(especialidadesComidas, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
+        else if(sharedPreferences.getString("web_comida_seccion_3_recycler", "").equals("2")){
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica1_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica1_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica1_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica1_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica2_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica2_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica2_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica2_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            especialidadesComidas = items;
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsComidaSeccion3.DataConfigAdapter(especialidadesComidas, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+
+        }
+
+        else if(sharedPreferences.getString("web_comida_seccion_3_recycler", "").equals("3")){
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica1_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica1_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica1_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica1_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica2_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica2_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica2_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica2_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica3_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica3_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica3_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica3_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            especialidadesComidas = items;
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsComidaSeccion3.DataConfigAdapter(especialidadesComidas, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+
+        }
+
+        else if(sharedPreferences.getString("web_comida_seccion_3_recycler", "").equals("4")){
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica1_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica1_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica1_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica1_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica2_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica2_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica2_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica2_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica3_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica3_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica3_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica3_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica4_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica4_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica4_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica4_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            especialidadesComidas = items;
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsComidaSeccion3.DataConfigAdapter(especialidadesComidas, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
+
+
+        else if(sharedPreferences.getString("web_comida_seccion_3_recycler", "").equals("5")){
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica1_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica1_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica1_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica1_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica2_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica2_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica2_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica2_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica3_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica3_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica3_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica3_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica4_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica4_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica4_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica4_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica5_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica5_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica5_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica5_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            especialidadesComidas = items;
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsComidaSeccion3.DataConfigAdapter(especialidadesComidas, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
+
+        else if(sharedPreferences.getString("web_comida_seccion_3_recycler", "").equals("6")){
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica1_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica1_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica1_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica1_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica2_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica2_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica2_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica2_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica3_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica3_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica3_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica3_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica4_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica4_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica4_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica4_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica5_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica5_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica5_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica5_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            specials_img = sharedPreferences.getString("web_comida_seccion_3_caracteristica6_url","");
+            specials_titulo = sharedPreferences.getString("web_comida_seccion_3_caracteristica6_titulo","");
+            specials_descripcion = sharedPreferences.getString("web_comida_seccion_3_caracteristica6_descripcion","");
+            specials_precio = sharedPreferences.getInt("web_comida_seccion_3_caracteristica6_precio",0);
+
+            items.add(new EspecialidadesComida(specials_img, specials_titulo, specials_precio, specials_descripcion));
+
+            especialidadesComidas = items;
+            // *********** LLENAMOS EL RECYCLER VIEW *****************************
+            adapter = new WebsComidaSeccion3.DataConfigAdapter(especialidadesComidas, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
+
 
         addCaracteristica.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -73,9 +73,9 @@ public class WebsProductosSeccion2 extends AppCompatActivity {
         editTitulo.setText(sharedPreferences.getString("web_productos_titulo_seccion_2", ""));
         editDescripcion.setText(sharedPreferences.getString("web_productos_subtitulo_seccion_2", ""));
         editDescripcio2.setText(sharedPreferences.getString("web_productos_descripcion_seccion_2", ""));
-        Picasso.get().load(sharedPreferences.getString("web_productos_img_seccion_2","")).into(img);
         if (sharedPreferences.getString("web_productos_img_seccion_2","").length() > 1){
             imgUpoloaded = true;
+            Picasso.get().load(sharedPreferences.getString("web_productos_img_seccion_2","")).into(img);
         }
 
         btnSubirFoto.setOnClickListener(new View.OnClickListener() {

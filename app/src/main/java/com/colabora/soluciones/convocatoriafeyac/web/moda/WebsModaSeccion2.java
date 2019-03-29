@@ -72,9 +72,9 @@ public class WebsModaSeccion2 extends AppCompatActivity {
         editTitulo.setText(sharedPreferences.getString("web_moda_titulo_seccion_2", ""));
         editSubtitulo.setText(sharedPreferences.getString("web_moda_subtitulo_seccion_2", ""));
         editDescripcion.setText(sharedPreferences.getString("web_moda_descripcion_seccion_2", ""));
-        Picasso.get().load(sharedPreferences.getString("web_moda_img_seccion_2","")).into(img);
         if (sharedPreferences.getString("web_moda_img_seccion_2","").length() > 1){
             imgUpoloaded = true;
+            Picasso.get().load(sharedPreferences.getString("web_moda_img_seccion_2","")).into(img);
         }
 
         btnSubirFoto.setOnClickListener(new View.OnClickListener() {

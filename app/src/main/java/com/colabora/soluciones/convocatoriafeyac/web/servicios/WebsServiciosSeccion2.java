@@ -256,9 +256,9 @@ public class WebsServiciosSeccion2 extends AppCompatActivity {
         txtTitulo.setText(sharedPreferences.getString("web_servicios_seccion_2_titulo", ""));
         txtDescripcion.setText(sharedPreferences.getString("web_servicios_seccion_2_descripcion", ""));
         txtDescripcion2.setText(sharedPreferences.getString("web_servicios_seccion_2_descripcion_2", ""));
-        Picasso.get().load(sharedPreferences.getString("web_servicios_img_seccion_2","")).into(img);
         if (sharedPreferences.getString("web_servicios_img_seccion_2","").length() > 1){
             imgUpoloaded = true;
+            Picasso.get().load(sharedPreferences.getString("web_servicios_img_seccion_2","")).into(img);
         }
 
 

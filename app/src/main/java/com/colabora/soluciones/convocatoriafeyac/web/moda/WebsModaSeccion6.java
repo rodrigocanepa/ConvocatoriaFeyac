@@ -75,9 +75,9 @@ public class WebsModaSeccion6 extends AppCompatActivity {
         editEmail.setText(sharedPreferences.getString("web_moda_email_seccion6", ""));
         editUbicacion.setText(sharedPreferences.getString("web_moda_direccion_seccion6", ""));
         editTelefono.setText(sharedPreferences.getString("web_moda_telefono_seccion6", ""));
-        Picasso.get().load(sharedPreferences.getString("web_moda_img_seccion_6","")).into(img);
         if (sharedPreferences.getString("web_moda_img_seccion_6","").length() > 1){
             imgUpoloaded = true;
+            Picasso.get().load(sharedPreferences.getString("web_moda_img_seccion_6","")).into(img);
         }
 
         btnSubirFoto.setOnClickListener(new View.OnClickListener() {

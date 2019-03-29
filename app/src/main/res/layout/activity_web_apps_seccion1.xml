@@ -45,20 +45,6 @@
 
                 </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/txt_web_apps_seccion1_boton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textMultiLine|textCapSentences"
-                        android:imeOptions="actionDone"
-                        android:hint="Texto del botón" />
-
-                </android.support.design.widget.TextInputLayout>
-
                 <Button
                     android:id="@+id/btn_web_app_agregar_captura"
                     android:layout_width="match_parent"
@@ -67,6 +53,7 @@
                     android:text="Agregar captura de imagen de la app" />
 
                 <ImageView
+                    android:id="@+id/imgWebAppsSeccion1"
                     android:layout_width="300sp"
                     android:layout_height="510sp"
                     android:layout_marginTop="10sp"

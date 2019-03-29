@@ -232,9 +232,9 @@ public class WebsModaSeccion4 extends AppCompatActivity {
         progressDialog.setTitle("Subiendo Información");
         progressDialog.setMessage("Espere un momento mientras el sistema sube su información a la base de datos");
 
-        Picasso.get().load(sharedPreferences.getString("web_moda_img_seccion_4","")).into(img);
         if (sharedPreferences.getString("web_moda_img_seccion_4","").length() > 1){
             imgUpoloaded = true;
+            Picasso.get().load(sharedPreferences.getString("web_moda_img_seccion_4","")).into(img);
         }
 
         if(sharedPreferences.getString("web_servicios_seccion_4_recycler", "").equals("1")){
