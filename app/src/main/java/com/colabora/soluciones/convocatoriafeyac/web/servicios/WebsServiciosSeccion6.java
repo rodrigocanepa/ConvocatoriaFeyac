@@ -117,6 +117,7 @@ public class WebsServiciosSeccion6 extends AppCompatActivity {
                                             //TODO: do what you have to...
                                             imgPortafolio.setImageBitmap(r.getBitmap());
 
+                                            progressDialog.show();
                                             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                                             r.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, outputStream);
                                             byte[] data = outputStream.toByteArray();
@@ -498,6 +499,7 @@ public class WebsServiciosSeccion6 extends AppCompatActivity {
                                         public void onPickResult(PickResult r) {
                                             //TODO: do what you have to...
                                             imgPortafolio.setImageBitmap(r.getBitmap());
+                                            progressDialog.show();
 
                                             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                                             r.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, outputStream);

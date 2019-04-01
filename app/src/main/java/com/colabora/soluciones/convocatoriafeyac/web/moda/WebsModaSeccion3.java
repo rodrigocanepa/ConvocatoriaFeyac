@@ -118,6 +118,7 @@ public class WebsModaSeccion3 extends AppCompatActivity {
                                         public void onPickResult(PickResult r) {
                                             //TODO: do what you have to...
                                             imgPortafolio.setImageBitmap(r.getBitmap());
+                                            progressDialog.show();
 
                                             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                                             r.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, outputStream);
