@@ -114,6 +114,9 @@ public class MenuPagWebActivity extends AppCompatActivity {
                             startActivity(i);
                         }
                     }
+                    else{
+                        Toast.makeText(getApplicationContext(), "Aún no tienes desarrollada tu página web", Toast.LENGTH_SHORT).show();
+                    }
                     return true;
                 }
                 else if(id == R.id.action_editar_mi_pag){
@@ -140,6 +143,9 @@ public class MenuPagWebActivity extends AppCompatActivity {
                     else if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("6")){
                         Intent i = new Intent(MenuPagWebActivity.this, WebAppsSeccion1Activity.class);
                         startActivity(i);
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "Aún no tienes desarrollada tu página web", Toast.LENGTH_SHORT).show();
                     }
                     return true;
                 }

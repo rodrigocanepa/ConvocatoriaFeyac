@@ -275,32 +275,32 @@ public class VisualizarTarjetaActivity extends AppCompatActivity {
             txtInstagram3.setTypeface(typeface1);
 
             // **************************
-            txtNombre1.setTextSize(20);
-            txtCargo1.setTextSize(16);
-            txtTelefono1.setTextSize(16);
-            txtCorreo1.setTextSize(16);
-            txtPagina1.setTextSize(16);
-            txtDireccion1.setTextSize(16);
-            txtFacebook1.setTextSize(16);
-            txtInstagram1.setTextSize(16);
+            txtNombre1.setTextSize(12);
+            txtCargo1.setTextSize(8);
+            txtTelefono1.setTextSize(8);
+            txtCorreo1.setTextSize(8);
+            txtPagina1.setTextSize(8);
+            txtDireccion1.setTextSize(8);
+            txtFacebook1.setTextSize(8);
+            txtInstagram1.setTextSize(8);
 
-            txtNombre2.setTextSize(20);
-            txtCargo2.setTextSize(16);
-            txtTelefono2.setTextSize(16);
-            txtCorreo2.setTextSize(16);
-            txtPagina2.setTextSize(16);
-            txtDireccion2.setTextSize(16);
-            txtFacebook2.setTextSize(16);
-            txtInstagram2.setTextSize(16);
+            txtNombre2.setTextSize(12);
+            txtCargo2.setTextSize(8);
+            txtTelefono2.setTextSize(8);
+            txtCorreo2.setTextSize(8);
+            txtPagina2.setTextSize(8);
+            txtDireccion2.setTextSize(8);
+            txtFacebook2.setTextSize(8);
+            txtInstagram2.setTextSize(8);
 
-            txtNombre3.setTextSize(20);
-            txtCargo3.setTextSize(16);
-            txtTelefono3.setTextSize(16);
-            txtCorreo3.setTextSize(16);
-            txtPagina3.setTextSize(16);
-            txtDireccion3.setTextSize(16);
-            txtFacebook3.setTextSize(16);
-            txtInstagram3.setTextSize(16);
+            txtNombre3.setTextSize(12);
+            txtCargo3.setTextSize(8);
+            txtTelefono3.setTextSize(8);
+            txtCorreo3.setTextSize(8);
+            txtPagina3.setTextSize(8);
+            txtDireccion3.setTextSize(8);
+            txtFacebook3.setTextSize(8);
+            txtInstagram3.setTextSize(8);
              // ****************************
 
         }
