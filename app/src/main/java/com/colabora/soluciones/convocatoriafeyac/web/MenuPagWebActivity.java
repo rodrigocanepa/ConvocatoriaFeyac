@@ -1,17 +1,21 @@
 package com.colabora.soluciones.convocatoriafeyac.web;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.colabora.soluciones.convocatoriafeyac.Modelos.Usuario;
 import com.colabora.soluciones.convocatoriafeyac.R;
 import com.colabora.soluciones.convocatoriafeyac.web.aplicaciones.WebAppsSeccion1Activity;
 import com.colabora.soluciones.convocatoriafeyac.web.comida.WebsComidaSeccion1;
@@ -20,6 +24,14 @@ import com.colabora.soluciones.convocatoriafeyac.web.moda.WebsModaSeccion7;
 import com.colabora.soluciones.convocatoriafeyac.web.productos.WebsProductosSeccion1;
 import com.colabora.soluciones.convocatoriafeyac.web.salud.WebsSaludSeccion1;
 import com.colabora.soluciones.convocatoriafeyac.web.servicios.WebsServiciosSeccion1;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
@@ -34,7 +46,11 @@ public class MenuPagWebActivity extends AppCompatActivity {
     private ImageView imgComida;
     private FabSpeedDial speedDialView;
 
+    private FirebaseFirestore db;
     private SharedPreferences sharedPreferences;
+    private Usuario miUsuario;
+
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +67,9 @@ public class MenuPagWebActivity extends AppCompatActivity {
         speedDialView = (FabSpeedDial)findViewById(R.id.speedDial);
 
         sharedPreferences = getSharedPreferences("misDatos", 0);
+        db = FirebaseFirestore.getInstance();
+        progressDialog = new ProgressDialog(MenuPagWebActivity.this);
+        progressDialog.setMessage("Checando información en la base de datos");
 
         imgServicios.setColorFilter(Color.argb(150,20,20,20), PorterDuff.Mode.DARKEN);
         imgProductos.setColorFilter(Color.argb(150,20,20,20), PorterDuff.Mode.DARKEN);
@@ -204,6 +223,86 @@ public class MenuPagWebActivity extends AppCompatActivity {
                 Intent i = new Intent(MenuPagWebActivity.this, WebVisualizacionPreviaActivity.class);
                 i.putExtra(WebVisualizacionPreviaActivity.PAG_WEB, "moda");
                 startActivity(i);
+            }
+        });
+    }
+
+    private void verificarUsername(){
+
+        String id = FirebaseAuth.getInstance().getUid();
+        miUsuario = null;
+        progressDialog.show();
+
+        db.collection("Usuarios")
+                .whereEqualTo("id", id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("Mooch_info", document.getId() + " => " + document.getData());
+                                miUsuario = document.toObject(Usuario.class);
+                            }
+
+                            if(progressDialog.isShowing()){
+                                progressDialog.dismiss();
+                            }
+
+                            if(miUsuario != null){
+
+                                if(miUsuario.getTipoPagWeb().equals("servicios")){
+
+                                }
+
+                                else if(miUsuario.getTipoPagWeb().equals("servicios")){
+
+                                }
+                                else if(miUsuario.getTipoPagWeb().equals("servicios")){
+
+                                }
+                                else if(miUsuario.getTipoPagWeb().equals("servicios")){
+
+                                }
+                                else if(miUsuario.getTipoPagWeb().equals("servicios")){
+
+                                }
+                                else if(miUsuario.getTipoPagWeb().equals("servicios")){
+
+                                }
+                            }
+                            else{
+                                // Aqui guardo que ya no es necesario seguir buscando
+                            }
+
+                        } else {
+                            if(progressDialog.isShowing()){
+                                progressDialog.dismiss();
+                            }
+                            Toast.makeText(getApplicationContext(), "Ha ocurrido un error, por favor verifique su conexión a internet", Toast.LENGTH_LONG).show();
+                            Log.d("Mooch_info", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    private void getInfoPagWeb(String nombrePagWeb){
+        db.collection("webs").document(nombrePagWeb).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        //Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                    } else {
+                        //Log.d(TAG, "No such document");
+
+                    }
+                } else {
+                    //Log.d(TAG, "get failed with ", task.getException());
+
+                }
             }
         });
     }

@@ -78,7 +78,7 @@ public class WebVisualizacionPreviaActivity extends AppCompatActivity {
         btnComenzar = (Button)findViewById(R.id.btnPreWebComenzar);
 
         progressDialog = new ProgressDialog(WebVisualizacionPreviaActivity.this);
-
+        sharedPreferences = getSharedPreferences("misDatos", 0);
         progressDialog.setTitle("Valindando");
         progressDialog.setMessage("Espere un momento mientras el sistema valida el nombre de su página web");
 
@@ -110,103 +110,144 @@ public class WebVisualizacionPreviaActivity extends AppCompatActivity {
         btnComenzar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(WebVisualizacionPreviaActivity.this);
 
-                // Get the layout inflater
-                LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final View formElementsView = inflater.inflate(R.layout.dialog_check_web,
-                        null, false);
+                if (sharedPreferences.getString("paginaIniciadaNombre", "").equals(tipo_pag)){
+                    if(tipo_pag.equals("comida")){
+                        Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsComidaSeccion1.class);
+                        startActivity(i);
+                    }
+                    else if(tipo_pag.equals("moda")){
+                        Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsModaSeccion1.class);
+                        startActivity(i);
+                    }
+                    else if(tipo_pag.equals("aplicaciones")){
+                        Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebAppsSeccion1Activity.class);
+                        startActivity(i);
+                    }
+                    else if(tipo_pag.equals("servicios")){
+                        Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsServiciosSeccion1.class);
+                        startActivity(i);
+                    }
+                    else if(tipo_pag.equals("productos")){
+                        Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsProductosSeccion1.class);
+                        startActivity(i);
+                    }
+                    else if(tipo_pag.equals("salud")){
+                        Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsSaludSeccion1.class);
+                        startActivity(i);
+                    }
+                }
+                else{
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(WebVisualizacionPreviaActivity.this);
 
-                txtCheck = (TextInputEditText) formElementsView.findViewById(R.id.dialog_check_web);
+                    // Get the layout inflater
+                    LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    final View formElementsView = inflater.inflate(R.layout.dialog_check_web,
+                            null, false);
 
-                builder.setTitle("Mi página web");
-                builder.setMessage("Por favor, ingrese el nombre que llevará su página web sin acentos, el cual estará disponible en el dominio www.pymeassistant.com/web/su_pagina_web");
+                    txtCheck = (TextInputEditText) formElementsView.findViewById(R.id.dialog_check_web);
 
-                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        nombre_web = txtCheck.getText().toString();
+                    builder.setTitle("Mi página web");
+                    builder.setMessage("Por favor, ingrese el nombre que llevará su página web sin acentos, el cual estará disponible en el dominio www.pymeassistant.com/web/su_pagina_web");
 
-                        if(nombre_web.length() > 0){
-                            progressDialog.show();
-                            nombre_web = nombre_web.replaceAll(" ", "_");
+                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            nombre_web = txtCheck.getText().toString();
 
-                            DocumentReference docRef = db.collection("webs").document(nombre_web);
-                            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
+                            if(nombre_web.length() > 0){
+                                progressDialog.show();
+                                nombre_web = nombre_web.replaceAll(" ", "_");
 
-                                        if(progressDialog.isShowing()){
-                                            progressDialog.dismiss();
+                                DocumentReference docRef = db.collection("webs").document(nombre_web);
+                                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+
+                                            if(progressDialog.isShowing()){
+                                                progressDialog.dismiss();
+                                            }
+
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()) {
+                                                Toast.makeText(getApplicationContext(), "El nombre que quiere asignarle a su pagina web ya está en uso por otro usuario, intente con otro por favor", Toast.LENGTH_LONG).show();
+                                            } else {
+
+                                                // *********** Guardamos los principales datos de los nuevos usuarios *************
+                                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                editor.putString("nombrePagWeb", nombre_web);
+                                                editor.commit();
+                                                // ******************************************************************************
+
+                                                Toast.makeText(getApplicationContext(), "La pagina web esta disponible", Toast.LENGTH_LONG).show();
+
+                                                if(tipo_pag.equals("comida")){
+                                                    editor.putString("paginaIniciadaNombre", "comida");
+                                                    editor.commit();
+                                                    Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsComidaSeccion1.class);
+                                                    startActivity(i);
+                                                }
+                                                else if(tipo_pag.equals("moda")){
+                                                    editor.putString("paginaIniciadaNombre", "moda");
+                                                    editor.commit();
+                                                    Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsModaSeccion1.class);
+                                                    startActivity(i);
+                                                }
+                                                else if(tipo_pag.equals("aplicaciones")){
+                                                    editor.putString("paginaIniciadaNombre", "aplicaciones");
+                                                    editor.commit();
+                                                    Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebAppsSeccion1Activity.class);
+                                                    startActivity(i);
+                                                }
+                                                else if(tipo_pag.equals("servicios")){
+                                                    editor.putString("paginaIniciadaNombre", "servicios");
+                                                    editor.commit();
+                                                    Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsServiciosSeccion1.class);
+                                                    startActivity(i);
+                                                }
+                                                else if(tipo_pag.equals("productos")){
+                                                    editor.putString("paginaIniciadaNombre", "productos");
+                                                    editor.commit();
+                                                    Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsProductosSeccion1.class);
+                                                    startActivity(i);
+                                                }
+                                                else if(tipo_pag.equals("salud")){
+                                                    editor.putString("paginaIniciadaNombre", "salud");
+                                                    editor.commit();
+                                                    Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsSaludSeccion1.class);
+                                                    startActivity(i);
+                                                }
+                                            }
                                         }
-
-                                        DocumentSnapshot document = task.getResult();
-                                        if (document.exists()) {
-                                            Toast.makeText(getApplicationContext(), "El nombre que quiere asignarle a su pagina web ya está en uso por otro usuario, intente con otro por favor", Toast.LENGTH_LONG).show();
-                                        } else {
-
-                                            // *********** Guardamos los principales datos de los nuevos usuarios *************
-                                            sharedPreferences = getSharedPreferences("misDatos", 0);
-                                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                                            editor.putString("nombrePagWeb", nombre_web);
-                                            editor.commit();
-                                            // ******************************************************************************
-
-                                            Toast.makeText(getApplicationContext(), "La pagina web esta disponible", Toast.LENGTH_LONG).show();
-
-                                            if(tipo_pag.equals("comida")){
-                                                Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsComidaSeccion1.class);
-                                                startActivity(i);
+                                        else {
+                                            if(progressDialog.isShowing()){
+                                                progressDialog.dismiss();
                                             }
-                                            else if(tipo_pag.equals("moda")){
-                                                Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsModaSeccion1.class);
-                                                startActivity(i);
-                                            }
-                                            else if(tipo_pag.equals("aplicaciones")){
-                                                Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebAppsSeccion1Activity.class);
-                                                startActivity(i);
-                                            }
-                                            else if(tipo_pag.equals("servicios")){
-                                                Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsServiciosSeccion1.class);
-                                                startActivity(i);
-                                            }
-                                            else if(tipo_pag.equals("productos")){
-                                                Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsProductosSeccion1.class);
-                                                startActivity(i);
-                                            }
-                                            else if(tipo_pag.equals("salud")){
-                                                Intent i = new Intent(WebVisualizacionPreviaActivity.this, WebsSaludSeccion1.class);
-                                                startActivity(i);
-                                            }
+                                            Toast.makeText(getApplicationContext(), "Ha ocurrido un error, por favor, vuelta a intentarlo", Toast.LENGTH_LONG).show();
                                         }
                                     }
-                                    else {
-                                        if(progressDialog.isShowing()){
-                                            progressDialog.dismiss();
-                                        }
-                                        Toast.makeText(getApplicationContext(), "Ha ocurrido un error, por favor, vuelta a intentarlo", Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            });
+                                });
+                            }
                         }
-                    }
-                });
+                    });
 
-                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                    }
-                });
+                        }
+                    });
 
-                // Inflate and set the layout for the dialog
-                // Pass null as the parent view because its going in the dialog layout
-                builder.setView(formElementsView);
-                // Add action buttons
-                builder.create();
-                builder.show();
-                // builder.show();
+                    // Inflate and set the layout for the dialog
+                    // Pass null as the parent view because its going in the dialog layout
+                    builder.setView(formElementsView);
+                    // Add action buttons
+                    builder.create();
+                    builder.show();
+                    // builder.show();
+                }
+
             }
         });
 

@@ -12,12 +12,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.colabora.soluciones.convocatoriafeyac.Modelos.Usuario;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.caracteristicas_web;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.pagWebs;
 import com.colabora.soluciones.convocatoriafeyac.R;
 import com.colabora.soluciones.convocatoriafeyac.web.DisenoWebActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -580,17 +582,20 @@ public class WebsServiciosSeccion7 extends AppCompatActivity {
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                if(progressDialog.isShowing()){
+                                /*if(progressDialog.isShowing()){
                                     progressDialog.dismiss();
-                                }
+                                }*/
+
+                                String nombreEmpresa = sharedPreferences.getString("nombreEmpresa", "");
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("tipo_mi_pag_web", "3");
                                 editor.commit();
-                                Toast.makeText(getApplicationContext(),"¡Página web creada exitosamente!", Toast.LENGTH_LONG).show();
+                                crearActualizarUsuario(nombreEmpresa, sharedPreferences.getString("nombrePagWeb", ""), "servicios");
+                                /*  Toast.makeText(getApplicationContext(),"¡Página web creada exitosamente!", Toast.LENGTH_LONG).show();
                                 String url = "http://services.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
                                 Intent i = new Intent(Intent.ACTION_VIEW);
                                 i.setData(Uri.parse(url));
-                                startActivity(i);
+                                startActivity(i);*/
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -606,5 +611,38 @@ public class WebsServiciosSeccion7 extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void crearActualizarUsuario(String nombreEmpresa, String nombrePaginaWeb, String tipoPaginaWeb){
+
+        String id = FirebaseAuth.getInstance().getUid();
+        Usuario usuario = new Usuario(id, nombrePaginaWeb, tipoPaginaWeb, nombreEmpresa);
+
+        db.collection("Usuarios").document(id)
+                .set(usuario)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        if(progressDialog.isShowing()){
+                            progressDialog.dismiss();
+                        }
+
+                        Toast.makeText(getApplicationContext(),"¡Página web creada exitosamente!", Toast.LENGTH_LONG).show();
+                        String url = "http://services.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if(progressDialog.isShowing()){
+                            progressDialog.dismiss();
+                        }
+                        Toast.makeText(getApplicationContext(),"Ha ocurrido un error, favor de volver a intentar", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 }

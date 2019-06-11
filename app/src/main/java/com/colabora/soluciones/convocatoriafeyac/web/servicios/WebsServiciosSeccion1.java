@@ -26,6 +26,7 @@ import com.squareup.picasso.Picasso;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.enums.EPickType;
 import com.vansuita.pickimage.listeners.IPickCancel;
 import com.vansuita.pickimage.listeners.IPickResult;
 
@@ -140,6 +141,7 @@ public class WebsServiciosSeccion1 extends AppCompatActivity {
         btnAddLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 PickImageDialog.build(new PickSetup().setTitle("Escoge una opción")
                         .setCameraButtonText("Cámara")
                         .setGalleryButtonText("Galería"))

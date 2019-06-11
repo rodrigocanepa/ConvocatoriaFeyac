@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -80,6 +81,8 @@ public class LoginActivity extends Activity {
     private String email;
     private String firstName;
     private String lastName;
+    private TextView txtTerminos;
+    private TextView txtVerTerminos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,11 +96,12 @@ public class LoginActivity extends Activity {
         editCorreo = (EditText)findViewById(R.id.editEmailLogin);
         editContrasena = (EditText)findViewById(R.id.editPasswordLogin);
         txtOlvideContrasena = (TextView)findViewById(R.id.txtForgotPassword);
+        txtVerTerminos = (TextView)findViewById(R.id.txtLoginTermsConditions);
 
         loginButton = (LoginButton)findViewById(R.id.login_buttonFace);
 
         // Add code to print out the key hash
-        try {
+        /*try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     "com.colabora.soluciones.convocatoriafeyac",
                     PackageManager.GET_SIGNATURES);
@@ -111,7 +115,7 @@ public class LoginActivity extends Activity {
 
         } catch (NoSuchAlgorithmException e) {
 
-        }
+        }*/
 
         progressDialog = new ProgressDialog(LoginActivity.this);
 
@@ -131,14 +135,80 @@ public class LoginActivity extends Activity {
         btnLoginFace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog.show();
                 loginButton.performClick();
             }
         });
 
+        txtVerTerminos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                builder.setTitle("Términos y condiciones");
+                // Get the layout inflater
+                LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View formElementsView = inflater.inflate(R.layout.dialog_terminos,
+                        null, false);
+
+                txtTerminos = (TextView) formElementsView.findViewById(R.id.txtTerminos);
+
+                String terminos = "El uso de la aplicación denominada Pyme Assistant, en lo sucesivo “la aplicación” y/o de los servicios ofrecidos en “la aplicación” implica que el usuario acepta la Política de Privacidad y otros textos legales relacionados con el uso de servicio prestados en esta aplicación.\n\n" +
+                        "Consentimiento del Usuario\n\n" +
+                        "La simple navegación o el uso de “la aplicación” y de cualquiera de sus componentes o secciones, obras como imágenes, sonidos, contenidos e información, implica la aceptación expresa de los presentes “Términos y Condiciones” y de su Política de Privacidad y Protección de Datos Personales, (en adelante “Política de Privacidad”), disponible en https://www.solucionescolabora.com/empresa\n\n" +
+                        "El Usuario se obliga a hacer buen uso de “la aplicación” comprometiéndose en todos los casos, a no causar daños a cualquier contenido o componente del mismo o a contenidos de terceros que aparezcan o estén relacionados a “la aplicación”.\n\n" +
+                        "Obligación del Usuario\n\n" +
+                        "El usuario se compromete a:\n\n" +
+                        "1. No interferir ni interrumpir el acceso, funcionalidad y utilización de “la aplicación”, servidores o redes conectados al mismo, o incumplir los requisitos, procedimientos y regulaciones de la política de conexión de redes.\n\n" +
+                        "2. Abstenerse de utilizar cualquiera de los servicios o contenidos con fines o efectos ilícitos prohibidos en los presentes “términos y condiciones”; las leyes nacionales e internacionales aplicables.\n\n" +
+                        "3. Abstenerse de realizar cualquier conducta que puedan representar violación a las facultades de y derechos de terceros.\n\n" +
+                        "4. Respetar la propiedad intelectual que sea parte o se muestre en “la aplicación”; no violar los derechos de autor y propiedad industrial que refieren las leyes nacionales, acuerdos e instrumentos internacionales.\n\n" +
+                        "Limitación de Responsabilidad\n\n" +
+                        "En “la aplicación” podrá existir algún hipervínculo, hipertexto, banner, botón o herramienta de búsqueda, servicio o contenido de terceros, que al ser utilizada por el Usuario le puede llevar a un sitio externo, ya sea de gobierno o privadas, que podrá tener sus propios términos y condiciones o autorizaciones respecto de las obras, imágenes, sonidos o contenidos en materia de propiedad intelectual o en materia de privacidad y protección de datos personales. Por lo tanto, el administrador de la “la aplicación” no se hace responsable de dichos sitios o contenidos externos, sus términos y condiciones, y su “Política de Privacidad”.\n\n" +
+                        "El administrador de la “la aplicación” se deslinda de cualquier responsabilidad que pueda generar al usuario por cualquier uso inadecuado o contrario a los fines de “la aplicación”. Al utilizar “la aplicación” o cualquiera de sus componentes o contenidos, usted exime de toda responsabilidad por los daños que el uso del mismo o contenidos le pudieran ocasionar de forma directa, incidental o consecuente.\n\n" +
+                        "Medidas de seguridad de información\n\n" +
+                        "En “la aplicación” nos preocupamos y hacemos todos los esfuerzos posibles para comprobar y poner a prueba todas las etapas del desarrollo y operación de “la aplicación”. Sin embargo, el Usuario debe tomar sus propias precauciones para asegurar que, durante el acceso al mismo, no te expongas a riesgos informáticos; virus informáticos, código informático malicioso u otras formas de software malicioso y práctica inadecuada, que puedan dañar tu propio equipo de cómputo, tu teléfono celular o dispositivo móvil.\n\n" +
+                        "El administrador de la “la aplicación” no se hace responsable por cualquier falla para cumplir con estos “términos y condiciones” cuando dicho incumplimiento se deba a circunstancias fuera de nuestro control, caso fortuito o fuerza mayor.\n\n" +
+                        "Propiedad Intelectual\n\n" +
+                        "El usuario se compromete a respetar los derechos de propiedad intelectual sobre cualquier obra, creación, o elemento que pueda ser susceptible de ser protegido por el derecho de autor o de propiedad industrial que puedan estar presentes o relacionados en “la aplicación”.\n\n" +
+                        "Libre Uso: cualquier obra, entre ellas; imagen, sonido, audio, video u otra que aparezca en “la aplicación” y que cuenten con la leyenda “Libre Uso”, lo cual significa que podrá usarse o explotarse en territorio nacional o extranjero, bajo las leyes mexicanas para cualquier fin lícito, siempre que cite la fuente y otorgue el crédito al autor.\n\n" +
+                        "Si alguna obra o cualquier elemento que protege la ley aplicable al derecho de autor y la propiedad industrial que sea parte de “la aplicación” o esté publicada en “la aplicación” no cuenta con la leyenda “Libre Uso” y tampoco se señala el nombre específico del autor y fuente, se presume que, previo a cualquier uso o explotación requiere consentimiento expreso de quien cuente con los derechos correspondientes. Para conocer más al respecto, podrá solicitar información al correo de contacto de “la aplicación”.\n\n" +
+                        "El administrador de la “la aplicación” deja a salvo los derechos de terceros, por lo que para el uso de “la aplicación” más allá de lo permitido en los presentes “términos y condiciones”, se requiere contar las autorizaciones correspondientes directamente de los titulares de los derechos.\n\n" +
+                        "Derechos exclusivos de terceros. Cualquier obra protegida por el derecho de autor, tales como –sin que sea restrictivo a ellas- imágenes, sonidos, texto, edición, video, fotografía, locución, bases de datos, etc., así como cualquier contenido que sea objeto de la protección del derecho de propiedad industrial, como son –sin que sea restrictivo a estos- patentes, modelo de utilidad, diseño industrial, secreto comercial, marcas, aviso comercial –slogans o logotipos-; que se encuentre en “la aplicación” y cuente con mención del autor y/o fuente, o con algún rasgo del que se desprenda que la titularidad no corresponde al administrador de la “la aplicación”, y sí a un tercero, se entenderá que requiere autorización expresa del autor o titular del derecho correspondiente, previo a cualquier uso o explotación que permitan las leyes mexicanas y el derecho internacional.\n\n" +
+                        "\n\n" +
+                        "Derecho a la propia imagen. Cualquier persona que participe enviando contenido para que se publique y difunda en “la aplicación”, sus redes sociales o cualquier otro medio de comunicación nacional o extranjero; envié alguna fotografía u obra donde se exhiba su imagen corporal o rostro, autoriza tácitamente el uso y explotación de su imagen con la finalidad de vincular la imagen del autor con las obras que se encuentren o se mencionen en “la aplicación”, así como su difusión en cualquier medio de comunicación, nacional y extranjero, en cumplimiento del objetivo de “la aplicación”, los “términos y condiciones” y la normatividad aplicable.\n\n" +
+                        "Modificación\n\n" +
+                        "El administrador de la “la aplicación” se reserva en todo momento el derecho de modificar los presentes “términos y condiciones” y la “Política de Privacidad”.\n" +
+                        "Le sugerimos visitar regularmente este sitio para estar al día en cuanto a los “términos y condiciones”, así como la “Política de Privacidad”.\n" +
+                        "Legislación aplicable y jurisdicción\n\n" +
+                        "En caso de cualquier situación relativa a “la aplicación”, interpretación o controversia derivada de su uso o en relación con los derechos u obligaciones sobre información, obras, contenidos publicados o la “Política de Privacidad”, usted está de acuerdo expresamente en buscar una solución amistosa, previo a someterse a la jurisdicción de los Tribunales Federales en la ciudad de Mérida, Yucatán, México y a las leyes federales vigentes en territorio de los Estados Unidos Mexicanos.\n\n" +
+                        "\n" +
+                        "\n";
+                txtTerminos.setText(terminos);
+
+                builder.setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                // Inflate and set the layout for the dialog
+                // Pass null as the parent view because its going in the dialog layout
+                builder.setView(formElementsView);
+                // Add action buttons
+                builder.create();
+                builder.show();
+            }
+        });
 
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+
             @Override
             public void onSuccess(LoginResult loginResult) {
+
+                if(progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
 
                 System.out.println("onSuccess");
 
@@ -165,12 +235,18 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onCancel() {
+                if(progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
                 Log.d("FACEBOOK", "facebook:onCancel");
                 // ...
             }
 
             @Override
             public void onError(FacebookException error) {
+                if(progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
                 Log.d("FACEBOOK", "facebook:onError", error);
                 // ...
             }
